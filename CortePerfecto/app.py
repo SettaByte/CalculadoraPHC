@@ -1,3 +1,4 @@
+```python
 import os, base64, streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
@@ -42,292 +43,104 @@ def load_css():
         .main-title, h1, h2, h3, h4, h5, h6 {
             color: black !important;
         }
-
-        /* Inputs claros */
-        .stNumberInput div[data-baseweb="input"] input {
-            background-color: #ffffff !important;
-            color: black !important;
-            border: 1px solid #ccc !important;
-            border-radius: 6px !important;
-        }
-
-        .stNumberInput label {
-            color: black !important;
-        }
-
-        /* Botones claros */
-        .stButton>button {
-            background-color: #f5f5f5 !important;
-            color: black !important;
-            border: 1px solid #ccc !important;
-            border-radius: 8px !important;
-        }
     </style>
     """, unsafe_allow_html=True)
 
-def load_js():
-    js_path = os.path.join(BASE_DIR, "static", "script.js")
-    if os.path.exists(js_path):
-        with open(js_path, "r") as f:
-            st.markdown(f"<script>{f.read()}</script>", unsafe_allow_html=True)
-
-# -------------------- INICIALIZACIÓN --------------------
-def initialize_app():
-    if 'calculator' not in st.session_state:
-        st.session_state.calculator = CuttingCalculator()
-    if 'export_utils' not in st.session_state:
-        st.session_state.export_utils = ExportUtils()
-    if 'calculation_result' not in st.session_state:
-        st.session_state.calculation_result = None
-
-# -------------------- MAIN --------------------
-def main():
-    load_css()
-    load_js()
-    initialize_app()
-
-    logo_b64 = load_image_base64("Imagen2.jpeg")
-    st.markdown(f"""
-    <div class="header-container" style="margin-bottom:30px;">
-        <div class="logo-container">
-            <img src="data:image/jpeg;base64,{logo_b64}" class="logo" style="border-radius: 50%; width: 80px; height: 80px;">
-        </div>
-        <h1 class="main-title">Calculadora de Cortes</h1>
-    </div>
-    """, unsafe_allow_html=True)
-
-    col1, col2 = st.columns([1, 1])
-
-    # -------------------- COLUMNA 1: INPUTS --------------------
-    with col1:
-        st.markdown('<div class="section-card" style="margin-bottom:20px;">', unsafe_allow_html=True)
-        st.markdown("### 📐 Tamaño del Pliego de Cartón")
-        sheet_width = st.number_input("Ancho de la hoja (cm)", min_value=0.1, value=100.0, step=0.1)
-        sheet_height = st.number_input("Alto de la hoja (cm)", min_value=0.1, value=70.0, step=0.1)
-        st.markdown('</div>', unsafe_allow_html=True)
-
-        st.markdown('<div class="section-card" style="margin-bottom:20px;">', unsafe_allow_html=True)
-        st.markdown("### ✂️ Tamaño del Corte")
-        cut_width = st.number_input("Ancho del corte (cm)", min_value=0.1, value=10.0, step=0.1)
-        cut_height = st.number_input("Alto del corte (cm)", min_value=0.1, value=7.0, step=0.1)
-        st.markdown('</div>', unsafe_allow_html=True)
-
-        # Botones
-        st.markdown('<div class="button-row" style="display:flex; gap:10px; margin-bottom:20px;">', unsafe_allow_html=True)
-        col_opt, col_clear = st.columns([1, 1], gap="small")
-        with col_opt:
-            if st.button("🎯 Óptimo", use_container_width=True):
-                calculate_optimal(sheet_width, sheet_height, cut_width, cut_height)
-        with col_clear:
-            if st.button("🗑️ Limpiar Todo", use_container_width=True):
-                clear_all_fields()
-        st.markdown('</div>', unsafe_allow_html=True)
-
-    # -------------------- COLUMNA 2: GRAFICA Y REPORTE --------------------
-    with col2:
-        st.markdown('<div class="section-card" style="margin-bottom:20px;">', unsafe_allow_html=True)
-        st.markdown("<p>Arrastre la esquina superior del eje Y para modificarla</p>", unsafe_allow_html=True)
-        st.markdown("<p>Arrastre la esquina derecha del eje X para modificarlo</p>", unsafe_allow_html=True)
-        st.info("La gráfica cuenta con barra de herramientas.")
-        if st.session_state.calculation_result:
-            show_cutting_preview()
-        else:
-            st.info("Haga clic en 'Óptimo' para ver la vista previa")
-        st.markdown('</div>', unsafe_allow_html=True)
-
-        st.markdown('<div class="section-card" style="margin-bottom:20px;">', unsafe_allow_html=True)
-        st.markdown("### 📊 Reporte de Cortes")
-        if st.session_state.calculation_result:
-            show_cut_report()
-        else:
-            st.info("Los resultados aparecerán aquí después del cálculo")
-        st.markdown('</div>', unsafe_allow_html=True)
-
-    show_footer()
-    show_floating_bar()
-
-# -------------------- CALCULOS --------------------
-def calculate_optimal(sheet_width, sheet_height, cut_width, cut_height):
-    result = st.session_state.calculator.calculate_optimal(
-        sheet_width, sheet_height, cut_width, cut_height, 1, 80
-    )
-
-    # Calcular área utilizada
-    total_cuts_width = int(sheet_width // cut_width)
-    total_cuts_height = int(sheet_height // cut_height)
-    used_area = total_cuts_width * cut_width * total_cuts_height * cut_height
-    total_area = sheet_width * sheet_height
-    utilization_percentage = (used_area / total_area) * 100
-
-    result['cuts_horizontal'] = total_cuts_width
-    result['cuts_vertical'] = total_cuts_height
-    result['utilization_percentage'] = utilization_percentage
-    st.session_state.calculation_result = result
-
-    # Easter egg 67
-    check_special_code(sheet_width, sheet_height, cut_width, cut_height)
-
-    st.rerun()
-
-def clear_all_fields():
-    for key in list(st.session_state.keys()):
-        if key not in ['calculator', 'export_utils']:
-            del st.session_state[key]
-    st.rerun()
-
-# -------------------- GRAFICA --------------------
-def show_cutting_preview():
-    result = st.session_state.calculation_result
+def show_cutting_preview(result):
+    """ Gráfico del pliego con cortes """
     fig = go.Figure()
 
-    # Área de hoja
+    # Rectángulo del pliego
     fig.add_shape(
         type="rect",
         x0=0, y0=0,
         x1=result['sheet_width'], y1=result['sheet_height'],
-        fillcolor="rgba(255, 182, 193, 0.3)",
-        line=dict(color="rgba(255, 182, 193, 1)", width=2)
+        line=dict(color="black"),
+        fillcolor="rgba(255,182,193,0.2)"
     )
 
-    # Dibujar cortes
-    for i in range(result['cuts_horizontal']):
-        for j in range(result['cuts_vertical']):
-            x = i * result['cut_width']
-            y = j * result['cut_height']
-            if x + result['cut_width'] <= result['sheet_width'] and y + result['cut_height'] <= result['sheet_height']:
-                fig.add_shape(
-                    type="rect",
-                    x0=x, y0=y,
-                    x1=x + result['cut_width'], y1=y + result['cut_height'],
-                    fillcolor="rgba(255, 105, 180, 0.7)",
-                    line=dict(color="rgba(255, 105, 180, 1)", width=1)
-                )
+    # Rectángulos de cortes
+    for cut in result['cuts']:
+        fig.add_shape(
+            type="rect",
+            x0=cut['x'], y0=cut['y'],
+            x1=cut['x'] + cut['width'], y1=cut['y'] + cut['height'],
+            line=dict(color="deeppink"),
+            fillcolor="rgba(255,105,180,0.4)"
+        )
 
     fig.update_layout(
-        title="",
-        xaxis_title="Ancho (cm)",
-        yaxis_title="Alto (cm)",
-        showlegend=False,
-        height=550,
-        width=950,
-        plot_bgcolor="white",
-        paper_bgcolor="white",
-        dragmode="pan"
+        title="Vista previa del corte",
+        xaxis=dict(title="Ancho (cm)", range=[0, result['sheet_width'] + 5]),
+        yaxis=dict(title="Alto (cm)", range=[0, result['sheet_height'] + 5]),
+        height=500
     )
 
-    # Indicadores discretos
-    fig.add_annotation(
-        x=0, y=result['sheet_height'], text="↕",
-        showarrow=False, font=dict(size=14, color="gray"),
-        xanchor="left", yanchor="bottom"
-    )
-    fig.add_annotation(
-        x=result['sheet_width'], y=0, text="↔",
-        showarrow=False, font=dict(size=14, color="gray"),
-        xanchor="right", yanchor="top"
-    )
+    st.plotly_chart(fig, use_container_width=True)
 
-    st.plotly_chart(fig, use_container_width=True, config={'modeBarButtonsToRemove': ['zoom2d']})
+def main():
+    st.set_page_config(page_title="Calculadora de Cortes", layout="wide")
+    load_css()
 
-    # Métricas
-    col1, col2 = st.columns(2)
-    with col1:
-        st.metric("Área Utilizada", f"{result['utilization_percentage']:.1f}%")
-    with col2:
-        st.metric("Área Desperdiciada", f"{100 - result['utilization_percentage']:.1f}%")
+    st.markdown('<h1 class="main-title">Calculadora de Cortes</h1>', unsafe_allow_html=True)
 
-# -------------------- TABLA DE DATOS --------------------
-def show_cut_report():
-    result = st.session_state.calculation_result
-    report_data = {
-        "Métrica": [
-            "📐 Ancho de la hoja (cm)",
-            "📐 Alto de la hoja (cm)",
-            "✂️ Ancho del corte (cm)",
-            "✂️ Alto del corte (cm)"
-        ],
-        "Valor": [
-            f"{result['sheet_width']:.2f}",
-            f"{result['sheet_height']:.2f}",
-            f"{result['cut_width']:.2f}",
-            f"{result['cut_height']:.2f}"
-        ]
-    }
-    df = pd.DataFrame(report_data)
-    st.info("💡 Esta tabla muestra los resultados y los datos de entrada. Usa el scroll si es necesario.")
+    # Inputs
+    st.subheader("Tamaño del Pliego de Cartón")
+    sheet_width = st.number_input("Ancho de hoja (cm)", min_value=1, value=100)
+    sheet_height = st.number_input("Alto de hoja (cm)", min_value=1, value=70)
 
-    st.dataframe(df, height=250, use_container_width=True)
+    st.subheader("Tamaño del Corte")
+    cut_width = st.number_input("Ancho del corte (cm)", min_value=1, value=10)
+    cut_height = st.number_input("Alto del corte (cm)", min_value=1, value=10)
 
-    # Exportar PDF basado en df
-    pdf_bytes = dataframe_to_pdf(df)
-    st.download_button(
-        label="📄 Descargar como PDF",
-        data=pdf_bytes,
-        file_name="reporte_cortes.pdf",
-        mime="application/pdf"
-    )
+    # Calcular cortes
+    if st.button("Calcular"):
+        calc = CuttingCalculator(sheet_width, sheet_height, cut_width, cut_height)
+        result = calc.calculate()
 
-    # Exportar Excel
-    towrite = io.BytesIO()
-    df.to_excel(towrite, index=False, engine='openpyxl')
-    towrite.seek(0)
-    st.download_button(
-        label="📥 Descargar como Excel",
-        data=towrite,
-        file_name="reporte_cortes.xlsx",
-        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    )
+        st.success("¡Cálculo completado!")
 
-# -------------------- EXPORT UTILS LIGERA --------------------
-def dataframe_to_pdf(df):
-    from reportlab.lib.pagesizes import letter
-    from reportlab.pdfgen import canvas
+        # Mostrar preview
+        show_cutting_preview(result)
 
-    buffer = io.BytesIO()
-    c = canvas.Canvas(buffer, pagesize=letter)
-    text = c.beginText(50, 750)
+        # Mostrar tabla
+        df = pd.DataFrame([
+            ["Ancho de hoja (cm)", sheet_width],
+            ["Alto de hoja (cm)", sheet_height],
+            ["Ancho del corte (cm)", cut_width],
+            ["Alto del corte (cm)", cut_height],
+            ["Cantidad de cortes", result['num_cuts']]
+        ], columns=["Métrica", "Valor"])
 
-    for index, row in df.iterrows():
-        text.textLine(f"{row['Métrica']}: {row['Valor']}")
-    c.drawText(text)
+        st.table(df)
 
-    c.showPage()
-    c.save()
-    buffer.seek(0)
-    return buffer.getvalue()
+        # Exportación
+        export_utils = ExportUtils()
 
-# -------------------- FOOTER --------------------
-def show_footer():
-    st.markdown("""
-    <div class="footer" style="margin-top:30px;">
-        <div class="social-media">
-            <a href="https://www.instagram.com/p.h.cajas/" target="_blank" class="social-link">
-                <i class="fab fa-instagram"></i>
-            </a>
-            <a href="https://tiktok.com" target="_blank" class="social-link">
-                <i class="fab fa-tiktok"></i>
-            </a>
-            <a href="https://www.facebook.com/profile.php?id=61576728375462&mibextid=ZbWKwL" target="_blank" class="social-link">
-                <i class="fab fa-facebook"></i>
-            </a>
-            <a href="https://phcajasdelujo.taplink.mx/" target="_blank" class="social-link">
-                <span>Web</span>
-            </a>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+        pdf_bytes = export_utils.to_pdf(df)
+        excel_bytes = export_utils.to_excel(df)
 
-# -------------------- EASTER EGG --------------------
-def check_special_code(sheet_width, sheet_height, cut_width, cut_height):
-    try:
-        vals = [int(sheet_width), int(sheet_height), int(cut_width), int(cut_height)]
-        if all(x == 67 for x in vals):
-            secret_url = "https://www.youtube.com/watch?v=3tQHBUP1tcI"
-            st.success("¡MANGO MANGO MANGO!")
-            st.markdown(f"🔗[ABRIR EASTER EGG]({secret_url})", unsafe_allow_html=True)
-    except ValueError:
-        pass
+        st.markdown('<div class="export-buttons">', unsafe_allow_html=True)
 
-# -------------------- EJECUCION --------------------
+        st.download_button(
+            label="📄 Descargar PDF",
+            data=pdf_bytes,
+            file_name="reporte_cortes.pdf",
+            mime="application/pdf"
+        )
+
+        st.download_button(
+            label="📊 Descargar Excel",
+            data=excel_bytes,
+            file_name="reporte_cortes.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
+
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    # Barra flotante
+    show_floating_bar()
+
 if __name__ == "__main__":
     main()
+```
