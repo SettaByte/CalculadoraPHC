@@ -78,18 +78,10 @@ def main():
         cut_height = st.number_input("Alto del corte (cm)", min_value=0.1, value=7.0, step=0.1)
         st.markdown('</div>', unsafe_allow_html=True)
 
+        # Botones correctamente alineados y sin cortar texto
         st.markdown('<div class="button-row" style="margin-bottom:30px;">', unsafe_allow_html=True)
-        col_opt, col_clear = st.columns(2, gap="medium")
+        col_opt, col_clear = st.columns([1, 1], gap="medium")
         with col_opt:
-            st.markdown(
-                """
-                <style>
-                div[data-testid="stButton"] button {
-                    white-space: nowrap;
-                }
-                </style>
-                """, unsafe_allow_html=True
-            )
             if st.button("🎯 Óptimo", use_container_width=True, key="btn_optimo"):
                 calculate_optimal(sheet_width, sheet_height, cut_width, cut_height, grammage)
         with col_clear:
@@ -101,7 +93,7 @@ def main():
         st.markdown('<div class="section-card" style="margin-bottom:20px;">', unsafe_allow_html=True)
         st.markdown("### 👁️ Vista Previa del Área de Corte")
         st.markdown("<p style='margin-bottom:5px;'>Arrastre la esquina superior del eje Y para modificarla</p>", unsafe_allow_html=True)
-        st.markdown("<p>Arrastre la esquina derecha del eje X para modificarla</p>", unsafe_allow_html=True)
+        st.markdown("<p>Arrastre la esquina derecha del eje X para modificarlo</p>", unsafe_allow_html=True)
         if st.session_state.calculation_result:
             show_cutting_preview()
         else:
@@ -181,7 +173,7 @@ def show_cutting_preview():
     )
 
     st.plotly_chart(fig, use_container_width=True, config={
-        'modeBarButtonsToRemove': ['zoom2d']
+        'modeBarButtonsToRemove': ['zoom2d']  # solo se elimina la lupa
     })
 
     col1, col2 = st.columns(2)
@@ -206,33 +198,4 @@ def show_cut_report():
             f"{result['sheet_height']:.2f}",
             f"{result['grammage']}",
             f"{result['cut_width']:.2f}",
-            f"{result['cut_height']:.2f}",
-            f"{result['final_weight']:.2f}"
-        ]
-    }
-    df = pd.DataFrame(report_data)
-    st.info("💡 Esta tabla muestra los resultados y los datos de entrada. Usa el scroll si es necesario.")
-    st.dataframe(df, height=250)
-
-def show_footer():
-    st.markdown("""
-    <div class="footer" style="margin-top:30px;">
-        <div class="social-media">
-            <a href="https://www.instagram.com/p.h.cajas/" target="_blank" class="social-link">
-                <i class="fab fa-instagram"></i>
-            </a>
-            <a href="https://tiktok.com" target="_blank" class="social-link">
-                <i class="fab fa-tiktok"></i>
-            </a>
-            <a href="https://www.facebook.com/profile.php?id=61576728375462&mibextid=ZbWKwL" target="_blank" class="social-link">
-                <i class="fab fa-facebook"></i>
-            </a>
-            <a href="https://phcajasdelujo.taplink.mx/" target="_blank" class="social-link">
-                <span>Web</span>
-            </a>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-if __name__ == "__main__":
-    main()
+            f"{result['cut
