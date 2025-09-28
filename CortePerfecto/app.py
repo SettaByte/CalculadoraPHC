@@ -29,11 +29,11 @@ def load_image_base64(filename):
 def show_floating_bar():
     img_b64 = load_image_base64("Imagen1.jpeg")
     st.markdown(f"""
-    <div id="floatingBar" class="floating-bar" style="margin-bottom:20px;">
+    <div id="floatingBar" class="floating-bar" style="margin-bottom:10px;">
         <div class="floating-content">
             <img src="data:image/svg+xml;base64,{img_b64}" 
-                 style="height:40px; border-radius: 50%; margin-right: 10px;"/>
-            <span class="floating-text" style="white-space: normal;">¡ESTOY EN MI DESCANSO, EN UN MOMENTO SEGUIRÉ CON EL DESARROLLO!</span>
+                 style="height:30px; border-radius: 50%; margin-right: 8px;"/>
+            <span class="floating-text" style="white-space: normal; font-size: 12px;">¡ESTOY EN MI DESCANSO, EN UN MOMENTO SEGUIRÉ CON EL DESARROLLO!</span>
         </div>
     </div>
     """, unsafe_allow_html=True)
