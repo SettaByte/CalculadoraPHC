@@ -5,6 +5,7 @@ import io
 import math
 from utils.calculator import CuttingCalculator
 from utils.export_utils import ExportUtils
+import streamlit.components.v1 as components
 
 BASE_DIR = os.path.dirname(__file__)
 
@@ -38,25 +39,28 @@ def show_floating_bar():
     """, unsafe_allow_html=True)
 
 # -------------------- BARRA SOCIAL MEJORADA --------------------
+
 def show_social_bar():
-    """Muestra la barra social con logos al final de la página"""
-    
-    st.markdown("""
-    <div style="
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 20px;
-        padding: 20px 0;
-        margin-top: 40px;
-        border-top: 2px solid #FF69B4;
-    ">
-        <a href="https://tiktok.com/@p.h.cajas" target="_blank" title="Síguenos en TikTok" style="font-size:32px;">🎵</a>
-        <a href="https://www.facebook.com/profile.php?id=61576728375462" target="_blank" title="Síguenos en Facebook" style="font-size:32px;">👍</a>
-        <a href="https://www.instagram.com/p.h.cajas/" target="_blank" title="Síguenos en Instagram" style="font-size:32px;">📸</a>
-        <a href="https://phcajasdelujo.taplink.mx/" target="_blank" title="Visita nuestra web" style="font-size:32px;">🌐</a>
+    social_html = """
+    <div class='social-bar'>
+        <div class='social-container'>
+            <a href="https://tiktok.com/@p.h.cajas" target="_blank" class='social-button'>
+                <i class='fab fa-tiktok'></i>
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=61576728375462" target="_blank" class='social-button'>
+                <i class='fab fa-facebook-f'></i>
+            </a>
+            <a href="https://www.instagram.com/p.h.cajas/" target="_blank" class='social-button'>
+                <i class='fab fa-instagram'></i>
+            </a>
+            <a href="https://phcajasdelujo.taplink.mx/" target="_blank" class='web-button'>
+                <span>🌐 NUESTRA WEB</span>
+            </a>
+        </div>
     </div>
-    """, unsafe_allow_html=True)
+    """
+    
+    components.html(social_html, height=200)
 # -------------------- ELEMENTOS ESTÉTICOS ADICIONALES --------------------
 def show_decoration_elements():
     """Muestra elementos decorativos adicionales"""
