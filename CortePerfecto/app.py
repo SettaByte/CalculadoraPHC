@@ -1,4 +1,3 @@
-```python
 import os, base64, streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
@@ -332,4 +331,3 @@ def check_special_code(sheet_width, sheet_height, cut_width, cut_height):
 # -------------------- EJECUCION --------------------
 if __name__ == "__main__":
     main()
-```
