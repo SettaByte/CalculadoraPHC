@@ -683,7 +683,7 @@ def main():
         st.markdown(f"""
         <div class="header-container" style="margin-bottom:30px;">
             <div class="logo-container">
-                <img src="data:image/svg+xml;base64,{logo_b64}" class="logo" style="border-radius: 50%; width: 80px; height: 80px;">
+                <img src="/assets/Imagen2.jpeg;base64,{logo_b64}" class="logo" style="border-radius: 50%; width: 80px; height: 80px;">
             </div>
             <h1 class="main-title">✂️ Calculadora de Cortes Profesional</h1>
         </div>
