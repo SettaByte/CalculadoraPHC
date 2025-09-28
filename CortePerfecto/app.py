@@ -75,14 +75,13 @@ def main():
         cut_width = st.number_input("Ancho del corte (cm)", min_value=0.1, value=10.0, step=0.1)
         cut_height = st.number_input("Alto del corte (cm)", min_value=0.1, value=7.0, step=0.1)
 
-        quantity = st.number_input("Cantidad deseada", min_value=1, value=100, step=1)
         st.markdown('</div>', unsafe_allow_html=True)
 
         st.markdown('<div class="button-row">', unsafe_allow_html=True)
         col_opt, col_clear = st.columns(2)
         with col_opt:
             if st.button("🎯 Óptimo", use_container_width=True):
-                calculate_optimal(sheet_width, sheet_height, cut_width, cut_height, quantity, grammage)
+                calculate_optimal(sheet_width, sheet_height, cut_width, cut_height, grammage)
         with col_clear:
             if st.button("🗑️ Limpiar Todo", use_container_width=True):
                 clear_all_fields()
@@ -108,16 +107,16 @@ def main():
     show_footer()
     show_floating_bar()
 
-def calculate_optimal(sheet_width, sheet_height, cut_width, cut_height, quantity, grammage):
+def calculate_optimal(sheet_width, sheet_height, cut_width, cut_height, grammage):
     result = st.session_state.calculator.calculate_optimal(
-        sheet_width, sheet_height, cut_width, cut_height, quantity, grammage
+        sheet_width, sheet_height, cut_width, cut_height, 1, grammage
     )
     st.session_state.calculation_result = result
     st.rerun()
 
 def clear_all_fields():
     for key in list(st.session_state.keys()):
-        if key != 'calculator' and key != 'export_utils':
+        if key not in ['calculator', 'export_utils']:
             del st.session_state[key]
     st.rerun()
 
@@ -155,19 +154,7 @@ def show_cutting_preview():
         width=950,
         plot_bgcolor="white",
         paper_bgcolor="white",
-        dragmode="pan",
-        updatemenus=[  # Menu antiguo con Zoom In/Zoom Out
-            dict(
-                type="buttons",
-                direction="right",
-                x=1.05,
-                y=1.1,
-                buttons=[
-                    dict(label="Zoom In", method="relayout", args=[{"xaxis.range": [0, result['sheet_width']/2], "yaxis.range": [0, result['sheet_height']/2]}]),
-                    dict(label="Zoom Out", method="relayout", args=[{"xaxis.range": [0, result['sheet_width']], "yaxis.range": [0, result['sheet_height']]}])
-                ]
-            )
-        ]
+        dragmode="pan"  # solo arrastrar, sin zoom buttons
     )
 
     st.plotly_chart(fig, use_container_width=True)
@@ -206,10 +193,18 @@ def show_footer():
     st.markdown("""
     <div class="footer">
         <div class="social-media">
-            <a href="https://www.instagram.com/p.h.cajas/" target="_blank" class="social-link">Instagram</a> |
-            <a href="https://tiktok.com" target="_blank" class="social-link">TikTok</a> |
-            <a href="https://www.facebook.com/profile.php?id=61576728375462&mibextid=ZbWKwL" target="_blank" class="social-link">Facebook</a> |
-            <a href="https://phcajasdelujo.taplink.mx/" target="_blank" class="social-link">Web</a>
+            <a href="https://www.instagram.com/p.h.cajas/" target="_blank" class="social-link">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://tiktok.com" target="_blank" class="social-link">
+                <i class="fab fa-tiktok"></i>
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=61576728375462&mibextid=ZbWKwL" target="_blank" class="social-link">
+                <i class="fab fa-facebook"></i>
+            </a>
+            <a href="https://phcajasdelujo.taplink.mx/" target="_blank" class="social-link">
+                <span>Web</span>
+            </a>
         </div>
     </div>
     """, unsafe_allow_html=True)
