@@ -33,18 +33,22 @@ def load_css():
         with open(css_path, "r") as f:
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-    # Forzar modo claro
+    # Forzar modo claro + texto negro en inputs
     st.markdown("""
     <style>
         body, .stApp {
             background-color: white !important;
             color: black !important;
         }
-        /* Asegurar que los textos de Streamlit sean negros */
-        .stMarkdown, .stText, .css-1cpxqw2, .css-10trblm {
+        /* Forzar labels de inputs en negro */
+        .stNumberInput label, .stSelectbox label, .stTextInput label, .stSlider label {
             color: black !important;
         }
-        /* Plotly fondo claro */
+        /* Otros textos en negro */
+        .stMarkdown, .stText, .stMetric label, .stRadio label, .stCheckbox label {
+            color: black !important;
+        }
+        /* Fondo claro en gráficas */
         .js-plotly-plot .plotly {
             background-color: white !important;
         }
@@ -80,14 +84,13 @@ def main():
     </div>
     """, unsafe_allow_html=True)
 
-    col1, col2 = st.columns([1, 1], gap="large")
+    col1, col2 = st.columns([1, 2])  # inputs más a la izquierda, gráfica más amplia a la derecha
 
     with col1:
         st.markdown('<div class="section-card" style="margin-bottom:20px;">', unsafe_allow_html=True)
         st.markdown("### 📐 Tamaño de la Hoja")
         sheet_width = st.number_input("Ancho de la hoja (cm)", min_value=0.1, value=100.0, step=0.1)
         sheet_height = st.number_input("Alto de la hoja (cm)", min_value=0.1, value=70.0, step=0.1)
-        grammage = st.number_input("Gramaje (g/m²)", min_value=1, value=80, step=1)
         st.markdown('</div>', unsafe_allow_html=True)
 
         st.markdown('<div class="section-card" style="margin-bottom:20px;">', unsafe_allow_html=True)
@@ -96,14 +99,13 @@ def main():
         cut_height = st.number_input("Alto del corte (cm)", min_value=0.1, value=7.0, step=0.1)
         st.markdown('</div>', unsafe_allow_html=True)
 
-        # Botones correctamente alineados y sin cortar texto
-        st.markdown('<div class="button-row" style="margin-bottom:30px;">', unsafe_allow_html=True)
-        col_opt, col_clear = st.columns([1, 1], gap="medium")
+        st.markdown('<div class="button-row" style="margin-bottom:20px;">', unsafe_allow_html=True)
+        col_opt, col_clear = st.columns([1, 1])
         with col_opt:
-            if st.button("🎯 Óptimo", use_container_width=True, key="btn_optimo"):
-                calculate_optimal(sheet_width, sheet_height, cut_width, cut_height, grammage)
+            if st.button("🎯 Óptimo", use_container_width=True):
+                calculate_optimal(sheet_width, sheet_height, cut_width, cut_height)
         with col_clear:
-            if st.button("🗑️ Limpiar Todo", use_container_width=True, key="btn_limpiar"):
+            if st.button("🗑️ Limpiar Todo", use_container_width=True):
                 clear_all_fields()
         st.markdown('</div>', unsafe_allow_html=True)
 
@@ -111,15 +113,13 @@ def main():
         st.markdown('<div class="section-card" style="margin-bottom:20px;">', unsafe_allow_html=True)
         st.markdown("### 👁️ Vista Previa del Área de Corte")
         st.markdown(
-                    "<p style='font-size:13px; color:gray; text-align:center;'>Arrastre la esquina superior del eje Y para modificarla</p>",
-                    unsafe_allow_html=True
-                )
+            "<p style='font-size:13px; color:gray;'>Arrastre la esquina superior del eje Y para modificarla</p>",
+            unsafe_allow_html=True
+        )
         st.markdown(
-                    "<p style='font-size:13px; color:gray; text-align:center;'>Arrastre la esquina derecha del eje X para modificarlo</p>",
-                    unsafe_allow_html=True
-                )
-        st.markdown("<p>¡La Gráfica también cuenta con una barra de herramientas! </p>", unsafe_allow_html=True)
-
+            "<p style='font-size:13px; color:gray;'>Arrastre la esquina derecha del eje X para modificarlo</p>",
+            unsafe_allow_html=True
+        )
         if st.session_state.calculation_result:
             show_cutting_preview()
         else:
@@ -137,11 +137,12 @@ def main():
     show_footer()
     show_floating_bar()
 
-def calculate_optimal(sheet_width, sheet_height, cut_width, cut_height, grammage):
+def calculate_optimal(sheet_width, sheet_height, cut_width, cut_height):
     result = st.session_state.calculator.calculate_optimal(
-        sheet_width, sheet_height, cut_width, cut_height, 1, grammage
+        sheet_width, sheet_height, cut_width, cut_height, 1, 0  # gramaje eliminado
     )
     
+    # Calcular correctamente el área utilizada y desperdiciada
     total_cuts_width = int(sheet_width // cut_width)
     total_cuts_height = int(sheet_height // cut_height)
     used_area = total_cuts_width * cut_width * total_cuts_height * cut_height
@@ -165,6 +166,7 @@ def show_cutting_preview():
     result = st.session_state.calculation_result
     fig = go.Figure()
 
+    # Dibujar la hoja
     fig.add_shape(
         type="rect",
         x0=0, y0=0,
@@ -173,6 +175,7 @@ def show_cutting_preview():
         line=dict(color="rgba(255, 182, 193, 1)", width=2)
     )
 
+    # Dibujar cortes
     for i in range(result['cuts_horizontal']):
         for j in range(result['cuts_vertical']):
             x = i * result['cut_width']
@@ -187,7 +190,6 @@ def show_cutting_preview():
                 )
 
     fig.update_layout(
-        title="",
         xaxis_title="Ancho (cm)",
         yaxis_title="Alto (cm)",
         showlegend=False,
@@ -199,9 +201,10 @@ def show_cutting_preview():
     )
 
     st.plotly_chart(fig, use_container_width=True, config={
-        'modeBarButtonsToRemove': ['zoom2d']  # solo se elimina la lupa
+        'modeBarButtonsToRemove': ['zoom2d']  # solo quitar la lupa
     })
 
+    # Mostrar métricas
     col1, col2 = st.columns(2)
     with col1:
         st.metric("Área Utilizada", f"{result['utilization_percentage']:.1f}%")
@@ -214,18 +217,14 @@ def show_cut_report():
         "Métrica": [
             "📐 Ancho de la hoja (cm)",
             "📐 Alto de la hoja (cm)",
-            "📐 Gramaje (g/m²)",
             "✂️ Ancho del corte (cm)",
-            "✂️ Alto del corte (cm)",
-            "Peso final (g)"
+            "✂️ Alto del corte (cm)"
         ],
         "Valor": [
             f"{result['sheet_width']:.2f}",
             f"{result['sheet_height']:.2f}",
-            f"{result['grammage']}",
             f"{result['cut_width']:.2f}",
-            f"{result['cut_height']:.2f}",
-            f"{result['final_weight']:.2f}"
+            f"{result['cut_height']:.2f}"
         ]
     }
     df = pd.DataFrame(report_data)
