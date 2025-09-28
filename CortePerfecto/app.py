@@ -3,10 +3,8 @@ import pandas as pd
 import plotly.graph_objects as go
 from utils.calculator import CuttingCalculator
 from utils.export_utils import ExportUtils
-from utils.database import DatabaseManager
-from datetime import datetime
 
-# Ruta base donde está este script
+# Ruta base
 BASE_DIR = os.path.dirname(__file__)
 
 def load_image_base64(filename):
@@ -30,52 +28,32 @@ def show_floating_bar():
         </div>
         """, unsafe_allow_html=True)
 
-# Configuración de la página
-st.set_page_config(
-    page_title="Calculadora de Cortes",
-    page_icon="✂️",
-    layout="wide",
-    initial_sidebar_state="collapsed"
-)
-
 def load_css():
     css_path = os.path.join(BASE_DIR, "static", "styles.css")
     if os.path.exists(css_path):
         with open(css_path, "r") as f:
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-    else:
-        st.warning("⚠️ No se encontró styles.css")
 
 def load_js():
     js_path = os.path.join(BASE_DIR, "static", "script.js")
     if os.path.exists(js_path):
         with open(js_path, "r") as f:
             st.markdown(f"<script>{f.read()}</script>", unsafe_allow_html=True)
-    else:
-        st.warning("⚠️ No se encontró script.js")
 
 def initialize_app():
     if 'calculator' not in st.session_state:
         st.session_state.calculator = CuttingCalculator()
     if 'export_utils' not in st.session_state:
         st.session_state.export_utils = ExportUtils()
-    if 'db_manager' not in st.session_state:
-        try:
-            st.session_state.db_manager = DatabaseManager()
-        except Exception as e:
-            st.error(f"Error conectando a la base de datos: {e}")
-            st.session_state.db_manager = None
-    if 'comparison_mode' not in st.session_state:
-        st.session_state.comparison_mode = False
-    if 'comparison_configs' not in st.session_state:
-        st.session_state.comparison_configs = []
+    if 'calculation_result' not in st.session_state:
+        st.session_state.calculation_result = None
 
 def main():
     load_css()
     load_js()
     initialize_app()
-    
-    # Logo en la parte superior
+
+    # Header
     logo_b64 = load_image_base64("Imagen2.jpeg")
     st.markdown(f"""
     <div class="header-container">
@@ -86,45 +64,39 @@ def main():
     </div>
     """, unsafe_allow_html=True)
 
-    # Layout principal
     col1, col2 = st.columns([1, 1])
-    
+
+    # Column 1: Inputs y botones
     with col1:
         st.markdown('<div class="section-card">', unsafe_allow_html=True)
         st.markdown("### 📐 Tamaño de la Hoja")
-        
-        sheet_width = st.number_input(
-            "Ancho de la hoja (cm)", min_value=0.1, value=100.0, step=0.1
-        )
-        sheet_height = st.number_input(
-            "Alto de la hoja (cm)", min_value=0.1, value=70.0, step=0.1
-        )
-        grammage = st.number_input(
-            "Gramaje (g/m²)", min_value=1, value=80, step=1
-        )
-        
+        sheet_width = st.number_input("Ancho de la hoja (cm)", min_value=0.1, value=100.0, step=0.1)
+        sheet_height = st.number_input("Alto de la hoja (cm)", min_value=0.1, value=70.0, step=0.1)
+        grammage = st.number_input("Gramaje (g/m²)", min_value=1, value=80, step=1)
+
         st.markdown("### ✂️ Tamaño del Corte")
-        cut_width = st.number_input(
-            "Ancho del corte (cm)", min_value=0.1, value=10.0, step=0.1
-        )
-        cut_height = st.number_input(
-            "Alto del corte (cm)", min_value=0.1, value=7.0, step=0.1
-        )
-        
-        quantity = 100  # Fijo
+        cut_width = st.number_input("Ancho del corte (cm)", min_value=0.1, value=10.0, step=0.1)
+        cut_height = st.number_input("Alto del corte (cm)", min_value=0.1, value=7.0, step=0.1)
+
+        quantity = 100  # valor fijo
 
         st.markdown('</div>', unsafe_allow_html=True)
 
-        # Botones
         st.markdown('<div class="button-row">', unsafe_allow_html=True)
-        if st.button("🎯 Óptimo", use_container_width=True, type="primary"):
-            calculate_optimal(sheet_width, sheet_height, cut_width, cut_height, quantity, grammage)
+        col_opt, col_clear = st.columns(2)
+        with col_opt:
+            if st.button("🎯 Óptimo", use_container_width=True):
+                calculate_optimal(sheet_width, sheet_height, cut_width, cut_height, quantity, grammage)
+        with col_clear:
+            if st.button("🗑️ Limpiar Todo", use_container_width=True):
+                clear_all_fields()
         st.markdown('</div>', unsafe_allow_html=True)
-    
+
+    # Column 2: Gráfica y tabla
     with col2:
         st.markdown('<div class="section-card">', unsafe_allow_html=True)
         st.markdown("### 👁️ Vista Previa del Área de Corte")
-        if 'calculation_result' in st.session_state:
+        if st.session_state.calculation_result:
             show_cutting_preview()
         else:
             st.info("Haga clic en 'Óptimo' para ver la vista previa")
@@ -132,12 +104,12 @@ def main():
 
         st.markdown('<div class="section-card">', unsafe_allow_html=True)
         st.markdown("### 📊 Reporte de Cortes")
-        if 'calculation_result' in st.session_state:
+        if st.session_state.calculation_result:
             show_cut_report()
         else:
             st.info("Los resultados aparecerán aquí después del cálculo")
         st.markdown('</div>', unsafe_allow_html=True)
-    
+
     show_footer()
     show_floating_bar()
 
@@ -145,22 +117,16 @@ def calculate_optimal(sheet_width, sheet_height, cut_width, cut_height, quantity
     result = st.session_state.calculator.calculate_optimal(
         sheet_width, sheet_height, cut_width, cut_height, quantity, grammage
     )
+    # Asegurar total_cuts correcto
+    result['total_cuts'] = result['cuts_horizontal'] * result['cuts_vertical'] * result['sheets_required']
+
     st.session_state.calculation_result = result
-    st.session_state.calculation_type = "optimal"
-    
-    if st.session_state.db_manager:
-        try:
-            st.session_state.db_manager.save_calculation_to_history(result, cost_per_sheet=0)
-        except Exception as e:
-            st.warning(f"No se pudo guardar en el historial: {e}")
-    
-    if st.session_state.comparison_mode:
-        if len(st.session_state.comparison_configs) < 5:
-            st.session_state.comparison_configs.append(result.copy())
-            st.success(f"Configuración agregada a comparación ({len(st.session_state.comparison_configs)}/5)")
-        else:
-            st.warning("Máximo 5 configuraciones en comparación.")
-    
+    st.rerun()
+
+def clear_all_fields():
+    for key in list(st.session_state.keys()):
+        if key != 'calculator' and key != 'export_utils':
+            del st.session_state[key]
     st.rerun()
 
 def show_cutting_preview():
@@ -207,8 +173,12 @@ def show_cutting_preview():
                 xanchor="right",
                 yanchor="top",
                 buttons=[
-                    dict(label="Zoom In", method="relayout", args=[{"xaxis.range": [0, result['sheet_width']/2], "yaxis.range": [0, result['sheet_height']/2]}]),
-                    dict(label="Zoom Out", method="relayout", args=[{"xaxis.range": [0, result['sheet_width']], "yaxis.range": [0, result['sheet_height']]}])
+                    dict(label="Zoom In", method="relayout",
+                         args=[{"xaxis.range": [0, result['sheet_width']/2], "yaxis.range": [0, result['sheet_height']/2]}]),
+                    dict(label="Zoom Out", method="relayout",
+                         args=[{"xaxis.range": [0, result['sheet_width']], "yaxis.range": [0, result['sheet_height']]}]),
+                    dict(label="Reset", method="relayout",
+                         args=[{"xaxis.range": [0, result['sheet_width']], "yaxis.range": [0, result['sheet_height']]}])
                 ]
             )
         ]
@@ -224,7 +194,6 @@ def show_cutting_preview():
 
 def show_cut_report():
     result = st.session_state.calculation_result
-
     report_data = {
         "Métrica": [
             "📐 Ancho de la hoja (cm)",
@@ -245,7 +214,6 @@ def show_cut_report():
             f"{result['final_weight']:.2f}"
         ]
     }
-
     df = pd.DataFrame(report_data)
     st.info("💡 Esta tabla muestra los resultados y los datos de entrada. Usa el scroll si es necesario.")
     st.dataframe(df, height=250)
