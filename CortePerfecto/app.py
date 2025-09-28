@@ -64,10 +64,11 @@ def main():
     <div style="clear:both;"></div>
     """, unsafe_allow_html=True)
 
-    # COLUMNAS PRINCIPALES CON ESPACIADO
-    col1, col2 = st.columns([1, 1], gap="large")
+    # COLUMNAS PRINCIPALES: INPUTS IZQUIERDA / VISTA PREVIA Y REPORTE DERECHA
+    col_left, col_right = st.columns([1, 2], gap="large")  # col_left más estrecha, col_right más amplia
 
-    with col1:
+    # COLUMNA IZQUIERDA: INPUTS
+    with col_left:
         st.markdown('<div class="section-card" style="margin-bottom:30px;">', unsafe_allow_html=True)
         st.markdown("### 📐 Tamaño de la Hoja")
         sheet_width = st.number_input("Ancho de la hoja (cm)", min_value=0.1, value=100.0, step=0.1)
@@ -91,7 +92,8 @@ def main():
                 clear_all_fields()
         st.markdown('</div>', unsafe_allow_html=True)
 
-    with col2:
+    # COLUMNA DERECHA: VISTA PREVIA + REPORTE
+    with col_right:
         st.markdown('<div class="section-card" style="margin-bottom:30px;">', unsafe_allow_html=True)
         st.markdown("### 👁️ Vista Previa del Área de Corte")
         if st.session_state.calculation_result:
@@ -179,7 +181,6 @@ def show_cutting_preview():
         'modeBarButtonsToRemove': ['zoom2d']
     })
 
-    # Mostrar métricas
     col1, col2 = st.columns(2, gap="large")
     with col1:
         st.metric("Área Utilizada", f"{result['utilization_percentage']:.1f}%")
