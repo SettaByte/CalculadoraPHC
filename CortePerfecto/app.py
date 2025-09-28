@@ -18,7 +18,7 @@ def show_floating_bar():
     img_b64 = load_image_base64("Imagen1.jpeg")
     if img_b64:
         st.markdown(f"""
-        <div id="floatingBar" class="floating-bar">
+        <div id="floatingBar" class="floating-bar" style="margin-bottom:20px;">
             <div class="floating-content">
                 <img src="data:image/jpeg;base64,{img_b64}" 
                      style="height:40px; border-radius: 50%; margin-right: 10px;"/>
@@ -54,7 +54,7 @@ def main():
 
     logo_b64 = load_image_base64("Imagen2.jpeg")
     st.markdown(f"""
-    <div class="header-container">
+    <div class="header-container" style="margin-bottom:30px;">
         <div class="logo-container">
             <img src="data:image/jpeg;base64,{logo_b64}" class="logo" style="border-radius: 50%; width: 80px; height: 80px;">
         </div>
@@ -65,19 +65,20 @@ def main():
     col1, col2 = st.columns([1, 1])
 
     with col1:
-        st.markdown('<div class="section-card">', unsafe_allow_html=True)
+        st.markdown('<div class="section-card" style="margin-bottom:20px;">', unsafe_allow_html=True)
         st.markdown("### 📐 Tamaño de la Hoja")
         sheet_width = st.number_input("Ancho de la hoja (cm)", min_value=0.1, value=100.0, step=0.1)
         sheet_height = st.number_input("Alto de la hoja (cm)", min_value=0.1, value=70.0, step=0.1)
         grammage = st.number_input("Gramaje (g/m²)", min_value=1, value=80, step=1)
+        st.markdown('</div>', unsafe_allow_html=True)
 
+        st.markdown('<div class="section-card" style="margin-bottom:20px;">', unsafe_allow_html=True)
         st.markdown("### ✂️ Tamaño del Corte")
         cut_width = st.number_input("Ancho del corte (cm)", min_value=0.1, value=10.0, step=0.1)
         cut_height = st.number_input("Alto del corte (cm)", min_value=0.1, value=7.0, step=0.1)
-
         st.markdown('</div>', unsafe_allow_html=True)
 
-        st.markdown('<div class="button-row">', unsafe_allow_html=True)
+        st.markdown('<div class="button-row" style="margin-bottom:20px;">', unsafe_allow_html=True)
         col_opt, col_clear = st.columns(2)
         with col_opt:
             if st.button("🎯 Óptimo", use_container_width=True):
@@ -88,7 +89,7 @@ def main():
         st.markdown('</div>', unsafe_allow_html=True)
 
     with col2:
-        st.markdown('<div class="section-card">', unsafe_allow_html=True)
+        st.markdown('<div class="section-card" style="margin-bottom:20px;">', unsafe_allow_html=True)
         st.markdown("### 👁️ Vista Previa del Área de Corte")
         if st.session_state.calculation_result:
             show_cutting_preview()
@@ -96,7 +97,7 @@ def main():
             st.info("Haga clic en 'Óptimo' para ver la vista previa")
         st.markdown('</div>', unsafe_allow_html=True)
 
-        st.markdown('<div class="section-card">', unsafe_allow_html=True)
+        st.markdown('<div class="section-card" style="margin-bottom:20px;">', unsafe_allow_html=True)
         st.markdown("### 📊 Reporte de Cortes")
         if st.session_state.calculation_result:
             show_cut_report()
@@ -171,9 +172,9 @@ def show_cutting_preview():
         dragmode="pan"  # Solo arrastrar
     )
 
-    # Mostrar el gráfico quitando solo los botones de zoom (lupa)
+    # Configuración: eliminar solo la lupa (zoom2d), dejando zoom in/out
     st.plotly_chart(fig, use_container_width=True, config={
-        'modeBarButtonsToRemove': ['zoom2d', 'zoomIn2d', 'zoomOut2d']
+        'modeBarButtonsToRemove': ['zoom2d']
     })
 
     # Mostrar métricas de área
@@ -209,7 +210,7 @@ def show_cut_report():
 
 def show_footer():
     st.markdown("""
-    <div class="footer">
+    <div class="footer" style="margin-top:30px;">
         <div class="social-media">
             <a href="https://www.instagram.com/p.h.cajas/" target="_blank" class="social-link">
                 <i class="fab fa-instagram"></i>
