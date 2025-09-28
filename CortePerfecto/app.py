@@ -94,6 +94,8 @@ def main():
         st.markdown("### 👁️ Vista Previa del Área de Corte")
         st.markdown("<p style='margin-bottom:5px;'>Arrastre la esquina superior del eje Y para modificarla</p>", unsafe_allow_html=True)
         st.markdown("<p>Arrastre la esquina derecha del eje X para modificarlo</p>", unsafe_allow_html=True)
+        st.markdown("<p>¡La Gráfica también cuenta con una barra de herramientas! </p>", unsafe_allow_html=True)
+
         if st.session_state.calculation_result:
             show_cutting_preview()
         else:
