@@ -32,8 +32,8 @@ def show_floating_bar():
     <div id="floatingBar" class="floating-bar" style="margin-bottom:10px;">
         <div class="floating-content">
             <img src="data:image/svg+xml;base64,{img_b64}" 
-                 style="height:30px; border-radius: 50%; margin-right: 8px;"/>
-            <span class="floating-text" style="white-space: normal; font-size: 12px;">¡ESTOY EN MI DESCANSO, EN UN MOMENTO SEGUIRÉ CON EL DESARROLLO!</span>
+                 style="height:40px; border-radius: 50%; margin-right: 12px;"/>
+            <span class="floating-text" style="white-space: normal; font-size: 18px; font-weight: bold;">¡ESTOY EN MI DESCANSO, EN UN MOMENTO SEGUIRÉ CON EL DESARROLLO!</span>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -52,12 +52,12 @@ def show_social_bar():
         <style>
             .social-bar {
                 background: linear-gradient(135deg, #ff69b4, #ff1493);
-                padding: 30px 25px;
-                border-radius: 25px;
-                margin: 30px 0 20px 0;
-                box-shadow: 0 15px 35px rgba(255, 105, 180, 0.4);
-                border: 3px solid rgba(255, 182, 193, 0.6);
-                backdrop-filter: blur(10px);
+                padding: 40px 35px;
+                border-radius: 30px;
+                margin: 40px 0 30px 0;
+                box-shadow: 0 20px 45px rgba(255, 105, 180, 0.5);
+                border: 4px solid rgba(255, 182, 193, 0.7);
+                backdrop-filter: blur(15px);
                 font-family: 'Poppins', sans-serif;
             }
             
@@ -65,23 +65,23 @@ def show_social_bar():
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                gap: 25px;
+                gap: 35px;
                 flex-wrap: wrap;
             }
             
             .social-button {
                 background: rgba(255, 255, 255, 0.25);
-                padding: 16px;
+                padding: 20px;
                 border-radius: 50%;
-                width: 65px;
-                height: 65px;
+                width: 80px;
+                height: 80px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-                border: 3px solid rgba(255, 255, 255, 0.4);
+                border: 4px solid rgba(255, 255, 255, 0.4);
                 text-decoration: none;
-                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+                box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
                 position: relative;
                 overflow: hidden;
             }
@@ -102,28 +102,28 @@ def show_social_bar():
             }
             
             .social-button:hover {
-                transform: scale(1.15) rotate(5deg);
+                transform: scale(1.2) rotate(8deg);
                 background: rgba(255, 255, 255, 0.35);
-                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25), 0 0 20px rgba(255, 255, 255, 0.3);
-                border-color: rgba(255, 255, 255, 0.8);
+                box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3), 0 0 25px rgba(255, 255, 255, 0.4);
+                border-color: rgba(255, 255, 255, 0.9);
             }
             
             .social-button i {
-                font-size: 26px;
+                font-size: 32px;
                 color: white;
                 position: relative;
                 z-index: 2;
-                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+                text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
             }
             
             .web-button {
                 background: rgba(255, 255, 255, 0.25);
-                padding: 16px 30px;
-                border-radius: 35px;
+                padding: 20px 35px;
+                border-radius: 45px;
                 text-decoration: none;
                 transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-                border: 3px solid rgba(255, 255, 255, 0.4);
-                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+                border: 4px solid rgba(255, 255, 255, 0.4);
+                box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
                 position: relative;
                 overflow: hidden;
             }
@@ -144,18 +144,18 @@ def show_social_bar():
             }
             
             .web-button:hover {
-                transform: scale(1.1) translateY(-2px);
+                transform: scale(1.15) translateY(-3px);
                 background: rgba(255, 255, 255, 0.35);
-                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25), 0 0 25px rgba(255, 255, 255, 0.4);
-                border-color: rgba(255, 255, 255, 0.8);
+                box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3), 0 0 30px rgba(255, 255, 255, 0.5);
+                border-color: rgba(255, 255, 255, 0.9);
             }
             
             .web-text {
                 color: white;
-                font-weight: 700;
-                font-size: 18px;
-                letter-spacing: 1px;
-                text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+                font-weight: 800;
+                font-size: 22px;
+                letter-spacing: 1.5px;
+                text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
                 position: relative;
                 z-index: 2;
                 font-family: 'Poppins', sans-serif;
@@ -163,48 +163,52 @@ def show_social_bar():
             
             .social-text {
                 text-align: center;
-                margin-top: 20px;
+                margin-top: 25px;
                 color: white;
                 font-family: 'Poppins', sans-serif;
-                font-size: 18px;
-                font-weight: 500;
-                text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+                font-size: 22px;
+                font-weight: 600;
+                text-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
             }
             
             .social-subtext {
                 text-align: center;
-                margin-top: 10px;
-                color: rgba(255, 255, 255, 0.9);
+                margin-top: 15px;
+                color: rgba(255, 255, 255, 0.95);
                 font-family: 'Poppins', sans-serif;
-                font-size: 14px;
-                font-weight: 400;
-                text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+                font-size: 18px;
+                font-weight: 500;
+                text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
             }
             
             @media (max-width: 768px) {
                 .social-container {
-                    gap: 20px;
+                    gap: 25px;
                 }
                 
                 .social-button {
-                    width: 55px;
-                    height: 55px;
-                    padding: 14px;
+                    width: 65px;
+                    height: 65px;
+                    padding: 18px;
                 }
                 
                 .social-button i {
-                    font-size: 22px;
+                    font-size: 26px;
                 }
                 
                 .web-button {
-                    padding: 14px 25px;
+                    padding: 18px 30px;
                 }
                 
                 .web-text {
-                    font-size: 16px;
+                    font-size: 18px;
                 }
                 
                 .social-text {
+                    font-size: 18px;
+                }
+                
+                .social-subtext {
                     font-size: 16px;
                 }
             }
@@ -246,7 +250,8 @@ def show_social_bar():
     </html>
     """
     
-    components.html(social_html, height=200)
+    components.html(social_html, height=250)
+
 # -------------------- ELEMENTOS ESTÉTICOS ADICIONALES --------------------
 def show_decoration_elements():
     """Muestra elementos decorativos adicionales"""
@@ -493,23 +498,31 @@ def load_css():
         .floating-bar {{
             background: linear-gradient(135deg, #FF69B4, #FF1493) !important;
             color: white !important;
-            padding: 15px 25px !important;
+            padding: 20px 30px !important;
             border-radius: 50px !important;
-            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4) !important;
+            box-shadow: 0 12px 35px rgba(255, 105, 180, 0.5) !important;
             animation: float 3s ease-in-out infinite !important;
-            backdrop-filter: blur(10px) !important;
+            backdrop-filter: blur(15px) !important;
+            margin: 20px 0 !important;
+            font-size: 18px !important;
         }}
 
         @keyframes float {{
             0%, 100% {{ transform: translateY(0px) scale(1); }}
-            50% {{ transform: translateY(-8px) scale(1.02); }}
+            50% {{ transform: translateY(-10px) scale(1.03); }}
         }}
 
         .floating-content {{
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
-            gap: 10px !important;
+            gap: 15px !important;
+        }}
+
+        .floating-text {{
+            font-size: 18px !important;
+            font-weight: bold !important;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
         }}
 
         /* Easter egg link */
@@ -537,58 +550,6 @@ def load_css():
             to {{ box-shadow: 0 6px 25px rgba(255, 215, 0, 0.6); }}
         }}
 
-        /* Estilos para la barra social */
-        .social-bar {{
-            background: linear-gradient(135deg, #FF69B4, #FF1493);
-            padding: 25px;
-            border-radius: 25px;
-            margin: 40px 0 20px 0;
-            box-shadow: 0 12px 35px rgba(255, 105, 180, 0.5);
-            border: 3px solid rgba(255, 182, 193, 0.7);
-            backdrop-filter: blur(15px);
-        }}
-
-        .social-button {{
-            background: rgba(255, 255, 255, 0.25);
-            padding: 15px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 60px;
-            height: 60px;
-            transition: all 0.4s ease;
-            border: 3px solid rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(10px);
-        }}
-
-        .social-button:hover {{
-            transform: scale(1.15) rotate(5deg);
-            background: rgba(255, 255, 255, 0.35);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-        }}
-
-        .web-button {{
-            background: rgba(255, 255, 255, 0.25);
-            padding: 15px 25px;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.4s ease;
-            border: 3px solid rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(10px);
-            text-decoration: none;
-            font-family: "Poppins", sans-serif;
-        }}
-
-        .web-button:hover {{
-            transform: scale(1.1);
-            background: rgba(255, 255, 255, 0.35);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-            text-decoration: none;
-        }}
-
         /* Responsividad mejorada */
         @media (max-width: 768px) {{
             .main-title {{
@@ -603,6 +564,14 @@ def load_css():
             .stButton>button {{
                 padding: 10px 20px !important;
                 font-size: 14px !important;
+            }}
+            
+            .floating-bar {{
+                padding: 15px 20px !important;
+            }}
+            
+            .floating-text {{
+                font-size: 16px !important;
             }}
         }}
 
