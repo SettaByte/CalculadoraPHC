@@ -480,7 +480,6 @@ def show_floating_bar():
     st.markdown(f"""
     <div id="floatingBar" class="floating-bar">
         <div class="floating-content">
-            {svg_content}
             <span class="floating-text">¡Calculadora de Cortes Profesional!</span>
         </div>
     </div>
