@@ -456,7 +456,7 @@ def show_footer():
                 <i class="fab fa-facebook"></i>
             </a>
             <a href="https://phcajasdelujo.taplink.mx/" target="_blank" class="social-link">
-                <span>Página Web Oficial</span>
+                <span>Web</span>
             </a>
         </div>
     </div>
