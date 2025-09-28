@@ -254,21 +254,20 @@ def main():
     show_floating_bar()
 
 def check_special_code(width, height, quantity):
-    """Verifica si se ingresó el código especial '67' en ancho y alto"""
+    """Verifica si se ingresó el código especial '67' en todos los campos"""
     try:
-        # Convertir a int para comparar
+        # Convertir todo a int para que funcione aunque sean floats
         w = int(width)
         h = int(height)
+        q = int(quantity)
         
-        if w == 67 and h == 67:
+        if w == 67 and h == 67 and q == 67:
+            st.success("¡Código especial activado!")
             st.markdown("""
-            <script>
-            setTimeout(function() {
-                window.open('https://imgs.search.brave.com/GlSKdEx-RwYTPm6AW96H8dw2SILz2VcKAoT7gTada4g/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9wcmV2/aWV3LnJlZGQuaXQv/dGhpcy1tZW1lLWJy/b3VnaHQtdG8teW91/LWJ5LXRoZS11bmNz/LW9mLWFtZXJpY2Et/NjctaXNudC12MC1t/N3JndTVlbmU1bmYx/LmpwZWc_d2lkdGg9/MjI0JmF1dG89d2Vi/cCZzPTIxMjcyZjMz/MWRmZGExOGI2OTQ3/MGQ3NmExNDVkOTQ5/NWYwODBjMDM', '_blank');
-            }, 1000);
-            </script>
+            <button onclick="window.open('https://imgs.search.brave.com/GlSKdEx-RwYTPm6AW96H8dw2SILz2VcKAoT7gTada4g/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9wcmV2/aWV3LnJlZGQuaXQv/dGhpcy1tZW1lLWJy/b3VnaHQtdG8teW91/LWJ5LXRoZS11bmNz/LW9mLWFtZXJpY2Et/NjctaXNudC12MC1t/N3JndTVlbmU1bmYx/LmpwZWc_d2lkdGg9/MjI0JmF1dG89d2Vi/cCZzPTIxMjcyZjMz/MWRmZGExOGI2OTQ3/MGQ3NmExNDVkOTQ5/NWYwODBjMDM', '_blank')">
+                Ver Secreto
+            </button>
             """, unsafe_allow_html=True)
-            st.success("¡Código especial activado! Redirigiendo...")
     except ValueError:
         pass
 
