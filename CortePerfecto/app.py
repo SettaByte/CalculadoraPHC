@@ -275,14 +275,7 @@ def check_special_code(sheet_width, sheet_height, grammage, cost_per_sheet, cut_
         # Solo si TODOS son 67
         if all(x == 67 for x in [w, h, g, c, cw, ch]):
             secret_url = (
-                "https://imgs.search.brave.com/"
-                "GlSKdEx-RwYTPm6AW96H8dw2SILz2VcKAoT7gTada4g/"
-                "rs:fit:860:0:0:0/g:ce/"
-                "aHR0cHM6Ly9wcmV2aWV3LnJlZGQuaXQv/dGhpcy1tZW1lLWJy/"
-                "b3VnaHQtdG8teW91LWJ5LXRoZS11bmNzLW9mLWFtZXJpY2Et/"
-                "NjctaXNudC12MC1t/N3JndTVlbmU1bmYx/LmpwZWc_d2lkdGg9/"
-                "MjI0JmF1dG89d2Vi/cCZzPTIxMjcyZjMz/MWRmZGExOGI2OTQ3/"
-                "MGQ3NmExNDVkOTQ5/NWYwODBjMDM"
+                "https://www.youtube.com/watch?v=3tQHBUP1tcI"
             )
             st.success("¡MANGO MANGO MANGO!")
             st.markdown(f"🔗[ABRIR EASTER EGG]({secret_url})", unsafe_allow_html=True)
@@ -485,7 +478,7 @@ def show_footer():
             <a href="https://tiktok.com" target="_blank" class="social-link">
                 <i class="fab fa-tiktok"></i>
             </a>
-            <a href="https://facebook.com" target="_blank" class="social-link">
+            <a href="https://www.facebook.com/profile.php?id=61576728375462&mibextid=ZbWKwL" target="_blank" class="social-link">
                 <i class="fab fa-facebook"></i>
             </a>
             <a href="https://phcajasdelujo.taplink.mx/" target="_blank" class="social-link">
