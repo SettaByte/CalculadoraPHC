@@ -39,26 +39,22 @@ def show_floating_bar():
 
 # -------------------- BARRA SOCIAL MEJORADA --------------------
 def show_social_bar():
-    """Muestra la barra social con emojis - 100% funcional"""
+    """Muestra la barra social con logos al final de la página"""
     
     st.markdown("""
-    <div class='social-bar'>
-        <div class='social-container'>
-            <a href="https://tiktok.com/@p.h.cajas" target="_blank" class='social-button' title="Síguenos en TikTok">
-                <span style="font-size: 28px;">🎵</span>
-            </a>
-            <a href="https://www.facebook.com/profile.php?id=61576728375462" target="_blank" class='social-button' title="Síguenos en Facebook">
-                <span style="font-size: 28px;">👍</span>
-            </a>
-            <a href="https://www.instagram.com/p.h.cajas/" target="_blank" class='social-button' title="Síguenos en Instagram">
-                <span style="font-size: 28px;">📸</span>
-            </a>
-            <a href="https://phcajasdelujo.taplink.mx/" target="_blank" class='web-button' title="Visita nuestra web">
-                <span class='web-text'>🌐 NUESTRA WEB</span>
-            </a>
-        </div>
-        <div class='social-text'>📱 Síguenos en nuestras redes sociales</div>
-        <div class='social-subtext'>✨ PH Cajas de Lujo - Creando magia en cada detalle ✨</div>
+    <div style="
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        padding: 20px 0;
+        margin-top: 40px;
+        border-top: 2px solid #FF69B4;
+    ">
+        <a href="https://tiktok.com/@p.h.cajas" target="_blank" title="Síguenos en TikTok" style="font-size:32px;">🎵</a>
+        <a href="https://www.facebook.com/profile.php?id=61576728375462" target="_blank" title="Síguenos en Facebook" style="font-size:32px;">👍</a>
+        <a href="https://www.instagram.com/p.h.cajas/" target="_blank" title="Síguenos en Instagram" style="font-size:32px;">📸</a>
+        <a href="https://phcajasdelujo.taplink.mx/" target="_blank" title="Visita nuestra web" style="font-size:32px;">🌐</a>
     </div>
     """, unsafe_allow_html=True)
 # -------------------- ELEMENTOS ESTÉTICOS ADICIONALES --------------------
