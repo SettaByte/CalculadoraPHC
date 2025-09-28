@@ -39,54 +39,28 @@ def show_floating_bar():
 
 # -------------------- BARRA SOCIAL MEJORADA --------------------
 def show_social_bar():
-    """Muestra la barra social con botones personalizables"""
+    """Muestra la barra social con emojis - 100% funcional"""
     
-    # ENLACES_REDES_SOCIALES #frambuesa - Lugar para cambiar enlaces
-    social_links = {
-        "tiktok": "https://tiktok.com/@p.h.cajas",
-        "facebook": "https://www.facebook.com/profile.php?id=61576728375462", 
-        "instagram": "https://www.instagram.com/p.h.cajas/",
-        "web": "https://phcajasdelujo.taplink.mx/"
-    }
-    
-    # Crear el HTML correctamente
-    social_html = f"""
+    st.markdown("""
     <div class='social-bar'>
         <div class='social-container'>
-            <!-- TikTok -->
-            <a href="{social_links['tiktok']}" target="_blank" class='social-button' title="Síguenos en TikTok">
-                <i class='fab fa-tiktok' style='font-size: 24px; color: white;'></i>
+            <a href="https://tiktok.com/@p.h.cajas" target="_blank" class='social-button' title="Síguenos en TikTok">
+                <span style="font-size: 28px;">🎵</span>
             </a>
-            
-            <!-- Facebook -->
-            <a href="{social_links['facebook']}" target="_blank" class='social-button' title="Síguenos en Facebook">
-                <i class='fab fa-facebook-f' style='font-size: 24px; color: white;'></i>
+            <a href="https://www.facebook.com/profile.php?id=61576728375462" target="_blank" class='social-button' title="Síguenos en Facebook">
+                <span style="font-size: 28px;">👍</span>
             </a>
-            
-            <!-- Instagram -->
-            <a href="{social_links['instagram']}" target="_blank" class='social-button' title="Síguenos en Instagram">
-                <i class='fab fa-instagram' style='font-size: 24px; color: white;'></i>
+            <a href="https://www.instagram.com/p.h.cajas/" target="_blank" class='social-button' title="Síguenos en Instagram">
+                <span style="font-size: 28px;">📸</span>
             </a>
-            
-            <!-- Web -->
-            <a href="{social_links['web']}" target="_blank" class='web-button' title="Visita nuestra web">
+            <a href="https://phcajasdelujo.taplink.mx/" target="_blank" class='web-button' title="Visita nuestra web">
                 <span class='web-text'>🌐 NUESTRA WEB</span>
             </a>
         </div>
-        
-        <div class='social-text'>
-            📱 Síguenos en nuestras redes sociales
-        </div>
-        
-        <div class='social-subtext'>
-            ✨ PH Cajas de Lujo - Creando magia en cada detalle ✨
-        </div>
+        <div class='social-text'>📱 Síguenos en nuestras redes sociales</div>
+        <div class='social-subtext'>✨ PH Cajas de Lujo - Creando magia en cada detalle ✨</div>
     </div>
-    """
-    
-    # Mostrar con unsafe_allow_html=True
-    st.markdown(social_html, unsafe_allow_html=True)
-
+    """, unsafe_allow_html=True)
 # -------------------- ELEMENTOS ESTÉTICOS ADICIONALES --------------------
 def show_decoration_elements():
     """Muestra elementos decorativos adicionales"""
