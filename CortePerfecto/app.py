@@ -62,19 +62,17 @@ def main():
     </div>
     """, unsafe_allow_html=True)
 
-    # COLUMNA IZQUIERDA Y DERECHA
-    col_left, col_right = st.columns([1, 2], gap="medium")
+    col1, col2 = st.columns([1, 1], gap="large")
 
-    # -------------------- COLUMNA IZQUIERDA --------------------
-    with col_left:
-        st.markdown('<div class="section-card" style="margin-bottom:30px;">', unsafe_allow_html=True)
+    with col1:
+        st.markdown('<div class="section-card" style="margin-bottom:20px;">', unsafe_allow_html=True)
         st.markdown("### 📐 Tamaño de la Hoja")
         sheet_width = st.number_input("Ancho de la hoja (cm)", min_value=0.1, value=100.0, step=0.1)
         sheet_height = st.number_input("Alto de la hoja (cm)", min_value=0.1, value=70.0, step=0.1)
         grammage = st.number_input("Gramaje (g/m²)", min_value=1, value=80, step=1)
         st.markdown('</div>', unsafe_allow_html=True)
 
-        st.markdown('<div class="section-card" style="margin-bottom:30px;">', unsafe_allow_html=True)
+        st.markdown('<div class="section-card" style="margin-bottom:20px;">', unsafe_allow_html=True)
         st.markdown("### ✂️ Tamaño del Corte")
         cut_width = st.number_input("Ancho del corte (cm)", min_value=0.1, value=10.0, step=0.1)
         cut_height = st.number_input("Alto del corte (cm)", min_value=0.1, value=7.0, step=0.1)
@@ -83,6 +81,15 @@ def main():
         st.markdown('<div class="button-row" style="margin-bottom:30px;">', unsafe_allow_html=True)
         col_opt, col_clear = st.columns(2, gap="medium")
         with col_opt:
+            st.markdown(
+                """
+                <style>
+                div[data-testid="stButton"] button {
+                    white-space: nowrap;
+                }
+                </style>
+                """, unsafe_allow_html=True
+            )
             if st.button("🎯 Óptimo", use_container_width=True, key="btn_optimo"):
                 calculate_optimal(sheet_width, sheet_height, cut_width, cut_height, grammage)
         with col_clear:
@@ -90,26 +97,18 @@ def main():
                 clear_all_fields()
         st.markdown('</div>', unsafe_allow_html=True)
 
-    # -------------------- COLUMNA DERECHA --------------------
-    with col_right:
-        st.markdown('<div class="section-card" style="margin-bottom:30px;">', unsafe_allow_html=True)
+    with col2:
+        st.markdown('<div class="section-card" style="margin-bottom:20px;">', unsafe_allow_html=True)
         st.markdown("### 👁️ Vista Previa del Área de Corte")
-
-        # Instrucciones estilizadas
-        st.markdown("""
-        <p style="color:gray; font-style:italic; margin-top:5px; margin-bottom:10px;">
-            Arrastre la esquina superior del eje Y para modificarlo<br>
-            Arrastre la esquina derecha del eje X para modificarlo
-        </p>
-        """, unsafe_allow_html=True)
-
+        st.markdown("<p style='margin-bottom:5px;'>Arrastre la esquina superior del eje Y para modificarla</p>", unsafe_allow_html=True)
+        st.markdown("<p>Arrastre la esquina derecha del eje X para modificarla</p>", unsafe_allow_html=True)
         if st.session_state.calculation_result:
             show_cutting_preview()
         else:
             st.info("Haga clic en 'Óptimo' para ver la vista previa")
         st.markdown('</div>', unsafe_allow_html=True)
 
-        st.markdown('<div class="section-card" style="margin-bottom:30px;">', unsafe_allow_html=True)
+        st.markdown('<div class="section-card" style="margin-bottom:20px;">', unsafe_allow_html=True)
         st.markdown("### 📊 Reporte de Cortes")
         if st.session_state.calculation_result:
             show_cut_report()
@@ -120,13 +119,11 @@ def main():
     show_footer()
     show_floating_bar()
 
-# -------------------- FUNCIONES AUXILIARES --------------------
 def calculate_optimal(sheet_width, sheet_height, cut_width, cut_height, grammage):
     result = st.session_state.calculator.calculate_optimal(
         sheet_width, sheet_height, cut_width, cut_height, 1, grammage
     )
-
-    # Calcular correctamente el área utilizada y desperdiciada
+    
     total_cuts_width = int(sheet_width // cut_width)
     total_cuts_height = int(sheet_height // cut_height)
     used_area = total_cuts_width * cut_width * total_cuts_height * cut_height
@@ -150,7 +147,6 @@ def show_cutting_preview():
     result = st.session_state.calculation_result
     fig = go.Figure()
 
-    # Área de la hoja
     fig.add_shape(
         type="rect",
         x0=0, y0=0,
@@ -159,7 +155,6 @@ def show_cutting_preview():
         line=dict(color="rgba(255, 182, 193, 1)", width=2)
     )
 
-    # Cada corte
     for i in range(result['cuts_horizontal']):
         for j in range(result['cuts_vertical']):
             x = i * result['cut_width']
@@ -185,12 +180,10 @@ def show_cutting_preview():
         dragmode="pan"
     )
 
-    # Eliminar solo la lupa (zoom2d), manteniendo zoom in/out
     st.plotly_chart(fig, use_container_width=True, config={
         'modeBarButtonsToRemove': ['zoom2d']
     })
 
-    # Mostrar métricas de área
     col1, col2 = st.columns(2)
     with col1:
         st.metric("Área Utilizada", f"{result['utilization_percentage']:.1f}%")
