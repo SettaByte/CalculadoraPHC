@@ -111,7 +111,14 @@ def main():
         st.markdown('<div class="section-card" style="margin-bottom:20px;">', unsafe_allow_html=True)
         st.markdown("### 👁️ Vista Previa del Área de Corte")
         st.markdown("<p style='margin-bottom:5px;'>Arrastre la esquina superior del eje Y para modificarla</p>", unsafe_allow_html=True)
-        st.markdown("<p>Arrastre la esquina derecha del eje X para modificarlo</p>", unsafe_allow_html=True)
+        st.markdown(
+                    "<p style='font-size:13px; color:gray; text-align:center;'>Arrastre la esquina derecha del eje X para modificarlo</p>",
+                    unsafe_allow_html=True
+                )
+        st.markdown(
+                    "<p style='font-size:13px; color:gray; text-align:center;'>Arrastre la esquina derecha del eje X para modificarlo</p>",
+                    unsafe_allow_html=True
+                )
         st.markdown("<p>¡La Gráfica también cuenta con una barra de herramientas! </p>", unsafe_allow_html=True)
 
         if st.session_state.calculation_result:
