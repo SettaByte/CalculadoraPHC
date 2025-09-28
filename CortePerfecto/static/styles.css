@@ -1,0 +1,422 @@
+/* Tema rosa pastel para la calculadora de cortes */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
+
+/* Variables CSS para el tema rosa pastel */
+:root {
+    --primary-pink: #ff69b4;
+    --light-pink: #ffb6c1;
+    --pastel-pink: #ffc0cb;
+    --very-light-pink: #fef7f7;
+    --soft-pink: #fce4ec;
+    --text-dark: #2e2e2e;
+    --text-light: #666;
+    --white: #ffffff;
+    --shadow: rgba(255, 182, 193, 0.3);
+}
+
+/* Estilos generales */
+.stApp {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, var(--very-light-pink) 0%, var(--soft-pink) 100%);
+    min-height: 100vh;
+}
+
+/* Header */
+.header-container {
+    display: flex;
+    align-items: center;
+    padding: 1rem 0 2rem 0;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid var(--pastel-pink);
+}
+
+.logo-container {
+    margin-right: 2rem;
+}
+
+.logo-placeholder {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--primary-pink), var(--light-pink));
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+    box-shadow: 0 8px 25px var(--shadow);
+    transition: transform 0.3s ease;
+}
+
+.logo-placeholder:hover {
+    transform: scale(1.05);
+}
+
+.main-title {
+    color: var(--primary-pink);
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.2);
+}
+
+/* Tarjetas de sección */
+.section-card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 30px var(--shadow);
+    border: 1px solid var(--pastel-pink);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.section-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 40px var(--shadow);
+}
+
+/* Inputs personalizados */
+.stNumberInput > div > div > input {
+    border: 2px solid var(--pastel-pink) !important;
+    border-radius: 12px !important;
+    padding: 0.75rem !important;
+    font-size: 1rem !important;
+    transition: all 0.3s ease !important;
+    background: var(--very-light-pink) !important;
+}
+
+.stNumberInput > div > div > input:focus {
+    border-color: var(--primary-pink) !important;
+    box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.1) !important;
+    background: var(--white) !important;
+}
+
+/* Botones personalizados */
+.stButton > button {
+    background: linear-gradient(135deg, var(--primary-pink), var(--light-pink)) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 0.75rem 1.5rem !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+.stButton > button:hover {
+    background: linear-gradient(135deg, var(--light-pink), var(--primary-pink)) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4) !important;
+}
+
+.stButton > button:active {
+    transform: translateY(0) !important;
+}
+
+/* Botones de fila */
+.button-row {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Botones de exportación */
+.export-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.export-buttons .stButton > button {
+    background: linear-gradient(135deg, var(--pastel-pink), var(--light-pink)) !important;
+    font-size: 0.9rem !important;
+    padding: 0.6rem 1rem !important;
+}
+
+/* Métricas */
+.metric-container {
+    background: var(--very-light-pink);
+    border-radius: 15px;
+    padding: 1.5rem;
+    border: 2px solid var(--pastel-pink);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.metric-container:hover {
+    background: var(--soft-pink);
+    transform: translateY(-2px);
+}
+
+/* Tabla personalizada */
+.stTable {
+    background: var(--white) !important;
+    border-radius: 15px !important;
+    overflow: hidden !important;
+    box-shadow: 0 5px 20px var(--shadow) !important;
+}
+
+.stTable th {
+    background: var(--light-pink) !important;
+    color: white !important;
+    font-weight: 600 !important;
+    padding: 1rem !important;
+    font-size: 1rem !important;
+}
+
+.stTable td {
+    padding: 1rem !important;
+    border-bottom: 1px solid var(--pastel-pink) !important;
+    font-size: 0.95rem !important;
+}
+
+.stTable tr:nth-child(even) {
+    background: var(--very-light-pink) !important;
+}
+
+.stTable tr:hover {
+    background: var(--soft-pink) !important;
+}
+
+/* Footer */
+.footer {
+    margin-top: 4rem;
+    padding: 2rem 0;
+    text-align: center;
+    border-top: 2px solid var(--pastel-pink);
+    background: var(--white);
+    border-radius: 20px 20px 0 0;
+}
+
+.social-media {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--primary-pink), var(--light-pink));
+    color: white;
+    border-radius: 50%;
+    text-decoration: none;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px var(--shadow);
+}
+
+.social-link:hover {
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: 0 8px 25px var(--shadow);
+    text-decoration: none;
+    color: white;
+}
+
+/* Barra flotante */
+.floating-bar {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, var(--primary-pink), var(--light-pink));
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 50px;
+    box-shadow: 0 8px 30px rgba(255, 105, 180, 0.4);
+    z-index: 1000;
+    animation: float 3s ease-in-out infinite;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    max-width: 300px;
+}
+
+.floating-bar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 40px rgba(255, 105, 180, 0.5);
+}
+
+.floating-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.floating-content svg {
+    width: 24px;
+    height: 24px;
+    fill: white;
+}
+
+.floating-text {
+    font-weight: 600;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Alertas y mensajes */
+.stAlert {
+    border-radius: 12px !important;
+    border: none !important;
+    box-shadow: 0 4px 15px var(--shadow) !important;
+}
+
+.stSuccess {
+    background: linear-gradient(135deg, #d4edda, #c3e6cb) !important;
+    color: #155724 !important;
+}
+
+.stInfo {
+    background: linear-gradient(135deg, var(--soft-pink), var(--pastel-pink)) !important;
+    color: var(--text-dark) !important;
+}
+
+/* Gráficos Plotly */
+.js-plotly-plot {
+    border-radius: 15px !important;
+    overflow: hidden !important;
+    box-shadow: 0 5px 20px var(--shadow) !important;
+}
+
+/* Tooltips */
+.stTooltip {
+    background: var(--primary-pink) !important;
+    color: white !important;
+    border-radius: 8px !important;
+    font-size: 0.9rem !important;
+    padding: 0.5rem 1rem !important;
+    box-shadow: 0 4px 15px var(--shadow) !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .main-title {
+        font-size: 2rem;
+    }
+    
+    .section-card {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .button-row {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .social-media {
+        gap: 1rem;
+    }
+    
+    .social-link {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+    
+    .floating-bar {
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+        border-radius: 15px;
+    }
+    
+    .floating-text {
+        font-size: 0.8rem;
+        white-space: normal;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-title {
+        font-size: 1.8rem;
+    }
+    
+    .section-card {
+        padding: 1rem;
+        border-radius: 15px;
+    }
+    
+    .export-buttons {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+    }
+    
+    .logo-placeholder {
+        width: 60px;
+        height: 60px;
+        font-size: 12px;
+    }
+}
+
+/* Mejoras de accesibilidad */
+.stButton > button:focus {
+    outline: 3px solid var(--primary-pink) !important;
+    outline-offset: 2px !important;
+}
+
+.stNumberInput > div > div > input:focus {
+    outline: 2px solid var(--primary-pink) !important;
+    outline-offset: 1px !important;
+}
+
+/* Animaciones adicionales */
+.section-card {
+    animation: slideInUp 0.6s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estados de loading */
+.stSpinner {
+    border-color: var(--primary-pink) !important;
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--very-light-pink);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--primary-pink), var(--light-pink));
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, var(--light-pink), var(--primary-pink));
+}
