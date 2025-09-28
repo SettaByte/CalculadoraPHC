@@ -41,7 +41,7 @@ def show_floating_bar():
 # -------------------- BARRA SOCIAL MEJORADA --------------------
 
 def show_social_bar():
-    """Muestra la barra social usando components.html - 100% funcional"""
+    """Muestra la barra social usando components.html - Versión mini"""
     
     social_html = """
     <!DOCTYPE html>
@@ -52,14 +52,14 @@ def show_social_bar():
         <style>
             .social-bar {
                 background: linear-gradient(135deg, #ff69b4, #ff1493);
-                padding: 50px 35px;
-                border-radius: 30px;
-                margin: 40px 0 30px 0;
-                box-shadow: 0 20px 45px rgba(255, 105, 180, 0.5);
-                border: 4px solid rgba(255, 182, 193, 0.7);
-                backdrop-filter: blur(15px);
+                padding: 15px 20px;
+                border-radius: 20px;
+                margin: 20px 0 15px 0;
+                box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4);
+                border: 2px solid rgba(255, 182, 193, 0.6);
+                backdrop-filter: blur(10px);
                 font-family: 'Poppins', sans-serif;
-                min-height: 180px;
+                min-height: 70px;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -69,23 +69,23 @@ def show_social_bar():
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                gap: 35px;
+                gap: 20px;
                 flex-wrap: wrap;
             }
             
             .social-button {
                 background: rgba(255, 255, 255, 0.25);
-                padding: 22px;
+                padding: 10px;
                 border-radius: 50%;
-                width: 85px;
-                height: 85px;
+                width: 45px;
+                height: 45px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-                border: 4px solid rgba(255, 255, 255, 0.4);
+                transition: all 0.3s ease;
+                border: 2px solid rgba(255, 255, 255, 0.4);
                 text-decoration: none;
-                box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
                 position: relative;
                 overflow: hidden;
             }
@@ -97,8 +97,8 @@ def show_social_bar():
                 left: -100%;
                 width: 100%;
                 height: 100%;
-                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-                transition: left 0.6s ease;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                transition: left 0.5s ease;
             }
             
             .social-button:hover::before {
@@ -106,28 +106,28 @@ def show_social_bar():
             }
             
             .social-button:hover {
-                transform: scale(1.2) rotate(8deg);
-                background: rgba(255, 255, 255, 0.35);
-                box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3), 0 0 25px rgba(255, 255, 255, 0.4);
-                border-color: rgba(255, 255, 255, 0.9);
+                transform: scale(1.1) rotate(5deg);
+                background: rgba(255, 255, 255, 0.3);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+                border-color: rgba(255, 255, 255, 0.6);
             }
             
             .social-button i {
-                font-size: 34px;
+                font-size: 18px;
                 color: white;
                 position: relative;
                 z-index: 2;
-                text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
             }
             
             .web-button {
                 background: rgba(255, 255, 255, 0.25);
-                padding: 22px 38px;
-                border-radius: 45px;
+                padding: 8px 16px;
+                border-radius: 20px;
                 text-decoration: none;
-                transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-                border: 4px solid rgba(255, 255, 255, 0.4);
-                box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+                transition: all 0.3s ease;
+                border: 2px solid rgba(255, 255, 255, 0.4);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
                 position: relative;
                 overflow: hidden;
             }
@@ -139,8 +139,8 @@ def show_social_bar():
                 left: -100%;
                 width: 100%;
                 height: 100%;
-                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-                transition: left 0.6s ease;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                transition: left 0.5s ease;
             }
             
             .web-button:hover::before {
@@ -148,58 +148,59 @@ def show_social_bar():
             }
             
             .web-button:hover {
-                transform: scale(1.15) translateY(-3px);
-                background: rgba(255, 255, 255, 0.35);
-                box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3), 0 0 30px rgba(255, 255, 255, 0.5);
-                border-color: rgba(255, 255, 255, 0.9);
+                transform: scale(1.05) translateY(-1px);
+                background: rgba(255, 255, 255, 0.3);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+                border-color: rgba(255, 255, 255, 0.6);
             }
             
             .web-text {
                 color: white;
-                font-weight: 800;
-                font-size: 24px;
-                letter-spacing: 1.5px;
-                text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+                font-weight: 600;
+                font-size: 12px;
+                letter-spacing: 0.5px;
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
                 position: relative;
                 z-index: 2;
                 font-family: 'Poppins', sans-serif;
             }
             
-            /* TEXTO OCULTO - Comentado para que no se muestre */
+            /* TEXTO COMPLETAMENTE OCULTO */
             .social-text {
-                display: none; /* Oculta completamente el texto */
+                display: none;
             }
             
             .social-subtext {
-                display: none; /* Oculta completamente el subtítulo */
+                display: none;
             }
             
             @media (max-width: 768px) {
                 .social-bar {
-                    padding: 40px 25px;
-                    min-height: 160px;
+                    padding: 12px 16px;
+                    min-height: 60px;
+                    border-radius: 15px;
                 }
                 
                 .social-container {
-                    gap: 25px;
+                    gap: 15px;
                 }
                 
                 .social-button {
-                    width: 70px;
-                    height: 70px;
-                    padding: 20px;
+                    width: 40px;
+                    height: 40px;
+                    padding: 8px;
                 }
                 
                 .social-button i {
-                    font-size: 28px;
+                    font-size: 16px;
                 }
                 
                 .web-button {
-                    padding: 20px 32px;
+                    padding: 6px 12px;
                 }
                 
                 .web-text {
-                    font-size: 20px;
+                    font-size: 11px;
                 }
             }
         </style>
@@ -224,11 +225,11 @@ def show_social_bar():
                 
                 <!-- Web -->
                 <a href="https://phcajasdelujo.taplink.mx/" target="_blank" class='web-button' title="Visita nuestra web">
-                    <span class='web-text'>🌐 NUESTRA WEB</span>
+                    <span class='web-text'>🌐 WEB</span>
                 </a>
             </div>
             
-            <!-- Texto oculto -->
+            <!-- Texto completamente oculto -->
             <div class='social-text' style="display: none;">
                 📱 Síguenos en nuestras redes sociales
             </div>
@@ -241,8 +242,7 @@ def show_social_bar():
     </html>
     """
     
-    components.html(social_html, height=200)
-
+    components.html(social_html, height=100)
 # -------------------- ELEMENTOS ESTÉTICOS ADICIONALES --------------------
 def show_decoration_elements():
     """Muestra elementos decorativos adicionales"""
