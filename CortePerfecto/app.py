@@ -254,18 +254,27 @@ def main():
     show_floating_bar()
 
 def check_special_code(width, height, quantity):
-    """Verifica si se ingresó el código especial '67' en todos los campos"""
     try:
         w = int(width)
         h = int(height)
         q = int(quantity)
         
         if w == 67 and h == 67 and q == 67:
-            secret_url = "https://imgs.search.brave.com/GlSKdEx-RwYTPm6AW96H8dw2SILz2VcKAoT7gTada4g/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9wcmV2/aWV3LnJlZGQuaXQv/dGhpcy1tZW1lLWJy/b3VnaHQtdG8teW91/LWJ5LXRoZS11bmNz/LW9mLWFtZXJpY2Et/NjctaXNudC12MC1t/N3JndTVlbmU1bmYx/LmpwZWc_d2lkdGg9/MjI0JmF1dG89d2Vi/cCZzPTIxMjcyZjMz/MWRmZGExOGI2OTQ3/MGQ3NmExNDVkOTQ5/NWYwODBjMDM"
+            secret_url = (
+                "https://imgs.search.brave.com/"
+                "GlSKdEx-RwYTPm6AW96H8dw2SILz2VcKAoT7gTada4g/"
+                "rs:fit:860:0:0:0/g:ce/"
+                "aHR0cHM6Ly9wcmV2aWV3LnJlZGQuaXQv/dGhpcy1tZW1lLWJy/"
+                "b3VnaHQtdG8teW91LWJ5LXRoZS11bmNzLW9mLWFtZXJpY2Et/"
+                "NjctaXNudC12MC1t/N3JndTVlbmU1bmYx/LmpwZWc_d2lkdGg9/"
+                "MjI0JmF1dG89d2Vi/cCZzPTIxMjcyZjMz/MWRmZGExOGI2OTQ3/"
+                "MGQ3NmExNDVkOTQ5/NWYwODBjMDM"
+            )
             st.success("¡MANGO MANGO MANGO!")
-            st.markdown(f"🔗 [Abrir Easter Egg]({secret_url})", unsafe_allow_html=True)
+            st.markdown(f"🔗 [Abrir Secreto]({secret_url})", unsafe_allow_html=True)
     except ValueError:
         pass
+
 
 
 
