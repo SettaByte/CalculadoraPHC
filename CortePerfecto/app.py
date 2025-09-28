@@ -1,4 +1,3 @@
-Olvidalo, usare el normal.
 import os, base64, streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
