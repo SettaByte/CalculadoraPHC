@@ -3,8 +3,6 @@ import pandas as pd
 import plotly.graph_objects as go
 from utils.calculator import CuttingCalculator
 from utils.export_utils import ExportUtils
-from utils.database import DatabaseManager
-from datetime import datetime
 
 
 # Ruta base donde está este script
@@ -47,8 +45,6 @@ def load_css():
     if os.path.exists(css_path):
         with open(css_path, "r") as f:
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-    else:
-        st.warning("⚠️ No se encontró styles.css")
 
 # Cargar JavaScript personalizado
 def load_js():
@@ -56,8 +52,6 @@ def load_js():
     if os.path.exists(js_path):
         with open(js_path, "r") as f:
             st.markdown(f"<script>{f.read()}</script>", unsafe_allow_html=True)
-    else:
-        st.warning("⚠️ No se encontró script.js")
 
 # Inicializar la aplicación
 def initialize_app():
@@ -65,18 +59,8 @@ def initialize_app():
         st.session_state.calculator = CuttingCalculator()
     if 'export_utils' not in st.session_state:
         st.session_state.export_utils = ExportUtils()
-    if 'db_manager' not in st.session_state:
-        try:
-            st.session_state.db_manager = DatabaseManager()
-        except Exception as e:
-            st.error(f"Error conectando a la base de datos: {e}")
-            st.session_state.db_manager = None
     if 'special_code_check' not in st.session_state:
         st.session_state.special_code_check = {"width": "", "height": "", "quantity": ""}
-    if 'comparison_mode' not in st.session_state:
-        st.session_state.comparison_mode = False
-    if 'comparison_configs' not in st.session_state:
-        st.session_state.comparison_configs = []
 
 def main():
     load_css()
@@ -105,24 +89,21 @@ def main():
             "Ancho de la hoja (cm)",
             min_value=0.1,
             value=100.0,
-            step=0.1,
-            help="Ingrese el ancho de la hoja en centímetros"
+            step=0.1
         )
         
         sheet_height = st.number_input(
             "Alto de la hoja (cm)",
             min_value=0.1,
             value=70.0,
-            step=0.1,
-            help="Ingrese el alto de la hoja en centímetros"
+            step=0.1
         )
         
         grammage = st.number_input(
             "Gramaje (g/m²)",
             min_value=1,
             value=80,
-            step=1,
-            help="Ingrese el gramaje del papel en gramos por metro cuadrado"
+            step=1
         )
         
         st.markdown("### ✂️ Tamaño del Corte")
@@ -131,43 +112,29 @@ def main():
             "Ancho del corte (cm)",
             min_value=0.1,
             value=10.0,
-            step=0.1,
-            help="Ingrese el ancho del corte deseado",
-            key="cut_width"
+            step=0.1
         )
         
         cut_height = st.number_input(
             "Alto del corte (cm)",
             min_value=0.1,
             value=7.0,
-            step=0.1,
-            help="Ingrese el alto del corte deseado",
-            key="cut_height"
+            step=0.1
         )
         
         quantity = 100  # Valor fijo
         
-        check_special_code(
-            sheet_width,
-            sheet_height,
-            grammage,
-            cut_width,
-            cut_height
-        )
+        check_special_code(sheet_width, sheet_height, grammage, cut_width, cut_height)
     
         st.markdown('</div>', unsafe_allow_html=True)
         
         # Botones de acción
         st.markdown('<div class="button-row">', unsafe_allow_html=True)
-        col_opt, col_inline, col_clear = st.columns(3)
+        col_opt, col_clear = st.columns(2)
         
         with col_opt:
             if st.button("🎯 Óptimo", use_container_width=True, type="primary"):
                 calculate_optimal(sheet_width, sheet_height, cut_width, cut_height, quantity, grammage)
-        
-        with col_inline:
-            if st.button("📏 En Línea", use_container_width=True):
-                calculate_inline(sheet_width, sheet_height, cut_width, cut_height, quantity, grammage)
         
         with col_clear:
             if st.button("🗑️ Limpiar", use_container_width=True):
@@ -176,25 +143,22 @@ def main():
         st.markdown('</div>', unsafe_allow_html=True)
     
     with col2:
-        # Vista previa del área de corte
         st.markdown('<div class="section-card">', unsafe_allow_html=True)
         st.markdown("### 👁️ Vista Previa del Área de Corte")
         
         if 'calculation_result' in st.session_state:
             show_cutting_preview()
         else:
-            st.info("Haga clic en 'Óptimo' o 'En Línea' para ver la vista previa")
+            st.info("Haga clic en 'Óptimo' para ver la vista previa")
         
         st.markdown('</div>', unsafe_allow_html=True)
         
-        # Reporte de cortes
         st.markdown('<div class="section-card">', unsafe_allow_html=True)
         st.markdown("### 📊 Reporte de Cortes")
         
         if 'calculation_result' in st.session_state:
             show_cut_report()
             
-            # Botones de exportación
             st.markdown('<div class="export-buttons">', unsafe_allow_html=True)
             col_excel, col_pdf = st.columns(2)
             
@@ -212,14 +176,10 @@ def main():
         
         st.markdown('</div>', unsafe_allow_html=True)
     
-    # Footer con redes sociales
     show_footer()
-    
-    # Barra flotante
     show_floating_bar()
 
 def check_special_code(sheet_width, sheet_height, grammage, cut_width, cut_height):
-    """Verifica si todos los valores importantes son 67 y muestra el URL secreto"""
     try:
         w = int(sheet_width)
         h = int(sheet_height)
@@ -236,52 +196,23 @@ def check_special_code(sheet_width, sheet_height, grammage, cut_width, cut_heigh
         pass
 
 def calculate_optimal(sheet_width, sheet_height, cut_width, cut_height, quantity, grammage):
-    """Calcula el corte óptimo"""
     result = st.session_state.calculator.calculate_optimal(
         sheet_width, sheet_height, cut_width, cut_height, quantity, grammage
     )
     st.session_state.calculation_result = result
     st.session_state.calculation_type = "optimal"
-    
-    if st.session_state.comparison_mode:
-        if len(st.session_state.comparison_configs) < 5:
-            st.session_state.comparison_configs.append(result.copy())
-            st.success(f"Configuración agregada a comparación ({len(st.session_state.comparison_configs)}/5)")
-        else:
-            st.warning("Máximo 5 configuraciones en comparación. Elimine algunas para agregar nuevas.")
-    
-    st.rerun()
-
-def calculate_inline(sheet_width, sheet_height, cut_width, cut_height, quantity, grammage):
-    """Calcula el corte en línea"""
-    result = st.session_state.calculator.calculate_inline(
-        sheet_width, sheet_height, cut_width, cut_height, quantity, grammage
-    )
-    st.session_state.calculation_result = result
-    st.session_state.calculation_type = "inline"
-    
-    if st.session_state.comparison_mode:
-        if len(st.session_state.comparison_configs) < 5:
-            st.session_state.comparison_configs.append(result.copy())
-            st.success(f"Configuración agregada a comparación ({len(st.session_state.comparison_configs)}/5)")
-        else:
-            st.warning("Máximo 5 configuraciones en comparación. Elimine algunas para agregar nuevas.")
-    
     st.rerun()
 
 def clear_all_fields():
-    """Limpia todos los campos y resultados"""
     for key in list(st.session_state.keys()):
         if key not in ['calculator', 'export_utils']:
             del st.session_state[key]
     st.rerun()
 
 def show_cutting_preview():
-    """Muestra la vista previa del área de corte"""
     result = st.session_state.calculation_result
     fig = go.Figure()
     
-    # Área total de la hoja
     fig.add_shape(
         type="rect",
         x0=0, y0=0,
@@ -290,7 +221,6 @@ def show_cutting_preview():
         line=dict(color="rgba(255, 182, 193, 1)", width=2)
     )
     
-    # Áreas de corte
     for i in range(result['cuts_horizontal']):
         for j in range(result['cuts_vertical']):
             x = i * result['cut_width']
@@ -323,12 +253,10 @@ def show_cutting_preview():
         st.metric("Área Desperdiciada", f"{100 - result['utilization_percentage']:.1f}%")
 
 def show_cut_report():
-    """Muestra el reporte detallado de cortes sin costos ni hojas requeridas"""
     result = st.session_state.calculation_result
     
     report_data = {
         "Métrica": [
-            "Cortes por hoja",
             "Cortes utilizables",
             "Cortes horizontales",
             "Cortes verticales",
@@ -336,7 +264,6 @@ def show_cut_report():
             "Peso final (g)"
         ],
         "Valor": [
-            result['cuts_per_sheet'],
             result['usable_cuts'],
             result['cuts_horizontal'],
             result['cuts_vertical'],
