@@ -41,7 +41,7 @@ def show_floating_bar():
 # -------------------- BARRA SOCIAL MEJORADA --------------------
 
 def show_social_bar():
-    """Muestra la barra social usando components.html - Versión mini"""
+    """Muestra la barra social usando components.html - Versión mini corregida"""
     
     social_html = """
     <!DOCTYPE html>
@@ -52,156 +52,79 @@ def show_social_bar():
         <style>
             .social-bar {
                 background: linear-gradient(135deg, #ff69b4, #ff1493);
-                padding: 15px 20px;
-                border-radius: 20px;
-                margin: 20px 0 15px 0;
-                box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4);
-                border: 2px solid rgba(255, 182, 193, 0.6);
-                backdrop-filter: blur(10px);
+                padding: 12px 20px;
+                border-radius: 15px;
+                margin: 15px 0 10px 0;
+                box-shadow: 0 4px 12px rgba(255, 105, 180, 0.3);
+                border: 1.5px solid rgba(255, 182, 193, 0.5);
+                backdrop-filter: blur(8px);
                 font-family: 'Poppins', sans-serif;
-                min-height: 70px;
+                height: 60px; /* ALTURA FIJA */
                 display: flex;
-                flex-direction: column;
+                align-items: center;
                 justify-content: center;
+                min-height: 60px; /* ALTURA MÍNIMA FIJA */
             }
             
             .social-container {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                gap: 20px;
+                gap: 15px;
                 flex-wrap: wrap;
+                height: 100%;
             }
             
             .social-button {
-                background: rgba(255, 255, 255, 0.25);
-                padding: 10px;
+                background: rgba(255, 255, 255, 0.2);
+                padding: 8px;
                 border-radius: 50%;
-                width: 45px;
-                height: 45px;
+                width: 35px;
+                height: 35px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                transition: all 0.3s ease;
-                border: 2px solid rgba(255, 255, 255, 0.4);
+                transition: all 0.2s ease;
+                border: 1.5px solid rgba(255, 255, 255, 0.3);
                 text-decoration: none;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-                position: relative;
-                overflow: hidden;
-            }
-            
-            .social-button::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: -100%;
-                width: 100%;
-                height: 100%;
-                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-                transition: left 0.5s ease;
-            }
-            
-            .social-button:hover::before {
-                left: 100%;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             }
             
             .social-button:hover {
-                transform: scale(1.1) rotate(5deg);
-                background: rgba(255, 255, 255, 0.3);
-                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-                border-color: rgba(255, 255, 255, 0.6);
+                transform: scale(1.1);
+                background: rgba(255, 255, 255, 0.25);
+                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
             }
             
             .social-button i {
-                font-size: 18px;
+                font-size: 14px;
                 color: white;
-                position: relative;
-                z-index: 2;
-                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+                text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
             }
             
             .web-button {
-                background: rgba(255, 255, 255, 0.25);
-                padding: 8px 16px;
-                border-radius: 20px;
+                background: rgba(255, 255, 255, 0.2);
+                padding: 6px 12px;
+                border-radius: 15px;
                 text-decoration: none;
-                transition: all 0.3s ease;
-                border: 2px solid rgba(255, 255, 255, 0.4);
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-                position: relative;
-                overflow: hidden;
-            }
-            
-            .web-button::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: -100%;
-                width: 100%;
-                height: 100%;
-                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-                transition: left 0.5s ease;
-            }
-            
-            .web-button:hover::before {
-                left: 100%;
+                transition: all 0.2s ease;
+                border: 1.5px solid rgba(255, 255, 255, 0.3);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             }
             
             .web-button:hover {
-                transform: scale(1.05) translateY(-1px);
-                background: rgba(255, 255, 255, 0.3);
-                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-                border-color: rgba(255, 255, 255, 0.6);
+                transform: scale(1.05);
+                background: rgba(255, 255, 255, 0.25);
+                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
             }
             
             .web-text {
                 color: white;
-                font-weight: 600;
-                font-size: 12px;
-                letter-spacing: 0.5px;
-                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-                position: relative;
-                z-index: 2;
+                font-weight: 500;
+                font-size: 10px;
+                letter-spacing: 0.3px;
+                text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
                 font-family: 'Poppins', sans-serif;
-            }
-            
-            /* TEXTO COMPLETAMENTE OCULTO */
-            .social-text {
-                display: none;
-            }
-            
-            .social-subtext {
-                display: none;
-            }
-            
-            @media (max-width: 768px) {
-                .social-bar {
-                    padding: 12px 16px;
-                    min-height: 60px;
-                    border-radius: 15px;
-                }
-                
-                .social-container {
-                    gap: 15px;
-                }
-                
-                .social-button {
-                    width: 40px;
-                    height: 40px;
-                    padding: 8px;
-                }
-                
-                .social-button i {
-                    font-size: 16px;
-                }
-                
-                .web-button {
-                    padding: 6px 12px;
-                }
-                
-                .web-text {
-                    font-size: 11px;
-                }
             }
         </style>
     </head>
@@ -228,21 +151,12 @@ def show_social_bar():
                     <span class='web-text'>🌐 WEB</span>
                 </a>
             </div>
-            
-            <!-- Texto completamente oculto -->
-            <div class='social-text' style="display: none;">
-                📱 Síguenos en nuestras redes sociales
-            </div>
-            
-            <div class='social-subtext' style="display: none;">
-                ✨ PH Cajas de Lujo - Creando magia en cada detalle ✨
-            </div>
         </div>
     </body>
     </html>
     """
     
-    components.html(social_html, height=100)
+    components.html(social_html, height=80)
 # -------------------- ELEMENTOS ESTÉTICOS ADICIONALES --------------------
 def show_decoration_elements():
     """Muestra elementos decorativos adicionales"""
