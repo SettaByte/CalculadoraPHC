@@ -277,7 +277,7 @@ def show_decoration_elements():
         font-size: 14px;
         font-weight: 500;
     '>
-        ✦ ✦ ✦
+        
     </div>
     """, unsafe_allow_html=True)
 
