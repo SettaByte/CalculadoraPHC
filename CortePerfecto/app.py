@@ -407,7 +407,7 @@ def show_cutting_preview():
 def show_cut_report():
     """Muestra el reporte detallado de cortes"""
     result = st.session_state.calculation_result
-    
+
     # Crear DataFrame para mostrar los resultados
     report_data = {
         "Métrica": [
@@ -433,8 +433,10 @@ def show_cut_report():
             f"{result.get('total_cost', 0):.2f}"
         ]
     }
-    
+
     df = pd.DataFrame(report_data)
+    df.index = [""] * len(df)  # Esto elimina los números 0,1,2,... de la izquierda
+
     st.table(df)
 
 def print_report():
