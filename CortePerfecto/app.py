@@ -254,11 +254,16 @@ def main():
     show_floating_bar()
 
 def check_special_code(width, height, quantity):
+    """
+    Muestra el enlace secreto solo si width, height y quantity son 67.
+    """
     try:
+        # Convertir todos los inputs a entero
         w = int(width)
         h = int(height)
         q = int(quantity)
         
+        # Solo si los tres son 67, mostrar secreto
         if w == 67 and h == 67 and q == 67:
             secret_url = (
                 "https://imgs.search.brave.com/"
@@ -271,7 +276,7 @@ def check_special_code(width, height, quantity):
                 "MGQ3NmExNDVkOTQ5/NWYwODBjMDM"
             )
             st.success("¡MANGO MANGO MANGO!")
-            st.markdown(f"🔗 [Abrir Secreto]({secret_url})", unsafe_allow_html=True)
+            st.markdown(f"🔗 [Abrir Easter Egg]({secret_url})", unsafe_allow_html=True)
     except ValueError:
         pass
 
