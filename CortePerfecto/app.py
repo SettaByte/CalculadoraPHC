@@ -28,12 +28,12 @@ def show_floating_bar():
         st.markdown(f"""
         <div id="floatingBar" class="floating-bar">
             <div class="floating-content">
-                <img src="data:image/jpeg;base64,{img_b64}" style="height:40px; border-radius: 10px;"/>
-                <span class="floating-text">¡Calculadora de Cortes Profesional!</span>
+                <img src="data:image/jpeg;base64,{img_b64}" 
+                     style="height:40px; border-radius: 50%; margin-right: 10px;"/>
+                <span class="floating-text" style="white-space: normal;">¡Calculadora de Cortes Profesional!</span>
             </div>
         </div>
         """, unsafe_allow_html=True)
-
 
 # Configuración de la página
 st.set_page_config(
