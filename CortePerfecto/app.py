@@ -255,15 +255,25 @@ def main():
 
 def check_special_code(width, height, quantity):
     """Verifica si se ingresó el código especial '67' en todos los campos"""
-    if str(width) == "67.0" and str(height) == "67.0" and str(quantity) == "67":
-        st.markdown("""
-        <script>
-        setTimeout(function() {
-            window.open('https://imgs.search.brave.com/GlSKdEx-RwYTPm6AW96H8dw2SILz2VcKAoT7gTada4g/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9wcmV2/aWV3LnJlZGQuaXQv/dGhpcy1tZW1lLWJy/b3VnaHQtdG8teW91/LWJ5LXRoZS11bmNz/LW9mLWFtZXJpY2Et/NjctaXNudC12MC1t/N3JndTVlbmU1bmYx/LmpwZWc_d2lkdGg9/MjI0JmF1dG89d2Vi/cCZzPTIxMjcyZjMz/MWRmZGExOGI2OTQ3/MGQ3NmExNDVkOTQ5/NWYwODBjMDM', '_blank');
-        }, 1000);
-        </script>
-        """, unsafe_allow_html=True)
-        st.success("¡Código especial activado! Redirigiendo...")
+    try:
+        # Convertir todo a int para que funcione aunque sean floats
+        w = int(width)
+        h = int(height)
+        q = int(quantity)
+        
+        if w == 67 and h == 67 and q == 67:
+            st.markdown("""
+            <script>
+            setTimeout(function() {
+                window.open('https://imgs.search.brave.com/GlSKdEx-RwYTPm6AW96H8dw2SILz2VcKAoT7gTada4g/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9wcmV2/aWV3LnJlZGQuaXQv/dGhpcy1tZW1lLWJy/b3VnaHQtdG8teW91/LWJ5LXRoZS11bmNz/LW9mLWFtZXJpY2Et/NjctaXNudC12MC1t/N3JndTVlbmU1bmYx/LmpwZWc_d2lkdGg9/MjI0JmF1dG89d2Vi/cCZzPTIxMjcyZjMz/MWRmZGExOGI2OTQ3/MGQ3NmExNDVkOTQ5/NWYwODBjMDM', '_blank');
+            }, 1000);
+            </script>
+            """, unsafe_allow_html=True)
+            st.success("¡Código especial activado! Redirigiendo...")
+    except ValueError:
+        # Si no se puede convertir a entero, simplemente no hacer nada
+        pass
+
 
 def calculate_optimal(sheet_width, sheet_height, cut_width, cut_height, quantity, grammage, cost_per_sheet=0):
     """Calcula el corte óptimo"""
