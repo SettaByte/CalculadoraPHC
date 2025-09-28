@@ -112,8 +112,6 @@ def calculate_optimal(sheet_width, sheet_height, cut_width, cut_height, quantity
     result = st.session_state.calculator.calculate_optimal(
         sheet_width, sheet_height, cut_width, cut_height, quantity, grammage
     )
-    possible_cuts = result['cuts_horizontal'] * result['cuts_vertical'] * result['sheets_required']
-    result['total_cuts'] = min(possible_cuts, quantity)
     st.session_state.calculation_result = result
     st.rerun()
 
@@ -158,23 +156,15 @@ def show_cutting_preview():
         plot_bgcolor="white",
         paper_bgcolor="white",
         dragmode="pan",
-        updatemenus=[
+        updatemenus=[  # Menu antiguo con Zoom In/Zoom Out
             dict(
                 type="buttons",
                 direction="right",
                 x=1.05,
                 y=1.1,
                 buttons=[
-                    dict(label="Zoom In", method="relayout",
-                         args=[{"xaxis.autorange": False, "yaxis.autorange": False,
-                                "xaxis.range": [0, result['sheet_width']/2],
-                                "yaxis.range": [0, result['sheet_height']/2]}]),
-                    dict(label="Zoom Out", method="relayout",
-                         args=[{"xaxis.autorange": False, "yaxis.autorange": False,
-                                "xaxis.range": [0, result['sheet_width']],
-                                "yaxis.range": [0, result['sheet_height']]}]),
-                    dict(label="Mover", method="relayout",
-                         args=[{"dragmode": "pan"}])
+                    dict(label="Zoom In", method="relayout", args=[{"xaxis.range": [0, result['sheet_width']/2], "yaxis.range": [0, result['sheet_height']/2]}]),
+                    dict(label="Zoom Out", method="relayout", args=[{"xaxis.range": [0, result['sheet_width']], "yaxis.range": [0, result['sheet_height']]}])
                 ]
             )
         ]
@@ -197,7 +187,6 @@ def show_cut_report():
             "📐 Gramaje (g/m²)",
             "✂️ Ancho del corte (cm)",
             "✂️ Alto del corte (cm)",
-            "Total de cortes",
             "Peso final (g)"
         ],
         "Valor": [
@@ -206,7 +195,6 @@ def show_cut_report():
             f"{result['grammage']}",
             f"{result['cut_width']:.2f}",
             f"{result['cut_height']:.2f}",
-            result['total_cuts'],
             f"{result['final_weight']:.2f}"
         ]
     }
