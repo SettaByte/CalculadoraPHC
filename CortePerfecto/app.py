@@ -49,7 +49,8 @@ def show_social_bar():
         "web": "https://phcajasdelujo.taplink.mx/"
     }
     
-    st.markdown(f"""
+    # Crear el HTML correctamente
+    social_html = f"""
     <div class='social-bar'>
         <div class='social-container'>
             <!-- TikTok -->
@@ -81,7 +82,10 @@ def show_social_bar():
             ✨ PH Cajas de Lujo - Creando magia en cada detalle ✨
         </div>
     </div>
-    """, unsafe_allow_html=True)
+    """
+    
+    # Mostrar con unsafe_allow_html=True
+    st.markdown(social_html, unsafe_allow_html=True)
 
 # -------------------- ELEMENTOS ESTÉTICOS ADICIONALES --------------------
 def show_decoration_elements():
