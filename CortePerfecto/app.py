@@ -34,7 +34,7 @@ def load_css():
     if os.path.exists(css_path):
         with open(css_path, "r") as f:
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-    # Forzar color negro en labels
+    # Forzar color negro en labels y botones
     st.markdown("""
     <style>
         .stNumberInput label, .stNumberInput div[data-baseweb="input"] input {
@@ -83,7 +83,7 @@ def main():
     # -------------------- COLUMNA 1: INPUTS --------------------
     with col1:
         st.markdown('<div class="section-card" style="margin-bottom:20px;">', unsafe_allow_html=True)
-        st.markdown("### 📐 Tamaño de la Hoja")
+        st.markdown("### 📐 Tamaño del Pliego de Cartón")
         sheet_width = st.number_input("Ancho de la hoja (cm)", min_value=0.1, value=100.0, step=0.1)
         sheet_height = st.number_input("Alto de la hoja (cm)", min_value=0.1, value=70.0, step=0.1)
         st.markdown('</div>', unsafe_allow_html=True)
@@ -195,7 +195,7 @@ def show_cutting_preview():
         dragmode="pan"  # solo arrastrar
     )
 
-    # Indicativos de arrastre
+    # Indicativos de arrastre sobre los ejes
     fig.add_annotation(
         x=0, y=result['sheet_height'], text="⬍", showarrow=False,
         font=dict(size=20, color="gray"), xanchor="left", yanchor="top"
@@ -233,7 +233,7 @@ def show_cut_report():
         ]
     }
     df = pd.DataFrame(report_data)
-    st.info("💡 Esta tabla muestra los resultados y los datos de entrada. Usa el scroll si es necesario.")
+    st.info("💡 Esta tabla muestra los resultados y los datos de entrada. Usa el scroll si es necesario. La gráfica cuenta con barra de herramientas.")
 
     # Mostrar tabla sin menú
     st.dataframe(df, height=250, use_container_width=True)
