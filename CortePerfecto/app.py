@@ -22,6 +22,7 @@ def load_image_base64(filename):
         return base64.b64encode(f.read()).decode("utf-8")
 
 def show_floating_bar():
+    """Muestra la barra flotante con imagen en base64"""
     img_b64 = load_image_base64("Imagen1.jpeg")
     if img_b64:
         st.markdown(f"""
