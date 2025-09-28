@@ -18,7 +18,7 @@ def show_floating_bar():
     img_b64 = load_image_base64("Imagen1.jpeg")
     if img_b64:
         st.markdown(f"""
-        <div id="floatingBar" class="floating-bar" style="margin:20px 0;">
+        <div id="floatingBar" class="floating-bar" style="margin-bottom:20px;">
             <div class="floating-content">
                 <img src="data:image/jpeg;base64,{img_b64}" 
                      style="height:40px; border-radius: 50%; margin-right: 10px;"/>
@@ -52,22 +52,20 @@ def main():
     load_js()
     initialize_app()
 
-    # HEADER
     logo_b64 = load_image_base64("Imagen2.jpeg")
     st.markdown(f"""
-    <div class="header-container" style="margin-bottom:40px;">
-        <div class="logo-container" style="float:left; margin-right:20px;">
+    <div class="header-container" style="margin-bottom:30px;">
+        <div class="logo-container">
             <img src="data:image/jpeg;base64,{logo_b64}" class="logo" style="border-radius: 50%; width: 80px; height: 80px;">
         </div>
-        <h1 class="main-title" style="margin-top:20px;">Calculadora de Cortes</h1>
+        <h1 class="main-title">Calculadora de Cortes</h1>
     </div>
-    <div style="clear:both;"></div>
     """, unsafe_allow_html=True)
 
-    # COLUMNAS PRINCIPALES: INPUTS IZQUIERDA / VISTA PREVIA Y REPORTE DERECHA
-    col_left, col_right = st.columns([1, 2], gap="large")  # col_left más estrecha, col_right más amplia
+    # COLUMNA IZQUIERDA Y DERECHA
+    col_left, col_right = st.columns([1, 2], gap="medium")
 
-    # COLUMNA IZQUIERDA: INPUTS
+    # -------------------- COLUMNA IZQUIERDA --------------------
     with col_left:
         st.markdown('<div class="section-card" style="margin-bottom:30px;">', unsafe_allow_html=True)
         st.markdown("### 📐 Tamaño de la Hoja")
@@ -85,17 +83,26 @@ def main():
         st.markdown('<div class="button-row" style="margin-bottom:30px;">', unsafe_allow_html=True)
         col_opt, col_clear = st.columns(2, gap="medium")
         with col_opt:
-            if st.button("🎯 Óptimo", use_container_width=True):
+            if st.button("🎯 Óptimo", use_container_width=True, key="btn_optimo"):
                 calculate_optimal(sheet_width, sheet_height, cut_width, cut_height, grammage)
         with col_clear:
-            if st.button("🗑️ Limpiar Todo", use_container_width=True):
+            if st.button("🗑️ Limpiar Todo", use_container_width=True, key="btn_limpiar"):
                 clear_all_fields()
         st.markdown('</div>', unsafe_allow_html=True)
 
-    # COLUMNA DERECHA: VISTA PREVIA + REPORTE
+    # -------------------- COLUMNA DERECHA --------------------
     with col_right:
         st.markdown('<div class="section-card" style="margin-bottom:30px;">', unsafe_allow_html=True)
         st.markdown("### 👁️ Vista Previa del Área de Corte")
+
+        # Instrucciones estilizadas
+        st.markdown("""
+        <p style="color:gray; font-style:italic; margin-top:5px; margin-bottom:10px;">
+            Arrastre la esquina superior del eje Y para modificarlo<br>
+            Arrastre la esquina derecha del eje X para modificarlo
+        </p>
+        """, unsafe_allow_html=True)
+
         if st.session_state.calculation_result:
             show_cutting_preview()
         else:
@@ -113,12 +120,13 @@ def main():
     show_footer()
     show_floating_bar()
 
-# FUNCIONES DE CÁLCULO
+# -------------------- FUNCIONES AUXILIARES --------------------
 def calculate_optimal(sheet_width, sheet_height, cut_width, cut_height, grammage):
     result = st.session_state.calculator.calculate_optimal(
         sheet_width, sheet_height, cut_width, cut_height, 1, grammage
     )
-    
+
+    # Calcular correctamente el área utilizada y desperdiciada
     total_cuts_width = int(sheet_width // cut_width)
     total_cuts_height = int(sheet_height // cut_height)
     used_area = total_cuts_width * cut_width * total_cuts_height * cut_height
@@ -138,11 +146,11 @@ def clear_all_fields():
             del st.session_state[key]
     st.rerun()
 
-# VISTA PREVIA
 def show_cutting_preview():
     result = st.session_state.calculation_result
     fig = go.Figure()
 
+    # Área de la hoja
     fig.add_shape(
         type="rect",
         x0=0, y0=0,
@@ -151,6 +159,7 @@ def show_cutting_preview():
         line=dict(color="rgba(255, 182, 193, 1)", width=2)
     )
 
+    # Cada corte
     for i in range(result['cuts_horizontal']):
         for j in range(result['cuts_vertical']):
             x = i * result['cut_width']
@@ -176,18 +185,18 @@ def show_cutting_preview():
         dragmode="pan"
     )
 
-    # Quitar solo la lupa
+    # Eliminar solo la lupa (zoom2d), manteniendo zoom in/out
     st.plotly_chart(fig, use_container_width=True, config={
         'modeBarButtonsToRemove': ['zoom2d']
     })
 
-    col1, col2 = st.columns(2, gap="large")
+    # Mostrar métricas de área
+    col1, col2 = st.columns(2)
     with col1:
         st.metric("Área Utilizada", f"{result['utilization_percentage']:.1f}%")
     with col2:
         st.metric("Área Desperdiciada", f"{100 - result['utilization_percentage']:.1f}%")
 
-# REPORTE
 def show_cut_report():
     result = st.session_state.calculation_result
     report_data = {
@@ -212,10 +221,9 @@ def show_cut_report():
     st.info("💡 Esta tabla muestra los resultados y los datos de entrada. Usa el scroll si es necesario.")
     st.dataframe(df, height=250)
 
-# FOOTER
 def show_footer():
     st.markdown("""
-    <div class="footer" style="margin-top:40px;">
+    <div class="footer" style="margin-top:30px;">
         <div class="social-media">
             <a href="https://www.instagram.com/p.h.cajas/" target="_blank" class="social-link">
                 <i class="fab fa-instagram"></i>
