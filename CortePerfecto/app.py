@@ -111,6 +111,18 @@ def calculate_optimal(sheet_width, sheet_height, cut_width, cut_height, grammage
     result = st.session_state.calculator.calculate_optimal(
         sheet_width, sheet_height, cut_width, cut_height, 1, grammage
     )
+    
+    # Calcular correctamente el área utilizada y desperdiciada
+    total_cuts_width = int(sheet_width // cut_width)
+    total_cuts_height = int(sheet_height // cut_height)
+    used_area = total_cuts_width * cut_width * total_cuts_height * cut_height
+    total_area = sheet_width * sheet_height
+    utilization_percentage = (used_area / total_area) * 100
+
+    result['cuts_horizontal'] = total_cuts_width
+    result['cuts_vertical'] = total_cuts_height
+    result['utilization_percentage'] = utilization_percentage
+
     st.session_state.calculation_result = result
     st.rerun()
 
@@ -154,7 +166,7 @@ def show_cutting_preview():
         width=950,
         plot_bgcolor="white",
         paper_bgcolor="white",
-        dragmode="pan"  # solo arrastrar, sin zoom buttons
+        dragmode="pan"  # Arrastrar sin zoom buttons
     )
 
     st.plotly_chart(fig, use_container_width=True)
