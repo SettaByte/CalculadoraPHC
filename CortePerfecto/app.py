@@ -674,7 +674,7 @@ def main():
     load_js()
     initialize_app()
 
-    logo_b64 = load_image_base64("Imagen2.jpeg")
+    logo_b64 = load_image_base64("/assets/Imagen2.jpeg")
     
     # Header con controles de tema
     col_header, col_theme, col_toggle = st.columns([3, 1, 1])
@@ -683,7 +683,7 @@ def main():
         st.markdown(f"""
         <div class="header-container" style="margin-bottom:30px;">
             <div class="logo-container">
-                <img src="/assets/Imagen2.jpeg;base64,{logo_b64}" class="logo" style="border-radius: 50%; width: 80px; height: 80px;">
+                <img src="data:image/svg+xml;base64,{logo_b64}" class="logo" style="border-radius: 50%; width: 80px; height: 80px;">
             </div>
             <h1 class="main-title">✂️ Calculadora de Cortes Profesional</h1>
         </div>
