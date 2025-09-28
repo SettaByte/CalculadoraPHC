@@ -1,3 +1,4 @@
+Olvidalo, usare el normal.
 import os, base64, streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
@@ -119,38 +120,41 @@ def main():
     col1, col2 = st.columns([1, 1])
     
     with col1:
-    st.markdown('<div class="section-card">', unsafe_allow_html=True)
-    st.markdown("### 📐 Tamaño de la Hoja")
-    
-    sheet_width = st.number_input(
-        "Ancho (cm)",
-        min_value=0.1,
-        value=100.0,
-        step=0.1,
-        help="Ingrese el ancho de la hoja en centímetros"
-    )
-    
-    sheet_height = st.number_input(
-        "Alto (cm)",
-        min_value=0.1,
-        value=70.0,
-        step=0.1,
-        help="Ingrese el alto de la hoja en centímetros"
-    )
-    
-    grammage = st.number_input(
-        "Gramaje (g/m²)",
-        min_value=1,
-        value=80,
-        step=1,
-        help="Ingrese el gramaje del papel en gramos por metro cuadrado"
-    )
-
-    st.markdown('</div>', unsafe_allow_html=True)
-    
-    # Botón limpiar
-    if st.button("🗑️ Limpiar", use_container_width=True):
-        clear_all_fields()
+        st.markdown('<div class="section-card">', unsafe_allow_html=True)
+        st.markdown("### 📐 Tamaño de la Hoja")
+        
+        sheet_width = st.number_input(
+            "Ancho de la hoja (cm)",
+            min_value=0.1,
+            value=100.0,
+            step=0.1,
+            help="Ingrese el ancho de la hoja en centímetros"
+        )
+        
+        sheet_height = st.number_input(
+            "Alto de la hoja (cm)",
+            min_value=0.1,
+            value=70.0,
+            step=0.1,
+            help="Ingrese el alto de la hoja en centímetros"
+        )
+        
+        grammage = st.number_input(
+            "Gramaje (g/m²)",
+            min_value=1,
+            value=80,
+            step=1,
+            help="Ingrese el gramaje del papel en gramos por metro cuadrado"
+        )
+        
+        # Cálculo de costos
+        st.markdown("### 💰 Cálculo de Costos")
+        cost_per_sheet = st.number_input(
+            "Costo por hoja ($)",
+            min_value=0.0,
+            value=0.0,
+            step=0.01,
+            help="Ingrese el costo unitario por hoja para calcular el costo total"
         )
         
         st.markdown("### ✂️ Tamaño del Corte")
@@ -404,7 +408,7 @@ def show_cutting_preview():
 def show_cut_report():
     """Muestra el reporte detallado de cortes"""
     result = st.session_state.calculation_result
-
+    
     # Crear DataFrame para mostrar los resultados
     report_data = {
         "Métrica": [
@@ -430,10 +434,8 @@ def show_cut_report():
             f"{result.get('total_cost', 0):.2f}"
         ]
     }
-
+    
     df = pd.DataFrame(report_data)
-    df.index = [""] * len(df)  # Esto elimina los números 0,1,2,... de la izquierda
-
     st.table(df)
 
 def print_report():
