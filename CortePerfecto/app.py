@@ -78,7 +78,7 @@ def main():
         cut_width = st.number_input("Ancho del corte (cm)", min_value=0.1, value=10.0, step=0.1)
         cut_height = st.number_input("Alto del corte (cm)", min_value=0.1, value=7.0, step=0.1)
 
-        quantity = 100  # valor fijo
+        quantity = st.number_input("Cantidad deseada", min_value=1, value=100, step=1)
 
         st.markdown('</div>', unsafe_allow_html=True)
 
@@ -117,8 +117,10 @@ def calculate_optimal(sheet_width, sheet_height, cut_width, cut_height, quantity
     result = st.session_state.calculator.calculate_optimal(
         sheet_width, sheet_height, cut_width, cut_height, quantity, grammage
     )
-    # Asegurar total_cuts correcto
-    result['total_cuts'] = result['cuts_horizontal'] * result['cuts_vertical'] * result['sheets_required']
+
+    # Total de cortes limitado a la cantidad pedida
+    possible_cuts = result['cuts_horizontal'] * result['cuts_vertical'] * result['sheets_required']
+    result['total_cuts'] = min(possible_cuts, quantity)
 
     st.session_state.calculation_result = result
     st.rerun()
@@ -159,12 +161,11 @@ def show_cutting_preview():
         xaxis_title="Ancho (cm)",
         yaxis_title="Alto (cm)",
         showlegend=False,
-        height=400,
+        height=500,
+        width=900,
         plot_bgcolor="white",
         paper_bgcolor="white",
-        dragmode=False,
-        xaxis=dict(fixedrange=True),
-        yaxis=dict(fixedrange=True),
+        dragmode="pan",
         updatemenus=[
             dict(
                 type="buttons",
@@ -177,8 +178,8 @@ def show_cutting_preview():
                          args=[{"xaxis.range": [0, result['sheet_width']/2], "yaxis.range": [0, result['sheet_height']/2]}]),
                     dict(label="Zoom Out", method="relayout",
                          args=[{"xaxis.range": [0, result['sheet_width']], "yaxis.range": [0, result['sheet_height']]}]),
-                    dict(label="Reset", method="relayout",
-                         args=[{"xaxis.range": [0, result['sheet_width']], "yaxis.range": [0, result['sheet_height']]}])
+                    dict(label="Mover", method="relayout",
+                         args=[{"dragmode": "pan"}])
                 ]
             )
         ]
@@ -228,15 +229,4 @@ def show_footer():
             <a href="https://tiktok.com" target="_blank" class="social-link">
                 <i class="fab fa-tiktok"></i>
             </a>
-            <a href="https://www.facebook.com/profile.php?id=61576728375462&mibextid=ZbWKwL" target="_blank" class="social-link">
-                <i class="fab fa-facebook"></i>
-            </a>
-            <a href="https://phcajasdelujo.taplink.mx/" target="_blank" class="social-link">
-                <span>Web</span>
-            </a>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-if __name__ == "__main__":
-    main()
+            <a href="https://www.facebook.com/profile.php?id=61576728375462&mibextid=
