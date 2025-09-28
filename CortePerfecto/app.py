@@ -257,26 +257,28 @@ def show_cut_report():
     st.info("💡 Esta tabla muestra los resultados y los datos de entrada. Usa el scroll si es necesario.")
 
     st.dataframe(df, height=250, use_container_width=True)
+def export_excel():
+    """Exporta los resultados a Excel"""
+    if 'calculation_result' in st.session_state:
+        excel_data = st.session_state.export_utils.to_excel(st.session_state.calculation_result)
+        st.download_button(
+            label="Descargar Excel",
+            data=excel_data,
+            file_name="reporte_cortes.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
 
-    # Exportar PDF basado en df
-    pdf_bytes = dataframe_to_pdf(df)
-    st.download_button(
-        label="📄 Descargar como PDF",
-        data=pdf_bytes,
-        file_name="reporte_cortes.pdf",
-        mime="application/pdf"
-    )
+def export_pdf():
+    """Exporta los resultados a PDF"""
+    if 'calculation_result' in st.session_state:
+        pdf_data = st.session_state.export_utils.to_pdf(st.session_state.calculation_result)
+        st.download_button(
+            label="Descargar PDF",
+            data=pdf_data,
+            file_name="reporte_cortes.pdf",
+            mime="application/pdf"
+        )
 
-    # Exportar Excel
-    towrite = io.BytesIO()
-    df.to_excel(towrite, index=False, engine='openpyxl')
-    towrite.seek(0)
-    st.download_button(
-        label="📥 Descargar como Excel",
-        data=towrite,
-        file_name="reporte_cortes.xlsx",
-        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    )
 
 # -------------------- EXPORT UTILS LIGERA --------------------
 def dataframe_to_pdf(df):
