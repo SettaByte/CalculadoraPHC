@@ -85,17 +85,17 @@ def main():
     load_js()
     initialize_app()
     
+    # Logo en la parte superior izquierda
     logo_b64 = load_image_base64("Imagen2.jpeg")
-        st.markdown(f"""
-            <div class="header-container">
-                <div class="logo-container">
-                    <img src="data:image/jpeg;base64,{logo_b64}" class="logo" style="border-radius: 50%; width: 80px; height: 80px;">
-                </div>
-                <h1 class="main-title">Calculadora de Cortes</h1>
-            </div>
-        """, unsafe_allow_html=True)
-
-
+    st.markdown(f"""
+    <div class="header-container">
+        <div class="logo-container">
+            <img src="data:image/jpeg;base64,{logo_b64}" class="logo" style="border-radius: 50%; width: 80px; height: 80px;">
+        </div>
+        <h1 class="main-title">Calculadora de Cortes</h1>
+    </div>
+    """, unsafe_allow_html=True)
+    
     # Sidebar con nuevas funcionalidades
     with st.sidebar:
         st.markdown("## 🔧 Herramientas")
