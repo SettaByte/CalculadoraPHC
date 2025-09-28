@@ -9,6 +9,7 @@ from utils.export_utils import ExportUtils
 BASE_DIR = os.path.dirname(__file__)
 
 # -------------------- CARGA DE RECURSOS --------------------
+
 def load_image_base64(filename):
     # IMAGEN_LOGO #frambuesa - Lugar para cambiar logo
     svg_placeholder = """
@@ -32,7 +33,7 @@ def show_floating_bar():
         <div class="floating-content">
             <img src="data:image/svg+xml;base64,{img_b64}" 
                  style="height:40px; border-radius: 50%; margin-right: 10px;"/>
-            <span class="floating-text" style="white-space: normal;">¡ESTOY EN MI DESCANSO, EN UN MOMENTO SEGUIRÉ CON EL DESARROLLO!</span>
+            <span class="floating-text" style="white-space: normal;">¡ESTOY EN MI DESCANSO, EN UN MOMENTO SEGUIRÉ CON EL DESARROLLO! (en plan holy shet lol)</span>
         </div>
     </div>
     """, unsafe_allow_html=True)
