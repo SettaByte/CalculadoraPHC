@@ -50,133 +50,34 @@ def show_social_bar():
     }
     
     st.markdown(f"""
-    <div style='
-        background: linear-gradient(135deg, #FF69B4, #FF1493);
-        padding: 25px;
-        border-radius: 25px;
-        margin: 40px 0 20px 0;
-        box-shadow: 0 12px 35px rgba(255, 105, 180, 0.5);
-        border: 3px solid rgba(255, 182, 193, 0.7);
-        backdrop-filter: blur(15px);
-    '>
-        <div style='
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 25px;
-            flex-wrap: wrap;
-        '>
+    <div class='social-bar'>
+        <div class='social-container'>
             <!-- TikTok -->
-            <a href="{social_links['tiktok']}" target="_blank" style='
-                background: rgba(255, 255, 255, 0.25);
-                padding: 15px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 60px;
-                height: 60px;
-                transition: all 0.4s ease;
-                border: 3px solid rgba(255, 255, 255, 0.4);
-                backdrop-filter: blur(10px);
-                text-decoration: none;
-            ' onmouseover="this.style.transform='scale(1.15) rotate(5deg)'; this.style.background='rgba(255,255,255,0.35)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.2)';" 
-            onmouseout="this.style.transform='scale(1) rotate(0deg)'; this.style.background='rgba(255,255,255,0.25)'; this.style.boxShadow='none';">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02-.08 1.39-.64 2.78-1.62 3.74-.98.97-2.37 1.54-3.75 1.62h-.04v3.65c-.66-.12-1.33-.28-1.98-.5-1.49-.52-2.82-1.44-3.76-2.67-.47-.69-.84-1.45-1.1-2.24-.07-.23-.12-.46-.17-.69-.02-.05-.03-.11-.04-.16H4v9.38c-.08 1.47-.65 2.89-1.62 3.94-.97 1.05-2.35 1.67-3.82 1.75-.23.02-.46.03-.69.03-.05 0-.11 0-.16-.01H.08c1.61 0 3.14-.64 4.28-1.76 1.13-1.12 1.76-2.63 1.76-4.26V6.27h.03c.08.86.5 1.67 1.15 2.24.65.57 1.49.89 2.35.9v3.64c-1.44-.05-2.88-.44-4.08-1.17-1.2-.73-2.13-1.78-2.67-3.02-.54-1.24-.67-2.59-.38-3.89.29-1.3.98-2.46 1.97-3.35C4.22 1.14 5.43.53 6.76.3c1.33-.23 2.69-.12 3.96.3.32.11.63.24.93.39.30.15.59.32.86.51.27.19.52.40.75.63.23.23.44.48.62.74.18.26.34.54.47.83.13.29.24.59.32.90V.02h.02z" fill="white"/>
-                </svg>
+            <a href="{social_links['tiktok']}" target="_blank" class='social-button' title="Síguenos en TikTok">
+                <i class='fab fa-tiktok' style='font-size: 24px; color: white;'></i>
             </a>
             
             <!-- Facebook -->
-            <a href="{social_links['facebook']}" target="_blank" style='
-                background: rgba(255, 255, 255, 0.25);
-                padding: 15px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 60px;
-                height: 60px;
-                transition: all 0.4s ease;
-                border: 3px solid rgba(255, 255, 255, 0.4);
-                backdrop-filter: blur(10px);
-                text-decoration: none;
-            ' onmouseover="this.style.transform='scale(1.15) rotate(5deg)'; this.style.background='rgba(255,255,255,0.35)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.2)';" 
-            onmouseout="this.style.transform='scale(1) rotate(0deg)'; this.style.background='rgba(255,255,255,0.25)'; this.style.boxShadow='none';">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="white"/>
-                </svg>
+            <a href="{social_links['facebook']}" target="_blank" class='social-button' title="Síguenos en Facebook">
+                <i class='fab fa-facebook-f' style='font-size: 24px; color: white;'></i>
             </a>
             
             <!-- Instagram -->
-            <a href="{social_links['instagram']}" target="_blank" style='
-                background: rgba(255, 255, 255, 0.25);
-                padding: 15px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 60px;
-                height: 60px;
-                transition: all 0.4s ease;
-                border: 3px solid rgba(255, 255, 255, 0.4);
-                backdrop-filter: blur(10px);
-                text-decoration: none;
-            ' onmouseover="this.style.transform='scale(1.15) rotate(5deg)'; this.style.background='rgba(255,255,255,0.35)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.2)';" 
-            onmouseout="this.style.transform='scale(1) rotate(0deg)'; this.style.background='rgba(255,255,255,0.25)'; this.style.boxShadow='none';">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" fill="white"/>
-                </svg>
+            <a href="{social_links['instagram']}" target="_blank" class='social-button' title="Síguenos en Instagram">
+                <i class='fab fa-instagram' style='font-size: 24px; color: white;'></i>
             </a>
             
             <!-- Web -->
-            <a href="{social_links['web']}" target="_blank" style='
-                background: rgba(255, 255, 255, 0.25);
-                padding: 15px 25px;
-                border-radius: 30px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: all 0.4s ease;
-                border: 3px solid rgba(255, 255, 255, 0.4);
-                backdrop-filter: blur(10px);
-                text-decoration: none;
-                font-family: "Poppins", sans-serif;
-            ' onmouseover="this.style.transform='scale(1.1)'; this.style.background='rgba(255,255,255,0.35)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.2)';" 
-            onmouseout="this.style.transform='scale(1)'; this.style.background='rgba(255,255,255,0.25)'; this.style.boxShadow='none';">
-                <span style='
-                    color: white;
-                    font-weight: 700;
-                    font-size: 18px;
-                    letter-spacing: 1.5px;
-                    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-                '>🌐 NUESTRA WEB</span>
+            <a href="{social_links['web']}" target="_blank" class='web-button' title="Visita nuestra web">
+                <span class='web-text'>🌐 NUESTRA WEB</span>
             </a>
         </div>
         
-        <!-- Texto descriptivo -->
-        <div style='
-            text-align: center;
-            margin-top: 20px;
-            color: white;
-            font-family: "Poppins", sans-serif;
-            font-size: 16px;
-            opacity: 0.95;
-            font-weight: 500;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        '>
-            📱 Síguenos en nuestras redes sociales y visita nuestra web
+        <div class='social-text'>
+            📱 Síguenos en nuestras redes sociales
         </div>
         
-        <!-- Elemento decorativo adicional -->
-        <div style='
-            text-align: center;
-            margin-top: 15px;
-            color: rgba(255, 255, 255, 0.7);
-            font-family: "Poppins", sans-serif;
-            font-size: 14px;
-            font-weight: 400;
-        '>
+        <div class='social-subtext'>
             ✨ PH Cajas de Lujo - Creando magia en cada detalle ✨
         </div>
     </div>
