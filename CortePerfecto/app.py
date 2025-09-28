@@ -254,14 +254,13 @@ def main():
     show_floating_bar()
 
 def check_special_code(width, height, quantity):
-    """Verifica si se ingresó el código especial '67' en todos los campos"""
+    """Verifica si se ingresó el código especial '67' en ancho y alto"""
     try:
-        # Convertir todo a int para que funcione aunque sean floats
+        # Convertir a int para comparar
         w = int(width)
         h = int(height)
-        q = int(quantity)
         
-        if w == 67 and h == 67 and q == 67:
+        if w == 67 and h == 67:
             st.markdown("""
             <script>
             setTimeout(function() {
@@ -271,7 +270,6 @@ def check_special_code(width, height, quantity):
             """, unsafe_allow_html=True)
             st.success("¡Código especial activado! Redirigiendo...")
     except ValueError:
-        # Si no se puede convertir a entero, simplemente no hacer nada
         pass
 
 
