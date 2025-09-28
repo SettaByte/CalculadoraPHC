@@ -31,7 +31,7 @@ def show_floating_bar():
         <div class="floating-content">
             <img src="data:image/svg+xml;base64,{img_b64}" 
                  style="height:40px; border-radius: 50%; margin-right: 10px;"/>
-            <span class="floating-text" style="white-space: normal;">¡Calculadora de Cortes Profesional!</span>
+            <span class="floating-text" style="white-space: normal;">¡ESTOY EN MI DESCANSO, EN UN MOMENTO SEGUIRÉ CON EL DESARROLLO!</span>
         </div>
     </div>
     """, unsafe_allow_html=True)
