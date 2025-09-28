@@ -52,13 +52,17 @@ def show_social_bar():
         <style>
             .social-bar {
                 background: linear-gradient(135deg, #ff69b4, #ff1493);
-                padding: 40px 35px;
+                padding: 50px 35px;
                 border-radius: 30px;
                 margin: 40px 0 30px 0;
                 box-shadow: 0 20px 45px rgba(255, 105, 180, 0.5);
                 border: 4px solid rgba(255, 182, 193, 0.7);
                 backdrop-filter: blur(15px);
                 font-family: 'Poppins', sans-serif;
+                min-height: 180px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
             }
             
             .social-container {
@@ -71,10 +75,10 @@ def show_social_bar():
             
             .social-button {
                 background: rgba(255, 255, 255, 0.25);
-                padding: 20px;
+                padding: 22px;
                 border-radius: 50%;
-                width: 80px;
-                height: 80px;
+                width: 85px;
+                height: 85px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -109,7 +113,7 @@ def show_social_bar():
             }
             
             .social-button i {
-                font-size: 32px;
+                font-size: 34px;
                 color: white;
                 position: relative;
                 z-index: 2;
@@ -118,7 +122,7 @@ def show_social_bar():
             
             .web-button {
                 background: rgba(255, 255, 255, 0.25);
-                padding: 20px 35px;
+                padding: 22px 38px;
                 border-radius: 45px;
                 text-decoration: none;
                 transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -153,7 +157,7 @@ def show_social_bar():
             .web-text {
                 color: white;
                 font-weight: 800;
-                font-size: 22px;
+                font-size: 24px;
                 letter-spacing: 1.5px;
                 text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
                 position: relative;
@@ -161,55 +165,41 @@ def show_social_bar():
                 font-family: 'Poppins', sans-serif;
             }
             
+            /* TEXTO OCULTO - Comentado para que no se muestre */
             .social-text {
-                text-align: center;
-                margin-top: 25px;
-                color: white;
-                font-family: 'Poppins', sans-serif;
-                font-size: 22px;
-                font-weight: 600;
-                text-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+                display: none; /* Oculta completamente el texto */
             }
             
             .social-subtext {
-                text-align: center;
-                margin-top: 15px;
-                color: rgba(255, 255, 255, 0.95);
-                font-family: 'Poppins', sans-serif;
-                font-size: 18px;
-                font-weight: 500;
-                text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+                display: none; /* Oculta completamente el subtítulo */
             }
             
             @media (max-width: 768px) {
+                .social-bar {
+                    padding: 40px 25px;
+                    min-height: 160px;
+                }
+                
                 .social-container {
                     gap: 25px;
                 }
                 
                 .social-button {
-                    width: 65px;
-                    height: 65px;
-                    padding: 18px;
+                    width: 70px;
+                    height: 70px;
+                    padding: 20px;
                 }
                 
                 .social-button i {
-                    font-size: 26px;
+                    font-size: 28px;
                 }
                 
                 .web-button {
-                    padding: 18px 30px;
+                    padding: 20px 32px;
                 }
                 
                 .web-text {
-                    font-size: 18px;
-                }
-                
-                .social-text {
-                    font-size: 18px;
-                }
-                
-                .social-subtext {
-                    font-size: 16px;
+                    font-size: 20px;
                 }
             }
         </style>
@@ -238,11 +228,12 @@ def show_social_bar():
                 </a>
             </div>
             
-            <div class='social-text'>
+            <!-- Texto oculto -->
+            <div class='social-text' style="display: none;">
                 📱 Síguenos en nuestras redes sociales
             </div>
             
-            <div class='social-subtext'>
+            <div class='social-subtext' style="display: none;">
                 ✨ PH Cajas de Lujo - Creando magia en cada detalle ✨
             </div>
         </div>
@@ -250,7 +241,7 @@ def show_social_bar():
     </html>
     """
     
-    components.html(social_html, height=250)
+    components.html(social_html, height=200)
 
 # -------------------- ELEMENTOS ESTÉTICOS ADICIONALES --------------------
 def show_decoration_elements():
