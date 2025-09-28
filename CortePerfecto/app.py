@@ -41,7 +41,7 @@ def show_floating_bar():
 # -------------------- BARRA SOCIAL MEJORADA --------------------
 
 def show_social_bar():
-    """Muestra la barra social usando components.html - 100% funcional"""
+    """Muestra la barra social usando components.html - Versión corregida"""
     
     social_html = """
     <!DOCTYPE html>
@@ -52,29 +52,34 @@ def show_social_bar():
         <style>
             .social-bar {
                 background: linear-gradient(135deg, #ff69b4, #ff1493);
-                padding: 30px 25px;
+                padding: 25px 20px;
                 border-radius: 25px;
-                margin: 30px 0 20px 0;
+                margin: 20px 0;
                 box-shadow: 0 15px 35px rgba(255, 105, 180, 0.4);
                 border: 3px solid rgba(255, 182, 193, 0.6);
                 backdrop-filter: blur(10px);
                 font-family: 'Poppins', sans-serif;
+                min-height: 180px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
             }
             
             .social-container {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                gap: 25px;
+                gap: 20px;
                 flex-wrap: wrap;
+                margin-bottom: 15px;
             }
             
             .social-button {
                 background: rgba(255, 255, 255, 0.25);
-                padding: 16px;
+                padding: 14px;
                 border-radius: 50%;
-                width: 65px;
-                height: 65px;
+                width: 60px;
+                height: 60px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -109,7 +114,7 @@ def show_social_bar():
             }
             
             .social-button i {
-                font-size: 26px;
+                font-size: 24px;
                 color: white;
                 position: relative;
                 z-index: 2;
@@ -118,8 +123,8 @@ def show_social_bar():
             
             .web-button {
                 background: rgba(255, 255, 255, 0.25);
-                padding: 16px 30px;
-                border-radius: 35px;
+                padding: 14px 25px;
+                border-radius: 30px;
                 text-decoration: none;
                 transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
                 border: 3px solid rgba(255, 255, 255, 0.4);
@@ -153,7 +158,7 @@ def show_social_bar():
             .web-text {
                 color: white;
                 font-weight: 700;
-                font-size: 18px;
+                font-size: 16px;
                 letter-spacing: 1px;
                 text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
                 position: relative;
@@ -163,49 +168,81 @@ def show_social_bar():
             
             .social-text {
                 text-align: center;
-                margin-top: 20px;
                 color: white;
                 font-family: 'Poppins', sans-serif;
-                font-size: 18px;
+                font-size: 16px;
                 font-weight: 500;
                 text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+                margin: 8px 0;
+                line-height: 1.4;
             }
             
             .social-subtext {
                 text-align: center;
-                margin-top: 10px;
                 color: rgba(255, 255, 255, 0.9);
                 font-family: 'Poppins', sans-serif;
-                font-size: 14px;
+                font-size: 13px;
                 font-weight: 400;
                 text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+                margin: 5px 0;
+                line-height: 1.3;
             }
             
             @media (max-width: 768px) {
+                .social-bar {
+                    padding: 20px 15px;
+                    min-height: 160px;
+                }
+                
                 .social-container {
-                    gap: 20px;
+                    gap: 15px;
+                    margin-bottom: 12px;
                 }
                 
                 .social-button {
-                    width: 55px;
-                    height: 55px;
-                    padding: 14px;
+                    width: 50px;
+                    height: 50px;
+                    padding: 12px;
                 }
                 
                 .social-button i {
-                    font-size: 22px;
+                    font-size: 20px;
                 }
                 
                 .web-button {
-                    padding: 14px 25px;
+                    padding: 12px 20px;
                 }
                 
                 .web-text {
-                    font-size: 16px;
+                    font-size: 14px;
                 }
                 
                 .social-text {
-                    font-size: 16px;
+                    font-size: 14px;
+                }
+                
+                .social-subtext {
+                    font-size: 12px;
+                }
+            }
+            
+            @media (max-width: 480px) {
+                .social-container {
+                    gap: 12px;
+                }
+                
+                .social-button {
+                    width: 45px;
+                    height: 45px;
+                    padding: 10px;
+                }
+                
+                .web-button {
+                    padding: 10px 16px;
+                }
+                
+                .web-text {
+                    font-size: 13px;
                 }
             }
         </style>
@@ -239,14 +276,14 @@ def show_social_bar():
             </div>
             
             <div class='social-subtext'>
-                ✨ PH Cajas de Lujo - Creando magia en cada detalle ✨
+                ✨ Paulina Hernández - Cajas de Lujo ✨
             </div>
         </div>
     </body>
     </html>
     """
     
-    components.html(social_html, height=200)
+    components.html(social_html, height=190)
 # -------------------- ELEMENTOS ESTÉTICOS ADICIONALES --------------------
 def show_decoration_elements():
     """Muestra elementos decorativos adicionales"""
