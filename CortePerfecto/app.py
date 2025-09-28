@@ -4,7 +4,6 @@ import plotly.graph_objects as go
 from utils.calculator import CuttingCalculator
 from utils.export_utils import ExportUtils
 
-# Ruta base
 BASE_DIR = os.path.dirname(__file__)
 
 def load_image_base64(filename):
@@ -53,7 +52,6 @@ def main():
     load_js()
     initialize_app()
 
-    # Header
     logo_b64 = load_image_base64("Imagen2.jpeg")
     st.markdown(f"""
     <div class="header-container">
@@ -66,7 +64,6 @@ def main():
 
     col1, col2 = st.columns([1, 1])
 
-    # Column 1: Inputs y botones
     with col1:
         st.markdown('<div class="section-card">', unsafe_allow_html=True)
         st.markdown("### 📐 Tamaño de la Hoja")
@@ -79,7 +76,6 @@ def main():
         cut_height = st.number_input("Alto del corte (cm)", min_value=0.1, value=7.0, step=0.1)
 
         quantity = st.number_input("Cantidad deseada", min_value=1, value=100, step=1)
-
         st.markdown('</div>', unsafe_allow_html=True)
 
         st.markdown('<div class="button-row">', unsafe_allow_html=True)
@@ -92,7 +88,6 @@ def main():
                 clear_all_fields()
         st.markdown('</div>', unsafe_allow_html=True)
 
-    # Column 2: Gráfica y tabla
     with col2:
         st.markdown('<div class="section-card">', unsafe_allow_html=True)
         st.markdown("### 👁️ Vista Previa del Área de Corte")
@@ -117,11 +112,8 @@ def calculate_optimal(sheet_width, sheet_height, cut_width, cut_height, quantity
     result = st.session_state.calculator.calculate_optimal(
         sheet_width, sheet_height, cut_width, cut_height, quantity, grammage
     )
-
-    # Total de cortes limitado a la cantidad pedida
     possible_cuts = result['cuts_horizontal'] * result['cuts_vertical'] * result['sheets_required']
     result['total_cuts'] = min(possible_cuts, quantity)
-
     st.session_state.calculation_result = result
     st.rerun()
 
@@ -161,23 +153,26 @@ def show_cutting_preview():
         xaxis_title="Ancho (cm)",
         yaxis_title="Alto (cm)",
         showlegend=False,
-        height=500,
-        width=900,
+        height=550,
+        width=950,
         plot_bgcolor="white",
         paper_bgcolor="white",
         dragmode="pan",
         updatemenus=[
             dict(
                 type="buttons",
-                y=1.05,
+                direction="right",
                 x=1.05,
-                xanchor="right",
-                yanchor="top",
+                y=1.1,
                 buttons=[
                     dict(label="Zoom In", method="relayout",
-                         args=[{"xaxis.range": [0, result['sheet_width']/2], "yaxis.range": [0, result['sheet_height']/2]}]),
+                         args=[{"xaxis.autorange": False, "yaxis.autorange": False,
+                                "xaxis.range": [0, result['sheet_width']/2],
+                                "yaxis.range": [0, result['sheet_height']/2]}]),
                     dict(label="Zoom Out", method="relayout",
-                         args=[{"xaxis.range": [0, result['sheet_width']], "yaxis.range": [0, result['sheet_height']]}]),
+                         args=[{"xaxis.autorange": False, "yaxis.autorange": False,
+                                "xaxis.range": [0, result['sheet_width']],
+                                "yaxis.range": [0, result['sheet_height']]}]),
                     dict(label="Mover", method="relayout",
                          args=[{"dragmode": "pan"}])
                 ]
@@ -223,10 +218,13 @@ def show_footer():
     st.markdown("""
     <div class="footer">
         <div class="social-media">
-            <a href="https://www.instagram.com/p.h.cajas/" target="_blank" class="social-link">
-                <i class="fab fa-instagram"></i>
-            </a>
-            <a href="https://tiktok.com" target="_blank" class="social-link">
-                <i class="fab fa-tiktok"></i>
-            </a>
-            <a href="https://www.facebook.com/profile.php?id=61576728375462&mibextid=
+            <a href="https://www.instagram.com/p.h.cajas/" target="_blank" class="social-link">Instagram</a> |
+            <a href="https://tiktok.com" target="_blank" class="social-link">TikTok</a> |
+            <a href="https://www.facebook.com/profile.php?id=61576728375462&mibextid=ZbWKwL" target="_blank" class="social-link">Facebook</a> |
+            <a href="https://phcajasdelujo.taplink.mx/" target="_blank" class="social-link">Web</a>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+if __name__ == "__main__":
+    main()
