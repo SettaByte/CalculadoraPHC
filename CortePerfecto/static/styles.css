@@ -107,6 +107,7 @@
     box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3) !important;
     text-transform: uppercase !important;
     letter-spacing: 0.5px !important;
+    text-align: center !important;
 }
 
 .stButton > button:hover {
