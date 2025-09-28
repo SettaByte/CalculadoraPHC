@@ -1,7 +1,7 @@
-import os, base64, streamlit as st
+import os, base64, io
+import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
-import io
 from utils.calculator import CuttingCalculator
 from utils.export_utils import ExportUtils
 
@@ -34,7 +34,7 @@ def load_css():
     if os.path.exists(css_path):
         with open(css_path, "r") as f:
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-    # Forzar color negro en labels y botones
+    # Forzar color negro y botones centrados
     st.markdown("""
     <style>
         .stNumberInput label, .stNumberInput div[data-baseweb="input"] input {
@@ -107,12 +107,13 @@ def main():
     # -------------------- COLUMNA 2: GRAFICA Y REPORTE --------------------
     with col2:
         st.markdown('<div class="section-card" style="margin-bottom:20px;">', unsafe_allow_html=True)
+        st.markdown("<p>La gráfica cuenta con barra de herramientas.</p>", unsafe_allow_html=True)
         st.markdown("<p>Arrastre la esquina superior del eje Y para modificarla</p>", unsafe_allow_html=True)
         st.markdown("<p>Arrastre la esquina derecha del eje X para modificarlo</p>", unsafe_allow_html=True)
         if st.session_state.calculation_result:
             show_cutting_preview()
         else:
-            st.info("Haga clic en 'Óptimo' para ver la vista previa. La gráfica cuenta con barra de herramientas.")
+            st.info("Haga clic en 'Óptimo' para ver la vista previa.")
         st.markdown('</div>', unsafe_allow_html=True)
 
         st.markdown('<div class="section-card" style="margin-bottom:20px;">', unsafe_allow_html=True)
@@ -192,7 +193,7 @@ def show_cutting_preview():
         width=950,
         plot_bgcolor="white",
         paper_bgcolor="white",
-        dragmode="pan"  # solo arrastrar
+        dragmode="pan"
     )
 
     # Indicativos de arrastre sobre los ejes
@@ -205,7 +206,6 @@ def show_cutting_preview():
         font=dict(size=20, color="gray"), xanchor="right", yanchor="bottom"
     )
 
-    # Mostrar gráfico, eliminar solo el botón Zoom principal
     st.plotly_chart(fig, use_container_width=True, config={'modeBarButtonsToRemove': ['zoom2d']})
 
     # Métricas
@@ -233,7 +233,7 @@ def show_cut_report():
         ]
     }
     df = pd.DataFrame(report_data)
-    st.info("💡 Esta tabla muestra los resultados y los datos de entrada. Usa el scroll si es necesario. La gráfica cuenta con barra de herramientas.")
+    st.info("💡 Esta tabla muestra los resultados y los datos de entrada. Usa el scroll si es necesario.")
 
     # Mostrar tabla sin menú
     st.dataframe(df, height=250, use_container_width=True)
