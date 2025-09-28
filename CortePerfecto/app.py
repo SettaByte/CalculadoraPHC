@@ -34,6 +34,7 @@ def show_floating_bar():
         </div>
         """, unsafe_allow_html=True)
 
+
 # Configuración de la página
 st.set_page_config(
     page_title="Calculadora de Cortes",
