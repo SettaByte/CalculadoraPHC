@@ -6,7 +6,7 @@ from utils.calculator import CuttingCalculator
 from utils.export_utils import ExportUtils
 from utils.database import DatabaseManager
 from datetime import datetime
-
+from pathlib import Path
 
 
 # Ruta base donde está este script
@@ -462,10 +462,18 @@ def show_footer():
     """, unsafe_allow_html=True)
 
 def show_floating_bar():
-    """Muestra la barra flotante con imagen"""
-    # Cargar imagen SVG
-    with open('assets/Imagen1.jpeg', 'r') as f:
-        svg_content = f.read()
+    """Muestra la barra flotante con imagen en base64"""
+    img_b64 = load_image_base64("Imagen1.jpeg")
+    if img_b64:
+        st.markdown(f"""
+        <div id="floatingBar" class="floating-bar">
+            <div class="floating-content">
+                <img src="data:image/jpeg;base64,{img_b64}" style="height:40px;"/>
+                <span class="floating-text">¡Calculadora de Cortes Profesional!</span>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
     
     st.markdown(f"""
     <div id="floatingBar" class="floating-bar">
