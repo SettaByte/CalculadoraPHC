@@ -1,3 +1,4 @@
+```python
 import os, base64, streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
@@ -34,15 +35,33 @@ def load_css():
     if os.path.exists(css_path):
         with open(css_path, "r") as f:
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-    # Forzar color negro en labels y ajustar botones
+
+    # Estilos mínimos forzados
     st.markdown("""
     <style>
-        .stNumberInput label, .stNumberInput div[data-baseweb="input"] input {
+        /* Títulos siempre negros */
+        .main-title, h1, h2, h3, h4, h5, h6 {
             color: black !important;
         }
+
+        /* Inputs claros */
+        .stNumberInput div[data-baseweb="input"] input {
+            background-color: #ffffff !important;
+            color: black !important;
+            border: 1px solid #ccc !important;
+            border-radius: 6px !important;
+        }
+
+        .stNumberInput label {
+            color: black !important;
+        }
+
+        /* Botones claros */
         .stButton>button {
-            white-space: normal;
-            text-align: center;
+            background-color: #f5f5f5 !important;
+            color: black !important;
+            border: 1px solid #ccc !important;
+            border-radius: 8px !important;
         }
     </style>
     """, unsafe_allow_html=True)
@@ -197,11 +216,17 @@ def show_cutting_preview():
         dragmode="pan"
     )
 
-    # Indicativos de arrastre en los ejes
-    fig.add_annotation(x=0, y=result['sheet_height'], text="⬍", showarrow=False,
-                       font=dict(size=20, color="gray"), xanchor="left", yanchor="top")
-    fig.add_annotation(x=result['sheet_width'], y=0, text="⬍", showarrow=False,
-                       font=dict(size=20, color="gray"), xanchor="right", yanchor="bottom")
+    # Indicadores discretos
+    fig.add_annotation(
+        x=0, y=result['sheet_height'], text="↕",
+        showarrow=False, font=dict(size=14, color="gray"),
+        xanchor="left", yanchor="bottom"
+    )
+    fig.add_annotation(
+        x=result['sheet_width'], y=0, text="↔",
+        showarrow=False, font=dict(size=14, color="gray"),
+        xanchor="right", yanchor="top"
+    )
 
     st.plotly_chart(fig, use_container_width=True, config={'modeBarButtonsToRemove': ['zoom2d']})
 
@@ -232,11 +257,10 @@ def show_cut_report():
     df = pd.DataFrame(report_data)
     st.info("💡 Esta tabla muestra los resultados y los datos de entrada. Usa el scroll si es necesario.")
 
-    # Mostrar tabla sin menú
     st.dataframe(df, height=250, use_container_width=True)
 
-    # Botón PDF
-    pdf_bytes = st.session_state.export_utils.to_pdf(df)
+    # Exportar PDF basado en df
+    pdf_bytes = dataframe_to_pdf(df)
     st.download_button(
         label="📄 Descargar como PDF",
         data=pdf_bytes,
@@ -244,7 +268,7 @@ def show_cut_report():
         mime="application/pdf"
     )
 
-    # Botón Excel
+    # Exportar Excel
     towrite = io.BytesIO()
     df.to_excel(towrite, index=False, engine='openpyxl')
     towrite.seek(0)
@@ -254,6 +278,24 @@ def show_cut_report():
         file_name="reporte_cortes.xlsx",
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
+
+# -------------------- EXPORT UTILS LIGERA --------------------
+def dataframe_to_pdf(df):
+    from reportlab.lib.pagesizes import letter
+    from reportlab.pdfgen import canvas
+
+    buffer = io.BytesIO()
+    c = canvas.Canvas(buffer, pagesize=letter)
+    text = c.beginText(50, 750)
+
+    for index, row in df.iterrows():
+        text.textLine(f"{row['Métrica']}: {row['Valor']}")
+    c.drawText(text)
+
+    c.showPage()
+    c.save()
+    buffer.seek(0)
+    return buffer.getvalue()
 
 # -------------------- FOOTER --------------------
 def show_footer():
@@ -290,3 +332,4 @@ def check_special_code(sheet_width, sheet_height, cut_width, cut_height):
 # -------------------- EJECUCION --------------------
 if __name__ == "__main__":
     main()
+```
