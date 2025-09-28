@@ -180,7 +180,15 @@ def main():
         quantity = 100  # Valor por defecto fijo
         
         # Verificar código especial "67"
-        check_special_code(cut_width, cut_height, quantity)
+        check_special_code(
+                            sheet_width,
+                            sheet_height,
+                            grammage,
+                            cost_per_sheet,
+                            cut_width,
+                            cut_height
+                            )
+    
         
         st.markdown('</div>', unsafe_allow_html=True)
         
