@@ -22,20 +22,17 @@ def load_image_base64(filename):
         return base64.b64encode(f.read()).decode("utf-8")
 
 def show_floating_bar():
-    """Muestra la barra flotante con imagen en base64 y texto"""
+    """Muestra la barra flotante con imagen en base64"""
     img_b64 = load_image_base64("Imagen1.jpeg")
     if img_b64:
         st.markdown(f"""
         <div id="floatingBar" class="floating-bar">
             <div class="floating-content">
-                <img src="data:image/jpeg;base64,{img_b64}" style="height:40px;"/>
-                <div class="floating-text" style="white-space: normal;">
-                    ¡Calculadora de Cortes Profesional!
-                </div>
+                <img src="data:image/jpeg;base64,{img_b64}" style="height:40px; border-radius: 10px;"/>
+                <span class="floating-text">¡Calculadora de Cortes Profesional!</span>
             </div>
         </div>
         """, unsafe_allow_html=True)
-
 
 
 # Configuración de la página
@@ -88,14 +85,16 @@ def main():
     load_js()
     initialize_app()
     
-    st.markdown("""
+    logo_b64 = load_image_base64("Imagen2.jpeg")
+st.markdown(f"""
 <div class="header-container">
     <div class="logo-container">
-        <img src="assets/Imagen2.jpeg" class="logo">
+        <img src="data:image/jpeg;base64,{logo_b64}" class="logo" style="border-radius: 50%; width: 80px; height: 80px;">
     </div>
     <h1 class="main-title">Calculadora de Cortes</h1>
 </div>
 """, unsafe_allow_html=True)
+
 
     # Sidebar con nuevas funcionalidades
     with st.sidebar:
