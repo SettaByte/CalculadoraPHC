@@ -253,14 +253,19 @@ def main():
     # Barra flotante
     show_floating_bar()
 
-def check_special_code(width, height, quantity):
-    """Verifica si se ingresó el código especial '67' en ancho y alto y muestra el URL"""
+def check_special_code(sheet_width, sheet_height, grammage, cost_per_sheet, cut_width, cut_height):
+    """Verifica si todos los valores importantes son 67 y muestra el URL secreto"""
     try:
-        # Convertir a int para comparar
-        w = int(width)
-        h = int(height)
-        
-        if w == 67 and h == 67:
+        # Convertir todos los valores a int (redondeando si es decimal)
+        w = int(sheet_width)
+        h = int(sheet_height)
+        g = int(grammage)
+        c = int(cost_per_sheet)
+        cw = int(cut_width)
+        ch = int(cut_height)
+
+        # Solo si TODOS son 67
+        if all(x == 67 for x in [w, h, g, c, cw, ch]):
             secret_url = (
                 "https://imgs.search.brave.com/"
                 "GlSKdEx-RwYTPm6AW96H8dw2SILz2VcKAoT7gTada4g/"
@@ -272,8 +277,10 @@ def check_special_code(width, height, quantity):
                 "MGQ3NmExNDVkOTQ5/NWYwODBjMDM"
             )
             st.success("¡MANGO MANGO MANGO!")
-            st.markdown(f"🔗 URL Secreto: [Abrir Easter Egg]({secret_url})", unsafe_allow_html=True)
+            st.markdown(f"🔗[ABRIR EASTER EGG]({secret_url})", unsafe_allow_html=True)
+
     except ValueError:
+        # Si alguno no se puede convertir a int, simplemente ignorar
         pass
 
 
