@@ -25,8 +25,9 @@ def load_css():
 
 # Cargar JavaScript personalizado
 def load_js():
-    with open('static/script.js') as f:
-        st.markdown(f'<script>{f.read()}</script>', unsafe_allow_html=True)
+    js_path = os.path.join(os.path.dirname(__file__), "static", "script.js")
+    with open(js_path) as f:
+        st.markdown(f"<script>{f.read()}</script>", unsafe_allow_html=True)
 
 # Inicializar la aplicación
 def initialize_app():
