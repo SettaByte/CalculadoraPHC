@@ -3,6 +3,8 @@ import pandas as pd
 import plotly.graph_objects as go
 from utils.calculator import CuttingCalculator
 from utils.export_utils import ExportUtils
+from fpdf import FPDF
+import io
 
 BASE_DIR = os.path.dirname(__file__)
 
@@ -62,7 +64,7 @@ def main():
     </div>
     """, unsafe_allow_html=True)
 
-    col1, col2 = st.columns([1, 1], gap="large")
+    col1, col2 = st.columns([1, 1])
 
     with col1:
         st.markdown('<div class="section-card" style="margin-bottom:20px;">', unsafe_allow_html=True)
@@ -78,22 +80,21 @@ def main():
         cut_height = st.number_input("Alto del corte (cm)", min_value=0.1, value=7.0, step=0.1)
         st.markdown('</div>', unsafe_allow_html=True)
 
-        # Botones correctamente alineados y sin cortar texto
-        st.markdown('<div class="button-row" style="margin-bottom:30px;">', unsafe_allow_html=True)
-        col_opt, col_clear = st.columns([1, 1], gap="medium")
+        st.markdown('<div class="button-row" style="margin-bottom:20px;">', unsafe_allow_html=True)
+        col_opt, col_clear = st.columns([1, 1])
         with col_opt:
-            if st.button("🎯 Óptimo", use_container_width=True, key="btn_optimo"):
+            if st.button("🎯 Óptimo", use_container_width=True):
                 calculate_optimal(sheet_width, sheet_height, cut_width, cut_height, grammage)
         with col_clear:
-            if st.button("🗑️ Limpiar Todo", use_container_width=True, key="btn_limpiar"):
+            if st.button("🗑️ Limpiar Todo", use_container_width=True):
                 clear_all_fields()
         st.markdown('</div>', unsafe_allow_html=True)
 
     with col2:
         st.markdown('<div class="section-card" style="margin-bottom:20px;">', unsafe_allow_html=True)
         st.markdown("### 👁️ Vista Previa del Área de Corte")
-        st.markdown("<p style='margin-bottom:5px;'>Arrastre la esquina superior del eje Y para modificarla</p>", unsafe_allow_html=True)
-        st.markdown("<p>Arrastre la esquina derecha del eje X para modificarlo</p>", unsafe_allow_html=True)
+        st.markdown("Arrastre la esquina superior del eje Y para modificarlo")
+        st.markdown("Arrastre la esquina derecha del eje X para modificarlo")
         if st.session_state.calculation_result:
             show_cutting_preview()
         else:
@@ -173,7 +174,7 @@ def show_cutting_preview():
     )
 
     st.plotly_chart(fig, use_container_width=True, config={
-        'modeBarButtonsToRemove': ['zoom2d']  # solo se elimina la lupa
+        'modeBarButtonsToRemove': ['zoom2d']  # Solo eliminamos la lupa
     })
 
     col1, col2 = st.columns(2)
@@ -205,6 +206,27 @@ def show_cut_report():
     df = pd.DataFrame(report_data)
     st.info("💡 Esta tabla muestra los resultados y los datos de entrada. Usa el scroll si es necesario.")
     st.dataframe(df, height=250)
+
+    # Botón para descargar PDF
+    pdf_buffer = io.BytesIO()
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", "B", 16)
+    pdf.cell(0, 10, "Reporte de Cortes", ln=True, align="C")
+    pdf.ln(10)
+    pdf.set_font("Arial", "", 12)
+    for i in range(len(df)):
+        pdf.cell(80, 8, df['Métrica'][i], border=1)
+        pdf.cell(40, 8, df['Valor'][i], border=1, ln=True)
+    pdf.output(pdf_buffer)
+    pdf_buffer.seek(0)
+
+    st.download_button(
+        label="📥 Descargar como PDF",
+        data=pdf_buffer,
+        file_name="reporte_cortes.pdf",
+        mime="application/pdf"
+    )
 
 def show_footer():
     st.markdown("""
