@@ -1,13 +1,37 @@
-import streamlit as st
+import os, base64, streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
 from utils.calculator import CuttingCalculator
 from utils.export_utils import ExportUtils
 from utils.database import DatabaseManager
-import base64
-import os
 from datetime import datetime
+
+
+
+# Ruta base donde está este script
+BASE_DIR = os.path.dirname(__file__)
+
+def load_image_base64(filename):
+    """Convierte una imagen en base64 para usarla en HTML."""
+    img_path = os.path.join(BASE_DIR, "assets", filename)
+    if not os.path.exists(img_path):
+        st.error(f"No se encontró la imagen: {img_path}")
+        return ""
+    with open(img_path, "rb") as f:
+        return base64.b64encode(f.read()).decode("utf-8")
+
+def show_floating_bar():
+    img_b64 = load_image_base64("Imagen1.jpeg")
+    if img_b64:
+        st.markdown(f"""
+        <div id="floatingBar" class="floating-bar">
+            <div class="floating-content">
+                <img src="data:image/jpeg;base64,{img_b64}" style="height:40px;"/>
+                <span class="floating-text">¡Calculadora de Cortes Profesional!</span>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
 # Configuración de la página
 st.set_page_config(
@@ -19,15 +43,21 @@ st.set_page_config(
 
 # Cargar CSS personalizado
 def load_css():
-    css_path = os.path.join(os.path.dirname(__file__), "static", "styles.css")
-    with open(css_path) as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    css_path = os.path.join(BASE_DIR, "static", "styles.css")
+    if os.path.exists(css_path):
+        with open(css_path, "r") as f:
+            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    else:
+        st.warning("⚠️ No se encontró styles.css")
 
 # Cargar JavaScript personalizado
 def load_js():
-    js_path = os.path.join(os.path.dirname(__file__), "static", "script.js")
-    with open(js_path) as f:
-        st.markdown(f"<script>{f.read()}</script>", unsafe_allow_html=True)
+    js_path = os.path.join(BASE_DIR, "static", "script.js")
+    if os.path.exists(js_path):
+        with open(js_path, "r") as f:
+            st.markdown(f"<script>{f.read()}</script>", unsafe_allow_html=True)
+    else:
+        st.warning("⚠️ No se encontró script.js")
 
 # Inicializar la aplicación
 def initialize_app():
