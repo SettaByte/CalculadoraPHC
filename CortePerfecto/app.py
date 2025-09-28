@@ -110,9 +110,8 @@ def main():
     with col2:
         st.markdown('<div class="section-card" style="margin-bottom:20px;">', unsafe_allow_html=True)
         st.markdown("### 👁️ Vista Previa del Área de Corte")
-        st.markdown("<p style='margin-bottom:5px;'>Arrastre la esquina superior del eje Y para modificarla</p>", unsafe_allow_html=True)
         st.markdown(
-                    "<p style='font-size:13px; color:gray; text-align:center;'>Arrastre la esquina derecha del eje X para modificarlo</p>",
+                    "<p style='font-size:13px; color:gray; text-align:center;'>Arrastre la esquina superior del eje Y para modificarla</p>",
                     unsafe_allow_html=True
                 )
         st.markdown(
