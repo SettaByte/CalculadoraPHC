@@ -29,10 +29,13 @@ def show_floating_bar():
         <div id="floatingBar" class="floating-bar">
             <div class="floating-content">
                 <img src="data:image/jpeg;base64,{img_b64}" style="height:40px;"/>
-                <span class="floating-text">¡Calculadora de Cortes Profesional!</span>
+                <div class="floating-text" style="white-space: normal;">
+                    ¡Calculadora de Cortes Profesional!
+                </div>
             </div>
         </div>
         """, unsafe_allow_html=True)
+
 
 
 # Configuración de la página
