@@ -41,23 +41,209 @@ def show_floating_bar():
 # -------------------- BARRA SOCIAL MEJORADA --------------------
 
 def show_social_bar():
+    """Muestra la barra social usando components.html - 100% funcional"""
+    
     social_html = """
-    <div class='social-bar'>
-        <div class='social-container'>
-            <a href="https://tiktok.com/@p.h.cajas" target="_blank" class='social-button'>
-                <i class='fab fa-tiktok'></i>
-            </a>
-            <a href="https://www.facebook.com/profile.php?id=61576728375462" target="_blank" class='social-button'>
-                <i class='fab fa-facebook-f'></i>
-            </a>
-            <a href="https://www.instagram.com/p.h.cajas/" target="_blank" class='social-button'>
-                <i class='fab fa-instagram'></i>
-            </a>
-            <a href="https://phcajasdelujo.taplink.mx/" target="_blank" class='web-button'>
-                <span>🌐 NUESTRA WEB</span>
-            </a>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <style>
+            .social-bar {
+                background: linear-gradient(135deg, #ff69b4, #ff1493);
+                padding: 30px 25px;
+                border-radius: 25px;
+                margin: 30px 0 20px 0;
+                box-shadow: 0 15px 35px rgba(255, 105, 180, 0.4);
+                border: 3px solid rgba(255, 182, 193, 0.6);
+                backdrop-filter: blur(10px);
+                font-family: 'Poppins', sans-serif;
+            }
+            
+            .social-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 25px;
+                flex-wrap: wrap;
+            }
+            
+            .social-button {
+                background: rgba(255, 255, 255, 0.25);
+                padding: 16px;
+                border-radius: 50%;
+                width: 65px;
+                height: 65px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+                border: 3px solid rgba(255, 255, 255, 0.4);
+                text-decoration: none;
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .social-button::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+                transition: left 0.6s ease;
+            }
+            
+            .social-button:hover::before {
+                left: 100%;
+            }
+            
+            .social-button:hover {
+                transform: scale(1.15) rotate(5deg);
+                background: rgba(255, 255, 255, 0.35);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25), 0 0 20px rgba(255, 255, 255, 0.3);
+                border-color: rgba(255, 255, 255, 0.8);
+            }
+            
+            .social-button i {
+                font-size: 26px;
+                color: white;
+                position: relative;
+                z-index: 2;
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            }
+            
+            .web-button {
+                background: rgba(255, 255, 255, 0.25);
+                padding: 16px 30px;
+                border-radius: 35px;
+                text-decoration: none;
+                transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+                border: 3px solid rgba(255, 255, 255, 0.4);
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .web-button::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+                transition: left 0.6s ease;
+            }
+            
+            .web-button:hover::before {
+                left: 100%;
+            }
+            
+            .web-button:hover {
+                transform: scale(1.1) translateY(-2px);
+                background: rgba(255, 255, 255, 0.35);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25), 0 0 25px rgba(255, 255, 255, 0.4);
+                border-color: rgba(255, 255, 255, 0.8);
+            }
+            
+            .web-text {
+                color: white;
+                font-weight: 700;
+                font-size: 18px;
+                letter-spacing: 1px;
+                text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+                position: relative;
+                z-index: 2;
+                font-family: 'Poppins', sans-serif;
+            }
+            
+            .social-text {
+                text-align: center;
+                margin-top: 20px;
+                color: white;
+                font-family: 'Poppins', sans-serif;
+                font-size: 18px;
+                font-weight: 500;
+                text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            }
+            
+            .social-subtext {
+                text-align: center;
+                margin-top: 10px;
+                color: rgba(255, 255, 255, 0.9);
+                font-family: 'Poppins', sans-serif;
+                font-size: 14px;
+                font-weight: 400;
+                text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            }
+            
+            @media (max-width: 768px) {
+                .social-container {
+                    gap: 20px;
+                }
+                
+                .social-button {
+                    width: 55px;
+                    height: 55px;
+                    padding: 14px;
+                }
+                
+                .social-button i {
+                    font-size: 22px;
+                }
+                
+                .web-button {
+                    padding: 14px 25px;
+                }
+                
+                .web-text {
+                    font-size: 16px;
+                }
+                
+                .social-text {
+                    font-size: 16px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class='social-bar'>
+            <div class='social-container'>
+                <!-- TikTok -->
+                <a href="https://tiktok.com/@p.h.cajas" target="_blank" class='social-button' title="Síguenos en TikTok">
+                    <i class='fab fa-tiktok'></i>
+                </a>
+                
+                <!-- Facebook -->
+                <a href="https://www.facebook.com/profile.php?id=61576728375462" target="_blank" class='social-button' title="Síguenos en Facebook">
+                    <i class='fab fa-facebook-f'></i>
+                </a>
+                
+                <!-- Instagram -->
+                <a href="https://www.instagram.com/p.h.cajas/" target="_blank" class='social-button' title="Síguenos en Instagram">
+                    <i class='fab fa-instagram'></i>
+                </a>
+                
+                <!-- Web -->
+                <a href="https://phcajasdelujo.taplink.mx/" target="_blank" class='web-button' title="Visita nuestra web">
+                    <span class='web-text'>🌐 NUESTRA WEB</span>
+                </a>
+            </div>
+            
+            <div class='social-text'>
+                📱 Síguenos en nuestras redes sociales
+            </div>
+            
+            <div class='social-subtext'>
+                ✨ PH Cajas de Lujo - Creando magia en cada detalle ✨
+            </div>
         </div>
-    </div>
+    </body>
+    </html>
     """
     
     components.html(social_html, height=200)
