@@ -33,6 +33,24 @@ def load_css():
         with open(css_path, "r") as f:
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
+    # Forzar modo claro
+    st.markdown("""
+    <style>
+        body, .stApp {
+            background-color: white !important;
+            color: black !important;
+        }
+        /* Asegurar que los textos de Streamlit sean negros */
+        .stMarkdown, .stText, .css-1cpxqw2, .css-10trblm {
+            color: black !important;
+        }
+        /* Plotly fondo claro */
+        .js-plotly-plot .plotly {
+            background-color: white !important;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
 def load_js():
     js_path = os.path.join(BASE_DIR, "static", "script.js")
     if os.path.exists(js_path):
