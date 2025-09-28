@@ -256,20 +256,17 @@ def main():
 def check_special_code(width, height, quantity):
     """Verifica si se ingresó el código especial '67' en todos los campos"""
     try:
-        # Convertir todo a int para que funcione aunque sean floats
         w = int(width)
         h = int(height)
         q = int(quantity)
         
         if w == 67 and h == 67 and q == 67:
-            st.success("¡Código especial activado!")
-            st.markdown("""
-            <button onclick="window.open('https://imgs.search.brave.com/GlSKdEx-RwYTPm6AW96H8dw2SILz2VcKAoT7gTada4g/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9wcmV2/aWV3LnJlZGQuaXQv/dGhpcy1tZW1lLWJy/b3VnaHQtdG8teW91/LWJ5LXRoZS11bmNz/LW9mLWFtZXJpY2Et/NjctaXNudC12MC1t/N3JndTVlbmU1bmYx/LmpwZWc_d2lkdGg9/MjI0JmF1dG89d2Vi/cCZzPTIxMjcyZjMz/MWRmZGExOGI2OTQ3/MGQ3NmExNDVkOTQ5/NWYwODBjMDM', '_blank')">
-                Ver Secreto
-            </button>
-            """, unsafe_allow_html=True)
+            secret_url = "https://imgs.search.brave.com/GlSKdEx-RwYTPm6AW96H8dw2SILz2VcKAoT7gTada4g/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9wcmV2/aWV3LnJlZGQuaXQv/dGhpcy1tZW1lLWJy/b3VnaHQtdG8teW91/LWJ5LXRoZS11bmNz/LW9mLWFtZXJpY2Et/NjctaXNudC12MC1t/N3JndTVlbmU1bmYx/LmpwZWc_d2lkdGg9/MjI0JmF1dG89d2Vi/cCZzPTIxMjcyZjMz/MWRmZGExOGI2OTQ3/MGQ3NmExNDVkOTQ5/NWYwODBjMDM"
+            st.success("¡MANGO MANGO MANGO!")
+            st.markdown(f"🔗 [Abrir Easter Egg]({secret_url})", unsafe_allow_html=True)
     except ValueError:
         pass
+
 
 
 def calculate_optimal(sheet_width, sheet_height, cut_width, cut_height, quantity, grammage, cost_per_sheet=0):
