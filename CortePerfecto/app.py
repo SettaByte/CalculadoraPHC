@@ -2,6 +2,7 @@ import os, base64, streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 import io
+import math
 from utils.calculator import CuttingCalculator
 from utils.export_utils import ExportUtils
 
@@ -9,7 +10,7 @@ BASE_DIR = os.path.dirname(__file__)
 
 # -------------------- CARGA DE RECURSOS --------------------
 def load_image_base64(filename):
-    # Enhanced SVG placeholder with better design
+    # IMAGEN_LOGO #frambuesa - Lugar para cambiar logo
     svg_placeholder = """
     <svg width="80" height="80" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -347,120 +348,245 @@ def initialize_app():
     if 'dark_mode' not in st.session_state:
         st.session_state.dark_mode = False
     if 'theme_mode' not in st.session_state:
-        st.session_state.theme_mode = 'clasico'  # clasico, rosa, minimalista
+        st.session_state.theme_mode = 'clasico'
     if 'custom_colors' not in st.session_state:
         st.session_state.custom_colors = {
             'primary': '#FF69B4',
             'secondary': '#FFB6C1'
         }
+    if 'calculator_mode' not in st.session_state:
+        st.session_state.calculator_mode = 'normal'
 
-def load_shared_params():
-    """Carga parámetros compartidos desde la URL si existen"""
-    try:
-        # Obtener parámetros de la URL
-        query_params = st.query_params
+# -------------------- CALCULADORAS ESPECIALIZADAS --------------------
+class CalculadorasCajas:
+    @staticmethod
+    def calcular_cesta(espesor, largo, ancho, alto, acabado_virada=1.0, acabado_altura=1.5):
+        """Calculadora Cesta - Basada en Excel 'Calculadora Cesta'"""
+        resultados = {}
         
-        shared_params = {}
-        
-        # Verificar si es un link compartido
-        if query_params.get('shared') == 'true':
-            # Mostrar mensaje de link compartido
-            st.success("📋 Se han cargado parámetros desde un link compartido")
-            
-            # Extraer parámetros numéricos
-            for param in ['sheet_width', 'sheet_height', 'cut_width', 'cut_height']:
-                if param in query_params:
-                    try:
-                        shared_params[param] = float(query_params[param])
-                    except (ValueError, TypeError):
-                        pass  # Ignorar parámetros inválidos
-        
-        return shared_params
-        
-    except Exception as e:
-        st.error(f"Error cargando parámetros compartidos: {str(e)}")
-        return {}
-
-def check_easter_eggs(sheet_width, sheet_height, cut_width, cut_height):
-    """Verifica múltiples combinaciones de easter eggs"""
-    values = [sheet_width, sheet_height, cut_width, cut_height]
-    
-    if all(v == 67.0 for v in values):
-        return "magic_67"
-    elif all(v == 42.0 for v in values):
-        return "answer_universe"
-    elif values == [1.0, 2.0, 3.0, 4.0]:
-        return "sequential"
-    elif all(v == 777.0 for v in values):
-        return "lucky_777"
-    elif all(v == 0.0 for v in values):
-        return "zero_void"
-    elif all(v == 100.0 for v in values):
-        return "perfect_100"
-    return None
-
-def show_easter_egg(egg_type):
-    """Muestra diferentes easter eggs según el tipo"""
-    easter_eggs = {
-        "magic_67": {
-            "title": "🎉 ¡Easter Egg Desbloqueado! 🎉",
-            "message": "¡Has encontrado el número mágico 67!",
-            "link": "https://github.com/streamlit/streamlit",
-            "link_text": "🔗 Link Secreto - Descubre Streamlit",
-            "color": "linear-gradient(135deg, #FFD700, #FFA500)"
-        },
-        "answer_universe": {
-            "title": "🌌 ¡La Respuesta Universal! 🌌",
-            "message": "42 - La respuesta a la vida, el universo y todo",
-            "link": "https://es.wikipedia.org/wiki/42_(n%C3%BAmero)",
-            "link_text": "🌠 Descubre el Misterio del 42",
-            "color": "linear-gradient(135deg, #4169E1, #1E90FF)"
-        },
-        "sequential": {
-            "title": "🔢 ¡Secuencia Perfecta! 🔢",
-            "message": "1, 2, 3, 4... ¡El orden perfecto!",
-            "link": "https://oeis.org/A000027",
-            "link_text": "📊 Números Naturales",
-            "color": "linear-gradient(135deg, #32CD32, #00FF00)"
-        },
-        "lucky_777": {
-            "title": "🍀 ¡Súper Suerte! 🍀",
-            "message": "¡Triple 7! ¡La fortuna te sonríe!",
-            "link": "https://es.wikipedia.org/wiki/777_(n%C3%BAmero)",
-            "link_text": "🎰 Descubre la Suerte del 777",
-            "color": "linear-gradient(135deg, #FFD700, #FF6347)"
-        },
-        "zero_void": {
-            "title": "🌑 ¡El Vacío Absoluto! 🌑",
-            "message": "Cero... el principio y el fin de todo",
-            "link": "https://es.wikipedia.org/wiki/Cero",
-            "link_text": "🔮 El Misterio del Cero",
-            "color": "linear-gradient(135deg, #2F4F4F, #000000)"
-        },
-        "perfect_100": {
-            "title": "💯 ¡Perfección Total! 💯",
-            "message": "¡100% en todo! ¡Eres increíble!",
-            "link": "https://es.wikipedia.org/wiki/100_(n%C3%BAmero)",
-            "link_text": "⭐ La Perfección del 100",
-            "color": "linear-gradient(135deg, #FF1493, #FF69B4)"
+        # MEDIDAS CARTÓN - MÉTODO CORTE SEPARADO
+        resultados['base'] = {
+            'medida': f"{largo} x {ancho}",
+            'descripcion': 'Base - 1 pieza'
         }
-    }
-    
-    egg = easter_eggs.get(egg_type)
-    if egg:
-        st.markdown(f"""
-        <div style="text-align: center; margin: 20px 0;">
-            <h3>{egg['title']}</h3>
-            <p>{egg['message']}</p>
-            <a href="{egg['link']}" target="_blank" class="easter-egg-link" style="background: {egg['color']};">
-                {egg['link_text']}
-            </a>
-        </div>
-        """, unsafe_allow_html=True)
+        
+        resultados['lateral_largo'] = {
+            'medida': f"{largo + ((espesor/10)*2):.1f} x {alto}",
+            'descripcion': 'Lateral (largo) - 2 piezas'
+        }
+        
+        resultados['lateral_ancho'] = {
+            'medida': f"{ancho} x {alto}",
+            'descripcion': 'Lateral (ancho) - 2 piezas'
+        }
+        
+        # MEDIDAS CARTÓN - MÉTODO CORTE Y VINCO
+        resultados['placa_vinco'] = {
+            'medida': f"{largo + alto + alto:.1f} x {ancho + alto + alto:.1f}",
+            'descripcion': 'Tamaño placa de cartón'
+        }
+        
+        # MEDIDAS REVESTIMIENTO PAPEL
+        resultados['parte_interna'] = {
+            'medida': f"{largo + alto + alto:.1f} x {ancho + alto + alto:.1f}",
+            'descripcion': 'Parte interna'
+        }
+        
+        resultados['parte_externa_banda'] = {
+            'medida': f"{largo + ancho + largo + ancho + acabado_virada + (espesor/10)*8:.1f} x {alto + acabado_altura + acabado_altura:.1f}",
+            'descripcion': 'Parte externa - banda'
+        }
+        
+        resultados['parte_externa_fondo'] = {
+            'medida': f"{largo} x {ancho}",
+            'descripcion': 'Parte externa - fondo'
+        }
+        
+        return resultados
+
+    @staticmethod
+    def calcular_tapa_libro(espesor, largo, ancho, alto, acabado_virada=1.0, espacio_ranura=0.3):
+        """Calculadora Tapa Libro - Basada en Excel 'Tampa Livro'"""
+        resultados = {}
+        
+        # Variables específicas de tapa libro
+        canaleta = ((espesor * 2) / 10) + 0.1
+        
+        # MEDIDAS CARTÓN - MÉTODO CORTE SEPARADO
+        resultados['base'] = {
+            'medida': f"{largo} x {ancho}",
+            'descripcion': 'Base - 1 pieza'
+        }
+        
+        resultados['lateral_largo'] = {
+            'medida': f"{largo + ((espesor/10)*2):.1f} x {alto}",
+            'descripcion': 'Lateral (largo) - 2 piezas'
+        }
+        
+        resultados['lateral_ancho'] = {
+            'medida': f"{ancho} x {alto}",
+            'descripcion': 'Lateral (ancho) - 2 piezas'
+        }
+        
+        # Cálculos para tapa
+        tapa_largo = largo + canaleta + canaleta
+        tapa_ancho = ancho + ((espesor * 2) / 10) + acabado_virada
+        
+        resultados['tapa'] = {
+            'medida': f"{tapa_largo:.1f} x {tapa_ancho:.1f}",
+            'descripcion': 'Tapa - 2 piezas'
+        }
+        
+        resultados['lomo'] = {
+            'medida': f"{tapa_largo:.1f} x {alto}",
+            'descripcion': 'Lomo tapa'
+        }
+        
+        # MEDIDAS CARTÓN - MÉTODO CORTE Y VINCO
+        resultados['placa_base'] = {
+            'medida': f"{largo + alto + alto:.1f} x {ancho + alto + alto:.1f}",
+            'descripcion': 'Tamaño placa de cartón - BASE'
+        }
+        
+        # MEDIDAS REVESTIMIENTO PAPEL
+        resultados['parte_interna_base'] = {
+            'medida': f"{largo + alto + alto:.1f} x {ancho + alto + alto + acabado_virada:.1f}",
+            'descripcion': 'Parte interna base'
+        }
+        
+        resultados['parte_externa_base_banda'] = {
+            'medida': f"{(ancho + (espesor*2)/10) + largo + (ancho + (espesor*2)/10) + acabado_virada + acabado_virada:.1f} x {alto + acabado_virada + acabado_virada:.1f}",
+            'descripcion': 'Parte externa base banda'
+        }
+        
+        resultados['parte_externa_tapa'] = {
+            'medida': f"{tapa_largo + acabado_virada + acabado_virada:.1f} x {tapa_ancho + alto + tapa_ancho + acabado_virada + acabado_virada + acabado_virada + acabado_virada:.1f}",
+            'descripcion': 'Parte externa tapa'
+        }
+        
+        resultados['parte_interna_tapa'] = {
+            'medida': f"{largo + espesor*2/10:.1f} x {tapa_ancho + 2:.1f}",
+            'descripcion': 'Parte interna tapa'
+        }
+        
+        resultados['canaleta'] = {
+            'medida': f"{canaleta:.1f}",
+            'descripcion': 'Canaleta (cm)'
+        }
+        
+        return resultados
+
+    @staticmethod
+    def calcular_tapa_suelta(espesor, largo, ancho, alto, altura_tapa=3.0, acabado_virada=1.5):
+        """Calculadora Tapa Suelta - Basada en Excel 'Tampa de solta'"""
+        resultados = {}
+        
+        # MEDIDAS CARTÓN - MÉTODO CORTE SEPARADO
+        resultados['base'] = {
+            'medida': f"{largo} x {ancho}",
+            'descripcion': 'Base - 1 pieza'
+        }
+        
+        resultados['lateral_largo'] = {
+            'medida': f"{largo + ((espesor/10)*2):.1f} x {alto}",
+            'descripcion': 'Lateral (largo) - 2 piezas'
+        }
+        
+        resultados['lateral_ancho'] = {
+            'medida': f"{ancho} x {alto}",
+            'descripcion': 'Lateral (ancho) - 2 piezas'
+        }
+        
+        # Tampa
+        tapa_largo = largo + ((espesor * 3) / 10)
+        tapa_ancho = ancho + ((espesor * 3) / 10)
+        
+        resultados['tapa'] = {
+            'medida': f"{tapa_largo:.1f} x {tapa_ancho:.1f}",
+            'descripcion': 'Tapa - 1 pieza'
+        }
+        
+        resultados['tapa_lateral_largo'] = {
+            'medida': f"{tapa_largo + ((espesor/10)*2):.1f} x {altura_tapa}",
+            'descripcion': 'Tapa lateral (largo) - 2 piezas'
+        }
+        
+        resultados['tapa_lateral_ancho'] = {
+            'medida': f"{tapa_ancho} x {altura_tapa}",
+            'descripcion': 'Tapa lateral (ancho) - 2 piezas'
+        }
+        
+        # MEDIDAS CARTÓN - MÉTODO CORTE Y VINCO
+        resultados['placa_base'] = {
+            'medida': f"{largo + alto + alto:.1f} x {ancho + alto + alto:.1f}",
+            'descripcion': 'Tamaño placa de cartón - BASE'
+        }
+        
+        resultados['placa_tapa'] = {
+            'medida': f"{tapa_largo + altura_tapa + altura_tapa:.1f} x {tapa_ancho + altura_tapa + altura_tapa:.1f}",
+            'descripcion': 'Tamaño placa de cartón - TAPA'
+        }
+        
+        # MEDIDAS REVESTIMIENTO PAPEL
+        resultados['parte_interna_base'] = {
+            'medida': f"{largo + alto + alto:.1f} x {ancho + alto + alto:.1f}",
+            'descripcion': 'Parte interna base'
+        }
+        
+        resultados['banda_externa_base'] = {
+            'medida': f"{(largo + ((espesor/10)*2)) + (largo + ((espesor/10)*2)) + (ancho) + (ancho) + (espesor*4/10):.1f} x {alto + acabado_virada + acabado_virada:.1f}",
+            'descripcion': 'Banda externa base'
+        }
+        
+        resultados['fondo_base'] = {
+            'medida': f"{largo} x {ancho}",
+            'descripcion': 'Fondo base'
+        }
+        
+        resultados['parte_interna_tapa'] = {
+            'medida': f"{tapa_largo + altura_tapa + altura_tapa:.1f} x {tapa_ancho + altura_tapa + altura_tapa:.1f}",
+            'descripcion': 'Parte interna tapa'
+        }
+        
+        resultados['parte_externa_tapa'] = {
+            'medida': f"{tapa_largo + acabado_virada + acabado_virada:.1f} x {tapa_ancho + acabado_virada + acabado_virada:.1f}",
+            'descripcion': 'Parte externa tapa'
+        }
+        
+        return resultados
+
+    @staticmethod
+    def calcular_redonda(espesor_banda, diametro_base, altura_banda_base, altura_banda_tapa):
+        """Calculadora Redonda - Basada en Excel 'Caja Redonda'"""
+        resultados = {}
+        
+        # MEDIDAS CARTÓN
+        resultados['base'] = {
+            'medida': f"{diametro_base}",
+            'descripcion': 'Base circular (diámetro)'
+        }
+        
+        resultados['banda_base'] = {
+            'medida': f"{(diametro_base * 3.14) + 1:.1f} x {altura_banda_base}",
+            'descripcion': 'Banda base'
+        }
+        
+        resultados['tapa'] = {
+            'medida': f"{diametro_base + espesor_banda*3/10 + 0.1:.1f}",
+            'descripcion': 'Tapa circular (diámetro)'
+        }
+        
+        diametro_tapa = diametro_base + espesor_banda*3/10 + 0.1
+        resultados['banda_tapa'] = {
+            'medida': f"{(diametro_tapa * 3.14) + 1:.1f} x {altura_banda_tapa}",
+            'descripcion': 'Banda tapa'
+        }
+        
+        return resultados
 
 # -------------------- FUNCIONES DE CÁLCULO --------------------
 def calculate_optimal(sheet_width, sheet_height, cut_width, cut_height):
-    """Calcula el corte óptimo"""
+    """Calcula el corte óptimo para modo normal"""
     try:
         result = st.session_state.calculator.calculate_optimal_cutting(
             sheet_width, sheet_height, cut_width, cut_height
@@ -470,6 +596,53 @@ def calculate_optimal(sheet_width, sheet_height, cut_width, cut_height):
     except Exception as e:
         st.error(f"Error en el cálculo: {str(e)}")
 
+def calcular_caja_especializada():
+    """Calcula medidas para calculadoras especializadas"""
+    try:
+        modo = st.session_state.calculator_mode
+        calculadora = CalculadorasCajas()
+        
+        if modo == 'cesta':
+            resultados = calculadora.calcular_cesta(
+                st.session_state.espesor_caja,
+                st.session_state.largo_caja,
+                st.session_state.ancho_caja, 
+                st.session_state.alto_caja,
+                st.session_state.acabado_virada,
+                st.session_state.acabado_altura
+            )
+        elif modo == 'tapa_libro':
+            resultados = calculadora.calcular_tapa_libro(
+                st.session_state.espesor_caja,
+                st.session_state.largo_caja,
+                st.session_state.ancho_caja,
+                st.session_state.alto_caja,
+                st.session_state.acabado_virada,
+                st.session_state.espacio_ranura
+            )
+        elif modo == 'tapa_suelta':
+            resultados = calculadora.calcular_tapa_suelta(
+                st.session_state.espesor_caja,
+                st.session_state.largo_caja,
+                st.session_state.ancho_caja,
+                st.session_state.alto_caja,
+                st.session_state.altura_tapa,
+                st.session_state.acabado_virada
+            )
+        elif modo == 'redonda':
+            resultados = calculadora.calcular_redonda(
+                st.session_state.espesor_banda,
+                st.session_state.diametro_base,
+                st.session_state.altura_banda_base,
+                st.session_state.altura_banda_tapa
+            )
+        
+        st.session_state.calculation_result = resultados
+        st.success("✅ Cálculo de caja completado exitosamente")
+        
+    except Exception as e:
+        st.error(f"Error en el cálculo de caja: {str(e)}")
+
 def clear_all_fields():
     """Limpia todos los campos y resultados"""
     st.session_state.calculation_result = None
@@ -477,8 +650,8 @@ def clear_all_fields():
     st.rerun()
 
 def show_cutting_preview():
-    """Muestra la vista previa del corte"""
-    if not st.session_state.calculation_result:
+    """Muestra la vista previa del corte (solo para modo normal)"""
+    if not st.session_state.calculation_result or st.session_state.calculator_mode != 'normal':
         return
         
     result = st.session_state.calculation_result
@@ -524,14 +697,30 @@ def show_cutting_preview():
     
     st.plotly_chart(fig, use_container_width=True)
 
+def show_caja_report():
+    """Muestra el reporte de medidas de caja"""
+    if not st.session_state.calculation_result or st.session_state.calculator_mode == 'normal':
+        return
+        
+    resultados = st.session_state.calculation_result
+    
+    # Crear DataFrame con los resultados
+    data = {
+        "Pieza": [resultados[key]['descripcion'] for key in resultados],
+        "Medidas (cm)": [resultados[key]['medida'] for key in resultados]
+    }
+    
+    df = pd.DataFrame(data)
+    st.dataframe(df, hide_index=True, use_container_width=True)
+
 def show_cut_report():
-    """Muestra el reporte de cortes"""
-    if not st.session_state.calculation_result:
+    """Muestra el reporte de cortes (solo para modo normal)"""
+    if not st.session_state.calculation_result or st.session_state.calculator_mode != 'normal':
         return
         
     result = st.session_state.calculation_result
     
-    # Crear DataFrame con solo los datos requeridos (filtrado)
+    # Crear DataFrame con solo los datos requeridos
     data = {
         "Métrica": [
             "Cortes por hoja",
@@ -555,39 +744,47 @@ def show_cut_report():
     st.dataframe(df, hide_index=True, use_container_width=True)
 
 def export_excel():
-    """Exporta los resultados filtrados a Excel"""
+    """Exporta los resultados a Excel"""
     if not st.session_state.calculation_result:
         st.error("No hay resultados para exportar")
         return
         
     try:
-        # Obtener datos filtrados
-        result = st.session_state.calculation_result
-        filtered_data = {
-            "Métrica": [
-                "Cortes por hoja",
-                "Cortes horizontales", 
-                "Cortes verticales",
-                "Hojas requeridas",
-                "Cortes utilizables",
-                "Utilización (%)"
-            ],
-            "Valor": [
-                result.get('cuts_per_sheet', 0),
-                result.get('cuts_horizontal', 0),
-                result.get('cuts_vertical', 0),
-                result.get('sheets_required', 1),
-                result.get('usable_cuts', 0),
-                f"{result.get('utilization_percentage', 0):.2f}"
-            ]
-        }
+        if st.session_state.calculator_mode == 'normal':
+            # Modo normal
+            result = st.session_state.calculation_result
+            filtered_data = {
+                "Métrica": [
+                    "Cortes por hoja",
+                    "Cortes horizontales", 
+                    "Cortes verticales",
+                    "Hojas requeridas",
+                    "Cortes utilizables",
+                    "Utilización (%)"
+                ],
+                "Valor": [
+                    result.get('cuts_per_sheet', 0),
+                    result.get('cuts_horizontal', 0),
+                    result.get('cuts_vertical', 0),
+                    result.get('sheets_required', 1),
+                    result.get('usable_cuts', 0),
+                    f"{result.get('utilization_percentage', 0):.2f}"
+                ]
+            }
+        else:
+            # Modos especializados
+            resultados = st.session_state.calculation_result
+            filtered_data = {
+                "Pieza": [resultados[key]['descripcion'] for key in resultados],
+                "Medidas (cm)": [resultados[key]['medida'] for key in resultados]
+            }
         
         excel_data = st.session_state.export_utils.export_to_excel(filtered_data)
         
         st.download_button(
             label="📊 Descargar Excel",
             data=excel_data,
-            file_name="reporte_cortes.xlsx",
+            file_name=f"reporte_{st.session_state.calculator_mode}.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
         
@@ -595,39 +792,47 @@ def export_excel():
         st.error(f"Error exportando a Excel: {str(e)}")
 
 def export_pdf():
-    """Exporta los resultados filtrados a PDF"""
+    """Exporta los resultados a PDF"""
     if not st.session_state.calculation_result:
         st.error("No hay resultados para exportar")
         return
         
     try:
-        # Obtener datos filtrados
-        result = st.session_state.calculation_result
-        filtered_data = {
-            "Métrica": [
-                "Cortes por hoja",
-                "Cortes horizontales", 
-                "Cortes verticales",
-                "Hojas requeridas",
-                "Cortes utilizables",
-                "Utilización (%)"
-            ],
-            "Valor": [
-                result.get('cuts_per_sheet', 0),
-                result.get('cuts_horizontal', 0),
-                result.get('cuts_vertical', 0),
-                result.get('sheets_required', 1),
-                result.get('usable_cuts', 0),
-                f"{result.get('utilization_percentage', 0):.2f}"
-            ]
-        }
+        if st.session_state.calculator_mode == 'normal':
+            # Modo normal
+            result = st.session_state.calculation_result
+            filtered_data = {
+                "Métrica": [
+                    "Cortes por hoja",
+                    "Cortes horizontales", 
+                    "Cortes verticales",
+                    "Hojas requeridas",
+                    "Cortes utilizables",
+                    "Utilización (%)"
+                ],
+                "Valor": [
+                    result.get('cuts_per_sheet', 0),
+                    result.get('cuts_horizontal', 0),
+                    result.get('cuts_vertical', 0),
+                    result.get('sheets_required', 1),
+                    result.get('usable_cuts', 0),
+                    f"{result.get('utilization_percentage', 0):.2f}"
+                ]
+            }
+        else:
+            # Modos especializados
+            resultados = st.session_state.calculation_result
+            filtered_data = {
+                "Pieza": [resultados[key]['descripcion'] for key in resultados],
+                "Medidas (cm)": [resultados[key]['medida'] for key in resultados]
+            }
         
         pdf_data = st.session_state.export_utils.export_to_pdf(filtered_data)
         
         st.download_button(
             label="📄 Descargar PDF",
             data=pdf_data,
-            file_name="reporte_cortes.pdf",
+            file_name=f"reporte_{st.session_state.calculator_mode}.pdf",
             mime="application/pdf"
         )
         
@@ -641,16 +846,23 @@ def generate_share_link():
         return
         
     try:
-        result = st.session_state.calculation_result
-        base_url = "https://your-app-url.com"  # Cambiar por la URL real de la app
+        # ENLACE_COMPARTIR #frambuesa - Lugar para cambiar URL base
+        base_url = "https://tu-app-url.com"  # Cambiar por la URL real de la app
         
         params = {
             'shared': 'true',
-            'sheet_width': result.get('sheet_width', 100),
-            'sheet_height': result.get('sheet_height', 70),
-            'cut_width': result.get('cut_width', 10),
-            'cut_height': result.get('cut_height', 7)
+            'mode': st.session_state.calculator_mode
         }
+        
+        # Agregar parámetros según el modo
+        if st.session_state.calculator_mode == 'normal':
+            result = st.session_state.calculation_result
+            params.update({
+                'sheet_width': result.get('sheet_width', 100),
+                'sheet_height': result.get('sheet_height', 70),
+                'cut_width': result.get('cut_width', 10),
+                'cut_height': result.get('cut_height', 7)
+            })
         
         query_string = "&".join([f"{k}={v}" for k, v in params.items()])
         share_url = f"{base_url}?{query_string}"
@@ -661,10 +873,308 @@ def generate_share_link():
     except Exception as e:
         st.error(f"Error generando link: {str(e)}")
 
+def check_easter_eggs(sheet_width, sheet_height, cut_width, cut_height):
+    """Verifica múltiples combinaciones de easter eggs"""
+    values = [sheet_width, sheet_height, cut_width, cut_height]
+    
+    if all(v == 67.0 for v in values):
+        return "magic_67"
+    elif all(v == 42.0 for v in values):
+        return "answer_universe"
+    elif values == [1.0, 2.0, 3.0, 4.0]:
+        return "sequential"
+    elif all(v == 777.0 for v in values):
+        return "lucky_777"
+    elif all(v == 0.0 for v in values):
+        return "zero_void"
+    elif all(v == 100.0 for v in values):
+        return "perfect_100"
+    return None
+
+def show_easter_egg(egg_type):
+    """Muestra diferentes easter eggs según el tipo"""
+    easter_eggs = {
+        "magic_67": {
+            "title": "🎉 ¡Easter Egg Desbloqueado! 🎉",
+            "message": "¡Has encontrado el número mágico 67!",
+            # ENLACE_EASTER_EGG #frambuesa - Lugar para cambiar enlace
+            "link": "https://github.com/streamlit/streamlit",
+            "link_text": "🔗 Enlace Secreto - Descubre Streamlit",
+            "color": "linear-gradient(135deg, #FFD700, #FFA500)"
+        },
+        "answer_universe": {
+            "title": "🌌 ¡La Respuesta Universal! 🌌",
+            "message": "42 - La respuesta a la vida, el universo y todo",
+            # ENLACE_EASTER_EGG #frambuesa - Lugar para cambiar enlace
+            "link": "https://es.wikipedia.org/wiki/42_(n%C3%BAmero)",
+            "link_text": "🌠 Descubre el Misterio del 42",
+            "color": "linear-gradient(135deg, #4169E1, #1E90FF)"
+        },
+        "sequential": {
+            "title": "🔢 ¡Secuencia Perfecta! 🔢",
+            "message": "1, 2, 3, 4... ¡El orden perfecto!",
+            # ENLACE_EASTER_EGG #frambuesa - Lugar para cambiar enlace
+            "link": "https://oeis.org/A000027",
+            "link_text": "📊 Números Naturales",
+            "color": "linear-gradient(135deg, #32CD32, #00FF00)"
+        },
+        "lucky_777": {
+            "title": "🍀 ¡Súper Suerte! 🍀",
+            "message": "¡Triple 7! ¡La fortuna te sonríe!",
+            # ENLACE_EASTER_EGG #frambuesa - Lugar para cambiar enlace
+            "link": "https://es.wikipedia.org/wiki/777_(n%C3%BAmero)",
+            "link_text": "🎰 Descubre la Suerte del 777",
+            "color": "linear-gradient(135deg, #FFD700, #FF6347)"
+        },
+        "zero_void": {
+            "title": "🌑 ¡El Vacío Absoluto! 🌑",
+            "message": "Cero... el principio y el fin de todo",
+            # ENLACE_EASTER_EGG #frambuesa - Lugar para cambiar enlace
+            "link": "https://es.wikipedia.org/wiki/Cero",
+            "link_text": "🔮 El Misterio del Cero",
+            "color": "linear-gradient(135deg, #2F4F4F, #000000)"
+        },
+        "perfect_100": {
+            "title": "💯 ¡Perfección Total! 💯",
+            "message": "¡100% en todo! ¡Eres increíble!",
+            # ENLACE_EASTER_EGG #frambuesa - Lugar para cambiar enlace
+            "link": "https://es.wikipedia.org/wiki/100_(n%C3%BAmero)",
+            "link_text": "⭐ La Perfección del 100",
+            "color": "linear-gradient(135deg, #FF1493, #FF69B4)"
+        }
+    }
+    
+    egg = easter_eggs.get(egg_type)
+    if egg:
+        st.markdown(f"""
+        <div style="text-align: center; margin: 20px 0;">
+            <h3>{egg['title']}</h3>
+            <p>{egg['message']}</p>
+            <a href="{egg['link']}" target="_blank" class="easter-egg-link" style="background: {egg['color']};">
+                {egg['link_text']}
+            </a>
+        </div>
+        """, unsafe_allow_html=True)
+
+def load_shared_params():
+    """Carga parámetros compartidos desde la URL si existen"""
+    try:
+        # Obtener parámetros de la URL
+        query_params = st.query_params
+        
+        shared_params = {}
+        
+        # Verificar si es un link compartido
+        if query_params.get('shared') == 'true':
+            # Mostrar mensaje de link compartido
+            st.success("📋 Se han cargado parámetros desde un enlace compartido")
+            
+            # Extraer parámetros numéricos
+            for param in ['sheet_width', 'sheet_height', 'cut_width', 'cut_height']:
+                if param in query_params:
+                    try:
+                        shared_params[param] = float(query_params[param])
+                    except (ValueError, TypeError):
+                        pass  # Ignorar parámetros inválidos
+        
+        return shared_params
+        
+    except Exception as e:
+        st.error(f"Error cargando parámetros compartidos: {str(e)}")
+        return {}
+
+# -------------------- INTERFAZ DE USUARIO --------------------
+def render_normal_mode(shared_params):
+    """Renderiza la interfaz del modo normal"""
+    st.markdown('<div class="section-card">', unsafe_allow_html=True)
+    st.markdown("### 📐 Tamaño del Pliego de Cartón")
+    sheet_width = st.number_input("Ancho de la hoja (cm)", min_value=0.1, 
+                                 value=shared_params.get('sheet_width', 100.0), step=0.1)
+    sheet_height = st.number_input("Alto de la hoja (cm)", min_value=0.1, 
+                                  value=shared_params.get('sheet_height', 70.0), step=0.1)
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    st.markdown('<div class="section-card">', unsafe_allow_html=True)
+    st.markdown("### ✂️ Tamaño del Corte")
+    cut_width = st.number_input("Ancho del corte (cm)", min_value=0.1, 
+                               value=shared_params.get('cut_width', 10.0), step=0.1)
+    cut_height = st.number_input("Alto del corte (cm)", min_value=0.1, 
+                                value=shared_params.get('cut_height', 7.0), step=0.1)
+    
+    # Validación en tiempo real
+    validation_errors = []
+    if cut_width > sheet_width:
+        validation_errors.append(f"⚠️ El ancho del corte ({cut_width} cm) es mayor que el ancho de la hoja ({sheet_width} cm)")
+    if cut_height > sheet_height:
+        validation_errors.append(f"⚠️ El alto del corte ({cut_height} cm) es mayor que el alto de la hoja ({sheet_height} cm)")
+    
+    # Mostrar errores de validación
+    if validation_errors:
+        for error in validation_errors:
+            st.error(error)
+        st.info("💡 Ajusta las dimensiones del corte para que sean menores o iguales a las de la hoja.")
+    else:
+        # Mostrar mensaje de validación exitosa
+        st.success("✅ Las dimensiones son válidas")
+    
+    # Verificar easter eggs
+    easter_egg_type = check_easter_eggs(sheet_width, sheet_height, cut_width, cut_height)
+    if easter_egg_type:
+        show_easter_egg(easter_egg_type)
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    # Botones
+    col_opt, col_clear = st.columns([1, 1])
+    with col_opt:
+        if st.button("🎯 Calcular Óptimo", use_container_width=True):
+            if not validation_errors:
+                calculate_optimal(sheet_width, sheet_height, cut_width, cut_height)
+            else:
+                st.error("❌ Corrige los errores de validación antes de calcular")
+    with col_clear:
+        if st.button("🗑️ Limpiar Todo", use_container_width=True):
+            clear_all_fields()
+    
+    return sheet_width, sheet_height, cut_width, cut_height
+
+def render_cesta_mode():
+    """Renderiza la interfaz del modo Cesta"""
+    st.markdown('<div class="section-card">', unsafe_allow_html=True)
+    st.markdown("### 📦 Dimensiones de la Caja Cesta")
+    
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.session_state.espesor_caja = st.number_input("Espesor del cartón (mm)", min_value=0.1, value=2.0, step=0.1, key="espesor_cesta")
+    with col2:
+        st.session_state.largo_caja = st.number_input("Largo de la caja (cm)", min_value=0.1, value=15.0, step=0.1, key="largo_cesta")
+    with col3:
+        st.session_state.ancho_caja = st.number_input("Ancho de la caja (cm)", min_value=0.1, value=9.0, step=0.1, key="ancho_cesta")
+    
+    st.session_state.alto_caja = st.number_input("Alto de la caja (cm)", min_value=0.1, value=5.0, step=0.1, key="alto_cesta")
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    st.markdown('<div class="section-card">', unsafe_allow_html=True)
+    st.markdown("### 🎨 Acabados para Revestimiento")
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        st.session_state.acabado_virada = st.number_input("Acabado virada lateral (cm)", min_value=0.0, value=1.0, step=0.1, key="virada_cesta")
+    with col2:
+        st.session_state.acabado_altura = st.number_input("Acabado virada altura (cm)", min_value=0.0, value=1.5, step=0.1, key="altura_cesta")
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    # Botones
+    col_calc, col_clear = st.columns([1, 1])
+    with col_calc:
+        if st.button("🎯 Calcular Medidas", use_container_width=True):
+            calcular_caja_especializada()
+    with col_clear:
+        if st.button("🗑️ Limpiar Todo", use_container_width=True):
+            clear_all_fields()
+
+def render_tapa_libro_mode():
+    """Renderiza la interfaz del modo Tapa Libro"""
+    st.markdown('<div class="section-card">', unsafe_allow_html=True)
+    st.markdown("### 📚 Dimensiones de la Caja Tapa Libro")
+    
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.session_state.espesor_caja = st.number_input("Espesor del cartón (mm)", min_value=0.1, value=2.0, step=0.1, key="espesor_libro")
+    with col2:
+        st.session_state.largo_caja = st.number_input("Largo de la caja (cm)", min_value=0.1, value=25.0, step=0.1, key="largo_libro")
+    with col3:
+        st.session_state.ancho_caja = st.number_input("Ancho de la caja (cm)", min_value=0.1, value=30.0, step=0.1, key="ancho_libro")
+    
+    st.session_state.alto_caja = st.number_input("Alto de la caja (cm)", min_value=0.1, value=7.0, step=0.1, key="alto_libro")
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    st.markdown('<div class="section-card">', unsafe_allow_html=True)
+    st.markdown("### ⚙️ Configuración Tapa Libro")
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        st.session_state.acabado_virada = st.number_input("Acabado virada (cm)", min_value=0.0, value=1.0, step=0.1, key="virada_libro")
+    with col2:
+        st.session_state.espacio_ranura = st.number_input("Espacio ranura (cm)", min_value=0.0, value=0.3, step=0.1, key="ranura_libro")
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    # Botones
+    col_calc, col_clear = st.columns([1, 1])
+    with col_calc:
+        if st.button("🎯 Calcular Medidas", use_container_width=True):
+            calcular_caja_especializada()
+    with col_clear:
+        if st.button("🗑️ Limpiar Todo", use_container_width=True):
+            clear_all_fields()
+
+def render_tapa_suelta_mode():
+    """Renderiza la interfaz del modo Tapa Suelta"""
+    st.markdown('<div class="section-card">', unsafe_allow_html=True)
+    st.markdown("### 🧩 Dimensiones de la Caja Tapa Suelta")
+    
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.session_state.espesor_caja = st.number_input("Espesor del cartón (mm)", min_value=0.1, value=2.0, step=0.1, key="espesor_suelta")
+    with col2:
+        st.session_state.largo_caja = st.number_input("Largo de la caja (cm)", min_value=0.1, value=25.0, step=0.1, key="largo_suelta")
+    with col3:
+        st.session_state.ancho_caja = st.number_input("Ancho de la caja (cm)", min_value=0.1, value=25.0, step=0.1, key="ancho_suelta")
+    
+    st.session_state.alto_caja = st.number_input("Alto de la caja (cm)", min_value=0.1, value=25.0, step=0.1, key="alto_suelta")
+    st.session_state.altura_tapa = st.number_input("Altura de la tapa (cm)", min_value=0.1, value=3.0, step=0.1, key="altura_tapa_suelta")
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    st.markdown('<div class="section-card">', unsafe_allow_html=True)
+    st.markdown("### 🎨 Acabados para Revestimiento")
+    
+    st.session_state.acabado_virada = st.number_input("Acabado virada (cm)", min_value=0.0, value=1.5, step=0.1, key="virada_suelta")
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    # Botones
+    col_calc, col_clear = st.columns([1, 1])
+    with col_calc:
+        if st.button("🎯 Calcular Medidas", use_container_width=True):
+            calcular_caja_especializada()
+    with col_clear:
+        if st.button("🗑️ Limpiar Todo", use_container_width=True):
+            clear_all_fields()
+
+def render_redonda_mode():
+    """Renderiza la interfaz del modo Redonda"""
+    st.markdown('<div class="section-card">', unsafe_allow_html=True)
+    st.markdown("### 🔵 Dimensiones de la Caja Redonda")
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        st.session_state.espesor_banda = st.number_input("Espesor de la banda (mm)", min_value=0.1, value=1.3, step=0.1, key="espesor_redonda")
+    with col2:
+        st.session_state.diametro_base = st.number_input("Diámetro de la base (cm)", min_value=0.1, value=20.0, step=0.1, key="diametro_redonda")
+    
+    st.session_state.altura_banda_base = st.number_input("Altura de la banda base (cm)", min_value=0.1, value=20.0, step=0.1, key="altura_base_redonda")
+    st.session_state.altura_banda_tapa = st.number_input("Altura de la banda tapa (cm)", min_value=0.1, value=3.0, step=0.1, key="altura_tapa_redonda")
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    # Botones
+    col_calc, col_clear = st.columns([1, 1])
+    with col_calc:
+        if st.button("🎯 Calcular Medidas", use_container_width=True):
+            calcular_caja_especializada()
+    with col_clear:
+        if st.button("🗑️ Limpiar Todo", use_container_width=True):
+            clear_all_fields()
+
 # -------------------- MAIN --------------------
 def main():
     st.set_page_config(
-        page_title="Calculadora de Cortes",
+        page_title="Calculadora de Cortes y Cajas",
         page_icon="✂️",
         layout="wide",
         initial_sidebar_state="collapsed"
@@ -674,10 +1184,11 @@ def main():
     load_js()
     initialize_app()
 
+    # IMAGEN_LOGO #frambuesa - Lugar para cambiar logo
     logo_b64 = load_image_base64("/assets/Imagen2.jpeg")
     
-    # Header con controles de tema
-    col_header, col_theme, col_toggle = st.columns([3, 1, 1])
+    # Header con controles de tema y modo calculadora
+    col_header, col_mode, col_theme, col_toggle = st.columns([3, 2, 1, 1])
     
     with col_header:
         st.markdown(f"""
@@ -685,9 +1196,32 @@ def main():
             <div class="logo-container">
                 <img src="data:image/svg+xml;base64,{logo_b64}" class="logo" style="border-radius: 50%; width: 80px; height: 80px;">
             </div>
-            <h1 class="main-title">✂️ Calculadora de Cortes Profesional</h1>
+            <h1 class="main-title">✂️ Calculadora Profesional de Cortes y Cajas</h1>
         </div>
         """, unsafe_allow_html=True)
+    
+    with col_mode:
+        st.markdown("### 🧮 Modo Calculadora")
+        modos_calculadora = {
+            'normal': '✂️ Corte Normal',
+            'cesta': '🧺 Caja Cesta',
+            'tapa_libro': '📚 Tapa Libro', 
+            'tapa_suelta': '🧩 Tapa Suelta',
+            'redonda': '🔵 Caja Redonda'
+        }
+        
+        selected_mode = st.selectbox(
+            "Seleccionar modo",
+            options=list(modos_calculadora.keys()),
+            format_func=lambda x: modos_calculadora[x],
+            index=list(modos_calculadora.keys()).index(st.session_state.calculator_mode),
+            label_visibility="collapsed"
+        )
+        
+        if selected_mode != st.session_state.calculator_mode:
+            st.session_state.calculator_mode = selected_mode
+            st.session_state.calculation_result = None
+            st.rerun()
     
     with col_theme:
         st.markdown("### 🎨 Tema")
@@ -728,87 +1262,66 @@ def main():
 
     # -------------------- COLUMNA 1: INPUTS --------------------
     with col1:
-        st.markdown('<div class="section-card">', unsafe_allow_html=True)
-        st.markdown("### 📐 Tamaño del Pliego de Cartón")
-        sheet_width = st.number_input("Ancho de la hoja (cm)", min_value=0.1, 
-                                     value=shared_params.get('sheet_width', 100.0), step=0.1)
-        sheet_height = st.number_input("Alto de la hoja (cm)", min_value=0.1, 
-                                      value=shared_params.get('sheet_height', 70.0), step=0.1)
-        st.markdown('</div>', unsafe_allow_html=True)
+        # Renderizar interfaz según el modo seleccionado
+        if st.session_state.calculator_mode == 'normal':
+            render_normal_mode(shared_params)
+        elif st.session_state.calculator_mode == 'cesta':
+            render_cesta_mode()
+        elif st.session_state.calculator_mode == 'tapa_libro':
+            render_tapa_libro_mode()
+        elif st.session_state.calculator_mode == 'tapa_suelta':
+            render_tapa_suelta_mode()
+        elif st.session_state.calculator_mode == 'redonda':
+            render_redonda_mode()
 
-        st.markdown('<div class="section-card">', unsafe_allow_html=True)
-        st.markdown("### ✂️ Tamaño del Corte")
-        cut_width = st.number_input("Ancho del corte (cm)", min_value=0.1, 
-                                   value=shared_params.get('cut_width', 10.0), step=0.1)
-        cut_height = st.number_input("Alto del corte (cm)", min_value=0.1, 
-                                    value=shared_params.get('cut_height', 7.0), step=0.1)
-        
-        # Validación en tiempo real
-        validation_errors = []
-        if cut_width > sheet_width:
-            validation_errors.append(f"⚠️ El ancho del corte ({cut_width} cm) es mayor que el ancho de la hoja ({sheet_width} cm)")
-        if cut_height > sheet_height:
-            validation_errors.append(f"⚠️ El alto del corte ({cut_height} cm) es mayor que el alto de la hoja ({sheet_height} cm)")
-        
-        # Mostrar errores de validación
-        if validation_errors:
-            for error in validation_errors:
-                st.error(error)
-            st.info("💡 Ajusta las dimensiones del corte para que sean menores o iguales a las de la hoja.")
-        else:
-            # Mostrar mensaje de validación exitosa
-            st.success("✅ Las dimensiones son válidas")
-        
-        # Verificar easter eggs
-        easter_egg_type = check_easter_eggs(sheet_width, sheet_height, cut_width, cut_height)
-        if easter_egg_type:
-            show_easter_egg(easter_egg_type)
-        
-        st.markdown('</div>', unsafe_allow_html=True)
-
-        # Botones
-        col_opt, col_clear = st.columns([1, 1])
-        with col_opt:
-            if st.button("🎯 Calcular Óptimo", use_container_width=True):
-                if not validation_errors:
-                    calculate_optimal(sheet_width, sheet_height, cut_width, cut_height)
-                else:
-                    st.error("❌ Corrige los errores de validación antes de calcular")
-        with col_clear:
-            if st.button("🗑️ Limpiar Todo", use_container_width=True):
-                clear_all_fields()
-
-    # -------------------- COLUMNA 2: GRAFICA Y REPORTE --------------------
+    # -------------------- COLUMNA 2: RESULTADOS --------------------
     with col2:
-        st.markdown('<div class="section-card">', unsafe_allow_html=True)
-        st.markdown("### 📊 Vista Previa de Cortes")
-        st.markdown("<p style='font-size: 14px; opacity: 0.8;'>La gráfica es interactiva - puedes hacer zoom y arrastrar</p>", unsafe_allow_html=True)
-        if st.session_state.calculation_result:
-            show_cutting_preview()
-        else:
-            st.info("Haga clic en 'Calcular Óptimo' para ver la vista previa")
-        st.markdown('</div>', unsafe_allow_html=True)
+        if st.session_state.calculator_mode == 'normal':
+            st.markdown('<div class="section-card">', unsafe_allow_html=True)
+            st.markdown("### 📊 Vista Previa de Cortes")
+            st.markdown("<p style='font-size: 14px; opacity: 0.8;'>La gráfica es interactiva - puedes hacer zoom y arrastrar</p>", unsafe_allow_html=True)
+            if st.session_state.calculation_result:
+                show_cutting_preview()
+            else:
+                st.info("Haz clic en 'Calcular Óptimo' para ver la vista previa")
+            st.markdown('</div>', unsafe_allow_html=True)
 
-        st.markdown('<div class="section-card">', unsafe_allow_html=True)
-        st.markdown("### 📈 Reporte de Cortes")
+            st.markdown('<div class="section-card">', unsafe_allow_html=True)
+            st.markdown("### 📈 Reporte de Cortes")
+            if st.session_state.calculation_result:
+                show_cut_report()
+            else:
+                st.info("Los resultados aparecerán aquí después del cálculo")
+            st.markdown('</div>', unsafe_allow_html=True)
+        else:
+            st.markdown('<div class="section-card">', unsafe_allow_html=True)
+            st.markdown("### 📋 Medidas de la Caja")
+            st.markdown("<p style='font-size: 14px; opacity: 0.8;'>Todas las medidas necesarias para construir la caja</p>", unsafe_allow_html=True)
+            if st.session_state.calculation_result:
+                show_caja_report()
+            else:
+                st.info("Haz clic en 'Calcular Medidas' para ver los resultados")
+            st.markdown('</div>', unsafe_allow_html=True)
+
+        # Botones de descarga y compartir (siempre visibles)
         if st.session_state.calculation_result:
-            show_cut_report()
+            st.markdown('<div class="section-card">', unsafe_allow_html=True)
+            st.markdown("### 💾 Exportar Resultados")
             
-            # Botones de descarga y compartir
             col_excel, col_pdf, col_share = st.columns([1, 1, 1])
             with col_excel:
-                if st.button("📊 Excel", key="excel_btn", help="Descargar tabla como Excel", use_container_width=True):
+                if st.button("📊 Excel", key="excel_btn", help="Descargar resultados como Excel", use_container_width=True):
                     export_excel()
             with col_pdf:
-                if st.button("📄 PDF", key="pdf_btn", help="Descargar tabla como PDF", use_container_width=True):
+                if st.button("📄 PDF", key="pdf_btn", help="Descargar resultados como PDF", use_container_width=True):
                     export_pdf()
             with col_share:
-                if st.button("🔗 Compartir", key="share_btn", help="Generar link para compartir", use_container_width=True):
+                if st.button("🔗 Compartir", key="share_btn", help="Generar enlace para compartir", use_container_width=True):
                     generate_share_link()
-        else:
-            st.info("Los resultados aparecerán aquí después del cálculo")
-        
+            st.markdown('</div>', unsafe_allow_html=True)
+
         # Controles de personalización de colores (siempre visibles)
+        st.markdown('<div class="section-card">', unsafe_allow_html=True)
         with st.expander("🎨 Personalizar Colores", expanded=False):
             col_primary, col_secondary = st.columns(2)
             
