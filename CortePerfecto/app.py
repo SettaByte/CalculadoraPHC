@@ -331,4 +331,3 @@ def check_special_code(sheet_width, sheet_height, cut_width, cut_height):
 # -------------------- EJECUCION --------------------
 if __name__ == "__main__":
     main()
-```
