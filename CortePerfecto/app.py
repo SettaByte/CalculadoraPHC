@@ -413,7 +413,7 @@ def show_footer():
     st.markdown("""
     <div class="footer">
         <div class="social-media">
-            <a href="https://instagram.com" target="_blank" class="social-link">
+            <a href="https://www.instagram.com/p.h.cajas/" target="_blank" class="social-link">
                 <i class="fab fa-instagram"></i>
             </a>
             <a href="https://tiktok.com" target="_blank" class="social-link">
@@ -421,6 +421,9 @@ def show_footer():
             </a>
             <a href="https://facebook.com" target="_blank" class="social-link">
                 <i class="fab fa-facebook"></i>
+            </a>
+            <a href="https://phcajasdelujo.taplink.mx/" target="_blank" class="social-link">
+                <span>Página Web Oficial</span>
             </a>
         </div>
     </div>
