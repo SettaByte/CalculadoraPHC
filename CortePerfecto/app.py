@@ -136,6 +136,7 @@ def show_cutting_preview():
     result = st.session_state.calculation_result
     fig = go.Figure()
 
+    # Dibujar el área de la hoja
     fig.add_shape(
         type="rect",
         x0=0, y0=0,
@@ -144,6 +145,7 @@ def show_cutting_preview():
         line=dict(color="rgba(255, 182, 193, 1)", width=2)
     )
 
+    # Dibujar cada corte
     for i in range(result['cuts_horizontal']):
         for j in range(result['cuts_vertical']):
             x = i * result['cut_width']
@@ -158,7 +160,7 @@ def show_cutting_preview():
                 )
 
     fig.update_layout(
-        title=f"Utilización: {result['utilization_percentage']:.1f}%",
+        title="Gráfica de su hoja:",
         xaxis_title="Ancho (cm)",
         yaxis_title="Alto (cm)",
         showlegend=False,
@@ -166,11 +168,15 @@ def show_cutting_preview():
         width=950,
         plot_bgcolor="white",
         paper_bgcolor="white",
-        dragmode="pan"  # Arrastrar sin zoom buttons
+        dragmode="pan"  # Solo arrastrar
     )
 
-    st.plotly_chart(fig, use_container_width=True)
+    # Mostrar el gráfico quitando solo los botones de zoom (lupa)
+    st.plotly_chart(fig, use_container_width=True, config={
+        'modeBarButtonsToRemove': ['zoom2d', 'zoomIn2d', 'zoomOut2d']
+    })
 
+    # Mostrar métricas de área
     col1, col2 = st.columns(2)
     with col1:
         st.metric("Área Utilizada", f"{result['utilization_percentage']:.1f}%")
