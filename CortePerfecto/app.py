@@ -198,4 +198,33 @@ def show_cut_report():
             f"{result['sheet_height']:.2f}",
             f"{result['grammage']}",
             f"{result['cut_width']:.2f}",
-            f"{result['cut
+            f"{result['cut_height']:.2f}",
+            f"{result['final_weight']:.2f}"
+        ]
+    }
+    df = pd.DataFrame(report_data)
+    st.info("💡 Esta tabla muestra los resultados y los datos de entrada. Usa el scroll si es necesario.")
+    st.dataframe(df, height=250)
+
+def show_footer():
+    st.markdown("""
+    <div class="footer" style="margin-top:30px;">
+        <div class="social-media">
+            <a href="https://www.instagram.com/p.h.cajas/" target="_blank" class="social-link">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://tiktok.com" target="_blank" class="social-link">
+                <i class="fab fa-tiktok"></i>
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=61576728375462&mibextid=ZbWKwL" target="_blank" class="social-link">
+                <i class="fab fa-facebook"></i>
+            </a>
+            <a href="https://phcajasdelujo.taplink.mx/" target="_blank" class="social-link">
+                <span>Web</span>
+            </a>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+if __name__ == "__main__":
+    main()
