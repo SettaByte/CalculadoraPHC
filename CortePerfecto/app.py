@@ -19,8 +19,9 @@ st.set_page_config(
 
 # Cargar CSS personalizado
 def load_css():
-    with open('static/styles.css') as f:
-        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+    css_path = os.path.join(os.path.dirname(__file__), "static", "styles.css")
+    with open(css_path) as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 # Cargar JavaScript personalizado
 def load_js():
