@@ -1048,7 +1048,7 @@ def show_cutting_preview():
     
     # Configurar el layout - QUITAR SOLO EL BOTÓN DE ZOOM PRINCIPAL
     fig.update_layout(
-        title="Vista Previa de Cortes",
+        title="    Vista Previa de Cortes",
         xaxis_title="Ancho (cm)",
         yaxis_title="Alto (cm)",
         showlegend=False,
