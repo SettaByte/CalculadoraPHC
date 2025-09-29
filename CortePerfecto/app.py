@@ -1092,20 +1092,22 @@ def show_cut_report():
     # Crear DataFrame con solo los datos requeridos
     data = {
         "Métrica": [
-            "Cortes por hoja",
-            "Cortes horizontales", 
+            "Ancho de la hoja",
+            "Alto de la hoja", 
+            "Ancho del corte",
+            "Alto del corte",
+            "Cortes horizontales",
             "Cortes verticales",
-            "Hojas requeridas",
-            "Cortes utilizables",
             "Utilización (%)"
         ],
         "Valor": [
-            result.get('cuts_per_sheet', 0),
+            f"{result.get('sheet_width', 0):.1f} cm",
+            f"{result.get('sheet_height', 0):.1f} cm",
+            f"{result.get('cut_width', 0):.1f} cm",
+            f"{result.get('cut_height', 0):.1f} cm",
             result.get('cuts_horizontal', 0),
             result.get('cuts_vertical', 0),
-            result.get('sheets_required', 1),
-            result.get('usable_cuts', 0),
-            f"{result.get('utilization_percentage', 0):.2f}"
+            f"{result.get('utilization_percentage', 0):.2f}%"
         ]
     }
     
