@@ -77,7 +77,7 @@ def show_floating_bar():
     <div id="floatingBar" class="floating-bar" style="margin-bottom:10px;">
         <div class="floating-content">
             <img src="{img_b64}" 
-                 style="height:40px; border-radius: 50%; margin-right: 12px;"/>
+                 style="height:60px; border-radius: 50%; margin-right: 15px;"/>
             <span class="floating-text" style="white-space: normal; font-size: 18px; font-weight: bold;">¡ESTOY EN MI DESCANSO, EN UN MOMENTO SEGUIRÉ CON EL DESARROLLO!</span>
         </div>
     </div>
@@ -86,7 +86,7 @@ def show_floating_bar():
 # -------------------- BARRA SOCIAL MEJORADA --------------------
 
 def show_social_bar():
-    """Muestra una barra social con imagen"""
+    """Muestra una barra social con imagen sin marco"""
     
     # Generar el base64 ANTES de crear el HTML
     img_b64_social = load_image_base64("Imagen1.jpeg")
@@ -100,18 +100,18 @@ def show_social_bar():
         <style>
             .social-bar {{
                 background: linear-gradient(135deg, #ff69b4, #ff1493);
-                padding: 10px 15px;
-                border-radius: 12px;
+                padding: 12px 18px;
+                border-radius: 15px;
                 margin: 10px 0 10px 0;
                 box-shadow: 0 3px 10px rgba(255, 105, 180, 0.3);
                 border: 1px solid rgba(255, 182, 193, 0.5);
                 font-family: 'Poppins', sans-serif;
                 display: flex;
                 align-items: center;
-                gap: 12px;
-                height: 65px;
-                min-height: 65px;
-                max-height: 65px;
+                gap: 15px;
+                height: 80px;
+                min-height: 80px;
+                max-height: 80px;
             }}
             
             .logo-container {{
@@ -119,34 +119,32 @@ def show_social_bar():
             }}
             
             .logo-image {{
-                width: 45px;
-                height: 45px;
+                width: 65px;
+                height: 65px;
                 border-radius: 50%;
-                border: 2px solid rgba(255, 255, 255, 0.6);
                 object-fit: cover;
-                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
             }}
             
             .content-container {{
                 flex: 1;
                 display: flex;
                 flex-direction: column;
-                gap: 3px;
+                gap: 4px;
             }}
             
             .icons-container {{
                 display: flex;
                 align-items: center;
-                gap: 10px;
+                gap: 12px;
                 flex-wrap: wrap;
             }}
             
             .social-button {{
                 background: rgba(255, 255, 255, 0.2);
-                padding: 6px;
+                padding: 8px;
                 border-radius: 50%;
-                width: 32px;
-                height: 32px;
+                width: 40px;
+                height: 40px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -163,20 +161,20 @@ def show_social_bar():
             }}
             
             .social-button i {{
-                font-size: 14px;
+                font-size: 18px;
                 color: white;
                 text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
             }}
             
             .web-button {{
                 background: rgba(255, 255, 255, 0.2);
-                padding: 4px 10px;
-                border-radius: 12px;
+                padding: 6px 14px;
+                border-radius: 15px;
                 text-decoration: none;
                 transition: all 0.2s ease;
                 border: 1.5px solid rgba(255, 255, 255, 0.3);
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-                margin-left: 5px;
+                margin-left: 8px;
             }}
             
             .web-button:hover {{
@@ -188,7 +186,7 @@ def show_social_bar():
             .web-text {{
                 color: white;
                 font-weight: 500;
-                font-size: 10px;
+                font-size: 12px;
                 letter-spacing: 0.3px;
                 text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
                 font-family: 'Poppins', sans-serif;
@@ -197,7 +195,7 @@ def show_social_bar():
             .social-text {{
                 color: white;
                 font-family: 'Poppins', sans-serif;
-                font-size: 11px;
+                font-size: 13px;
                 font-weight: 500;
                 text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
                 line-height: 1.2;
@@ -206,7 +204,7 @@ def show_social_bar():
             .social-subtext {{
                 color: rgba(255, 255, 255, 0.85);
                 font-family: 'Poppins', sans-serif;
-                font-size: 9px;
+                font-size: 11px;
                 font-weight: 400;
                 text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
                 line-height: 1.2;
@@ -214,42 +212,42 @@ def show_social_bar():
             
             @media (max-width: 768px) {{
                 .social-bar {{
-                    padding: 8px 12px;
-                    gap: 10px;
-                    height: 60px;
-                    min-height: 60px;
-                    max-height: 60px;
+                    padding: 10px 14px;
+                    gap: 12px;
+                    height: 75px;
+                    min-height: 75px;
+                    max-height: 75px;
                 }}
                 
                 .logo-image {{
-                    width: 40px;
-                    height: 40px;
+                    width: 55px;
+                    height: 55px;
                 }}
                 
                 .social-button {{
-                    width: 28px;
-                    height: 28px;
-                    padding: 5px;
+                    width: 35px;
+                    height: 35px;
+                    padding: 7px;
                 }}
                 
                 .social-button i {{
-                    font-size: 12px;
+                    font-size: 16px;
                 }}
                 
                 .web-button {{
-                    padding: 3px 8px;
+                    padding: 5px 10px;
                 }}
                 
                 .web-text {{
-                    font-size: 9px;
+                    font-size: 11px;
                 }}
                 
                 .social-text {{
-                    font-size: 10px;
+                    font-size: 12px;
                 }}
                 
                 .social-subtext {{
-                    font-size: 8px;
+                    font-size: 10px;
                 }}
             }}
         </style>
@@ -294,7 +292,7 @@ def show_social_bar():
     </html>
     """
     
-    components.html(social_html, height=80)
+    components.html(social_html, height=95)
 
 # -------------------- ELEMENTOS ESTÉTICOS ADICIONALES --------------------
 def show_decoration_elements():
@@ -1494,7 +1492,7 @@ def main():
         st.markdown(f"""
         <div class="header-container" style="margin-bottom:30px;">
             <div class="logo-container">
-                <img src="{load_image_base64('Imagen2.jpeg')}" class="logo" style="border-radius: 50%; width: 80px; height: 80px;">
+                <img src="{load_image_base64('Imagen2.jpeg')}" class="logo" style="border-radius: 50%; width: 100px; height: 100px;">
             </div>
             <h1 class="main-title">✂️ Calculadora Profesional de Cortes y Cajas</h1>
         </div>
@@ -1561,6 +1559,7 @@ def main():
     # Cargar parámetros compartidos si existen
     shared_params = load_shared_params()
     
+    # PRIMER NIVEL: Dos columnas principales
     col1, col2 = st.columns([1, 1])
 
     # -------------------- COLUMNA 1: INPUTS --------------------
@@ -1656,6 +1655,35 @@ def main():
                     'secondary': '#FFB6C1'
                 }
                 st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    # SEGUNDO NIVEL: Dos columnas inferiores para mejor distribución
+    st.markdown("---")
+    col3, col4 = st.columns([1, 1])
+    
+    with col3:
+        st.markdown('<div class="section-card">', unsafe_allow_html=True)
+        st.markdown("### ℹ️ Información Adicional")
+        st.info("""
+        **Características de la calculadora:**
+        - ✂️ Cálculo de cortes óptimos
+        - 📦 Múltiples tipos de cajas
+        - 🎨 Personalización de temas
+        - 💾 Exportación a Excel/PDF
+        - 📱 Diseño responsive
+        """)
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    with col4:
+        st.markdown('<div class="section-card">', unsafe_allow_html=True)
+        st.markdown("### 🆘 Ayuda Rápida")
+        st.warning("""
+        **Consejos de uso:**
+        - Usa medidas en centímetros
+        - El espesor del cartón en milímetros
+        - Los acabados son adicionales
+        - Exporta tus resultados
+        """)
         st.markdown('</div>', unsafe_allow_html=True)
 
     # Barra social al final
