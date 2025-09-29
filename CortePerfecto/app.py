@@ -76,7 +76,7 @@ def show_floating_bar():
     st.markdown(f"""
     <div id="floatingBar" class="floating-bar" style="margin-bottom:10px;">
         <div class="floating-content">
-            <img src="data:image/svg+xml;base64,{img_b64}" 
+            <img src="{img_b64}" 
                  style="height:40px; border-radius: 50%; margin-right: 12px;"/>
             <span class="floating-text" style="white-space: normal; font-size: 18px; font-weight: bold;">¡ESTOY EN MI DESCANSO, EN UN MOMENTO SEGUIRÉ CON EL DESARROLLO!</span>
         </div>
@@ -86,21 +86,23 @@ def show_floating_bar():
 # -------------------- BARRA SOCIAL MEJORADA --------------------
 
 def show_social_bar():
-    """Muestra dos barras sociales idénticas, una debajo de la otra"""
+    """Muestra una barra social con imagen"""
     
-    social_html = """
+    # Generar el base64 ANTES de crear el HTML
+    img_b64_social = load_image_base64("Imagen1.jpeg")
+    
+    social_html = f"""
     <!DOCTYPE html>
     <html>
     <head>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
         <style>
-            /* PRIMERA BARRA */
-            .social-bar-1 {
+            .social-bar {{
                 background: linear-gradient(135deg, #ff69b4, #ff1493);
                 padding: 10px 15px;
                 border-radius: 12px;
-                margin: 10px 0 5px 0;
+                margin: 10px 0 10px 0;
                 box-shadow: 0 3px 10px rgba(255, 105, 180, 0.3);
                 border: 1px solid rgba(255, 182, 193, 0.5);
                 font-family: 'Poppins', sans-serif;
@@ -110,53 +112,36 @@ def show_social_bar():
                 height: 65px;
                 min-height: 65px;
                 max-height: 65px;
-            }
+            }}
             
-            /* SEGUNDA BARRA */
-            .social-bar-2 {
-                background: linear-gradient(135deg, #ff69b4, #ff1493);
-                padding: 10px 15px;
-                border-radius: 12px;
-                margin: 5px 0 10px 0;
-                box-shadow: 0 3px 10px rgba(255, 105, 180, 0.3);
-                border: 1px solid rgba(255, 182, 193, 0.5);
-                font-family: 'Poppins', sans-serif;
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                height: 65px;
-                min-height: 65px;
-                max-height: 65px;
-            }
-            
-            .logo-container {
+            .logo-container {{
                 flex-shrink: 0;
-            }
+            }}
             
-            .logo-image {
+            .logo-image {{
                 width: 45px;
                 height: 45px;
                 border-radius: 50%;
                 border: 2px solid rgba(255, 255, 255, 0.6);
                 object-fit: cover;
                 box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-            }
+            }}
             
-            .content-container {
+            .content-container {{
                 flex: 1;
                 display: flex;
                 flex-direction: column;
                 gap: 3px;
-            }
+            }}
             
-            .icons-container {
+            .icons-container {{
                 display: flex;
                 align-items: center;
                 gap: 10px;
                 flex-wrap: wrap;
-            }
+            }}
             
-            .social-button {
+            .social-button {{
                 background: rgba(255, 255, 255, 0.2);
                 padding: 6px;
                 border-radius: 50%;
@@ -169,21 +154,21 @@ def show_social_bar():
                 border: 1.5px solid rgba(255, 255, 255, 0.3);
                 text-decoration: none;
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            }
+            }}
             
-            .social-button:hover {
+            .social-button:hover {{
                 transform: scale(1.1);
                 background: rgba(255, 255, 255, 0.3);
                 box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-            }
+            }}
             
-            .social-button i {
+            .social-button i {{
                 font-size: 14px;
                 color: white;
                 text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-            }
+            }}
             
-            .web-button {
+            .web-button {{
                 background: rgba(255, 255, 255, 0.2);
                 padding: 4px 10px;
                 border-radius: 12px;
@@ -192,88 +177,88 @@ def show_social_bar():
                 border: 1.5px solid rgba(255, 255, 255, 0.3);
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
                 margin-left: 5px;
-            }
+            }}
             
-            .web-button:hover {
+            .web-button:hover {{
                 transform: scale(1.05);
                 background: rgba(255, 255, 255, 0.3);
                 box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-            }
+            }}
             
-            .web-text {
+            .web-text {{
                 color: white;
                 font-weight: 500;
                 font-size: 10px;
                 letter-spacing: 0.3px;
                 text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
                 font-family: 'Poppins', sans-serif;
-            }
+            }}
             
-            .social-text {
+            .social-text {{
                 color: white;
                 font-family: 'Poppins', sans-serif;
                 font-size: 11px;
                 font-weight: 500;
                 text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
                 line-height: 1.2;
-            }
+            }}
             
-            .social-subtext {
+            .social-subtext {{
                 color: rgba(255, 255, 255, 0.85);
                 font-family: 'Poppins', sans-serif;
                 font-size: 9px;
                 font-weight: 400;
                 text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
                 line-height: 1.2;
-            }
+            }}
             
-            @media (max-width: 768px) {
-                .social-bar-1, .social-bar-2 {
+            @media (max-width: 768px) {{
+                .social-bar {{
                     padding: 8px 12px;
                     gap: 10px;
                     height: 60px;
                     min-height: 60px;
                     max-height: 60px;
-                }
+                }}
                 
-                .logo-image {
+                .logo-image {{
                     width: 40px;
                     height: 40px;
-                }
+                }}
                 
-                .social-button {
+                .social-button {{
                     width: 28px;
                     height: 28px;
                     padding: 5px;
-                }
+                }}
                 
-                .social-button i {
+                .social-button i {{
                     font-size: 12px;
-                }
+                }}
                 
-                .web-button {
+                .web-button {{
                     padding: 3px 8px;
-                }
+                }}
                 
-                .web-text {
+                .web-text {{
                     font-size: 9px;
-                }
+                }}
                 
-                .social-text {
+                .social-text {{
                     font-size: 10px;
-                }
+                }}
                 
-                .social-subtext {
+                .social-subtext {{
                     font-size: 8px;
-                }
-            }
+                }}
+            }}
         </style>
     </head>
     <body>
-        <!-- PRIMERA BARRA -->
-        <div class='social-bar-1'>
+        <!-- BARRA SOCIAL ÚNICA -->
+        <div class='social-bar'>
             <div class='logo-container'>
-                <img src="{load_image_base64('Imagen1.jpeg')}" 
+                <img src="{img_b64_social}" 
                      class='logo-image' 
                      alt="PH Cajas de Lujo">
             </div>
@@ -305,18 +290,12 @@ def show_social_bar():
                 </div>
             </div>
         </div>
-        
-        <!-- SEGUNDA BARRA (IDÉNTICA) -->
-        <div class='social-bar-2'>
-            </div>
-            
-           
-            
     </body>
     </html>
     """
     
-    components.html(social_html, height=150)
+    components.html(social_html, height=80)
+
 # -------------------- ELEMENTOS ESTÉTICOS ADICIONALES --------------------
 def show_decoration_elements():
     """Muestra elementos decorativos adicionales"""
@@ -1508,9 +1487,6 @@ def main():
     load_js()
     initialize_app()
 
-    # IMAGEN_LOGO #frambuesa - Lugar para cambiar logo
-    logo_b64 = load_image_base64("/assets/Imagen2.jpeg")
-    
     # Header con controles de tema y modo calculadora
     col_header, col_mode, col_theme, col_toggle = st.columns([3, 2, 1, 1])
     
