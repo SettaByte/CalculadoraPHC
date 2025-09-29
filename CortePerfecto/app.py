@@ -41,114 +41,122 @@ def show_floating_bar():
 # -------------------- BARRA SOCIAL MEJORADA --------------------
 
 def show_social_bar():
-    """Muestra la barra social SUPER mini"""
+    """Muestra la barra social usando components.html - Versión mini corregida"""
     
-    st.markdown("""
-    <div style='
-        background: linear-gradient(135deg, #ff69b4, #ff1493);
-        padding: 6px 12px;
-        border-radius: 10px;
-        margin: 8px 0 4px 0;
-        box-shadow: 0 2px 8px rgba(255,105,180,0.2);
-        border: 1px solid rgba(255,182,193,0.3);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        height: 35px;
-        min-height: 35px;
-    '>
-        <!-- TikTok -->
-        <a href="https://tiktok.com/@p.h.cajas" target="_blank" style='
-            background: rgba(255,255,255,0.15);
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            border: 1px solid rgba(255,255,255,0.2);
-            transition: transform 0.2s;
-        '>
-            <i class="fab fa-tiktok" style='color: white; font-size: 10px;'></i>
-        </a>
-        
-        <!-- Facebook -->
-        <a href="https://www.facebook.com/profile.php?id=61576728375462" target="_blank" style='
-            background: rgba(255,255,255,0.15);
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            border: 1px solid rgba(255,255,255,0.2);
-            transition: transform 0.2s;
-        '>
-            <i class="fab fa-facebook-f" style='color: white; font-size: 10px;'></i>
-        </a>
-        
-        <!-- Instagram -->
-        <a href="https://www.instagram.com/p.h.cajas/" target="_blank" style='
-            background: rgba(255,255,255,0.15);
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            border: 1px solid rgba(255,255,255,0.2);
-            transition: transform 0.2s;
-        '>
-            <i class="fab fa-instagram" style='color: white; font-size: 10px;'></i>
-        </a>
-        
-        <!-- Web -->
-        <a href="https://phcajasdelujo.taplink.mx/" target="_blank" style='
-            background: rgba(255,255,255,0.15);
-            padding: 2px 6px;
-            border-radius: 8px;
-            text-decoration: none;
-            border: 1px solid rgba(255,255,255,0.2);
-            font-size: 9px;
-            color: white;
-            font-weight: 500;
-        '>
-            🌐 WEB
-        </a>
-    </div>
-    """, unsafe_allow_html=True)
-# -------------------- ELEMENTOS ESTÉTICOS ADICIONALES --------------------
-def show_decoration_elements():
-    """Muestra elementos decorativos adicionales"""
+    social_html = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <style>
+            .social-bar {
+                background: linear-gradient(135deg, #ff69b4, #ff1493);
+                padding: 12px 20px;
+                border-radius: 15px;
+                margin: 15px 0 10px 0;
+                box-shadow: 0 4px 12px rgba(255, 105, 180, 0.3);
+                border: 1.5px solid rgba(255, 182, 193, 0.5);
+                backdrop-filter: blur(8px);
+                font-family: 'Poppins', sans-serif;
+                height: 60px; /* ALTURA FIJA */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 60px; /* ALTURA MÍNIMA FIJA */
+            }
+            
+            .social-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 15px;
+                flex-wrap: wrap;
+                height: 100%;
+            }
+            
+            .social-button {
+                background: rgba(255, 255, 255, 0.2);
+                padding: 8px;
+                border-radius: 50%;
+                width: 35px;
+                height: 35px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.2s ease;
+                border: 1.5px solid rgba(255, 255, 255, 0.3);
+                text-decoration: none;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            }
+            
+            .social-button:hover {
+                transform: scale(1.1);
+                background: rgba(255, 255, 255, 0.25);
+                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+            }
+            
+            .social-button i {
+                font-size: 14px;
+                color: white;
+                text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            }
+            
+            .web-button {
+                background: rgba(255, 255, 255, 0.2);
+                padding: 6px 12px;
+                border-radius: 15px;
+                text-decoration: none;
+                transition: all 0.2s ease;
+                border: 1.5px solid rgba(255, 255, 255, 0.3);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            }
+            
+            .web-button:hover {
+                transform: scale(1.05);
+                background: rgba(255, 255, 255, 0.25);
+                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+            }
+            
+            .web-text {
+                color: white;
+                font-weight: 500;
+                font-size: 10px;
+                letter-spacing: 0.3px;
+                text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+                font-family: 'Poppins', sans-serif;
+            }
+        </style>
+    </head>
+    <body>
+        <div class='social-bar'>
+            <div class='social-container'>
+                <!-- TikTok -->
+                <a href="https://tiktok.com/@p.h.cajas" target="_blank" class='social-button' title="Síguenos en TikTok">
+                    <i class='fab fa-tiktok'></i>
+                </a>
+                
+                <!-- Facebook -->
+                <a href="https://www.facebook.com/profile.php?id=61576728375462" target="_blank" class='social-button' title="Síguenos en Facebook">
+                    <i class='fab fa-facebook-f'></i>
+                </a>
+                
+                <!-- Instagram -->
+                <a href="https://www.instagram.com/p.h.cajas/" target="_blank" class='social-button' title="Síguenos en Instagram">
+                    <i class='fab fa-instagram'></i>
+                </a>
+                
+                <!-- Web -->
+                <a href="https://phcajasdelujo.taplink.mx/" target="_blank" class='web-button' title="Visita nuestra web">
+                    <span class='web-text'>🌐 WEB</span>
+                </a>
+            </div>
+        </div>
+    </body>
+    </html>
+    """
     
-    # Línea decorativa superior
-    st.markdown("""
-    <div style='
-        height: 4px;
-        background: linear-gradient(90deg, #FF69B4, #FF1493, #FF69B4);
-        border-radius: 10px;
-        margin: 10px 0 30px 0;
-        box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
-    '></div>
-    """, unsafe_allow_html=True)
-    
-    # Separador decorativo entre secciones
-    st.markdown("""
-    <div style='
-        text-align: center;
-        margin: 25px 0;
-        color: #FF69B4;
-        font-family: "Poppins", sans-serif;
-        font-size: 14px;
-        font-weight: 500;
-    '>
-        
-    </div>
-    """, unsafe_allow_html=True)
+    components.html(social_html, height=80)
 
 def load_css():
     css_path = os.path.join(BASE_DIR, "static", "styles.css")
