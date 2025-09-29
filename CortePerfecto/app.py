@@ -1200,7 +1200,7 @@ def show_easter_egg(egg_type):
             "message": "This is 67.",
             # ENLACE_EASTER_EGG #frambuesa - Lugar para cambiar enlace
             "link": "https://www.youtube.com/watch?v=3tQHBUP1tcI",
-            "link_text": "🔗 Enlace Secreto - Descubre Streamlit",
+            "link_text": "Mustard.",
             "color": "linear-gradient(135deg, #FFD700, #FFA500)"
         },
         "answer_universe": {
@@ -1216,7 +1216,7 @@ def show_easter_egg(egg_type):
             "message": "1, 2, 3, 4... ¡El orden perfecto!",
             # ENLACE_EASTER_EGG #frambuesa - Lugar para cambiar enlace
             "link": "https://www.youtube.com/watch?v=OW_pFN8VXQ4&list=PLfTJOyNxiAgoUOQnLHZTPq2nEWiemBz6G&index=13",
-            "link_text": "📊 Números Naturales",
+            "link_text": "📊 Podría seguir contando, ¡hasta mucho más!",
             "color": "linear-gradient(135deg, #32CD32, #00FF00)"
         },
         "lucky_777": {
