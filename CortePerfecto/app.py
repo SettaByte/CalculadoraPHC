@@ -77,7 +77,7 @@ def show_floating_bar():
     <div id="floatingBar" class="floating-bar" style="margin-bottom:10px;">
         <div class="floating-content">
             <img src="{img_b64}" 
-                 style="height:40px; border-radius: 50%; margin-right: 48px;"/>
+                 style="height:40px; border-radius: 50%; margin-right: 12px;"/>
             <span class="floating-text" style="white-space: normal; font-size: 18px; font-weight: bold;">¡ESTOY EN MI DESCANSO, EN UN MOMENTO SEGUIRÉ CON EL DESARROLLO!</span>
         </div>
     </div>
