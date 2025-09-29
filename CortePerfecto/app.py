@@ -1188,7 +1188,7 @@ def check_easter_eggs(sheet_width, sheet_height, cut_width, cut_height):
         return "lucky_777"
     elif all(v < 0.1 for v in values):
         return "zero_void"
-    elif all(v == 123456789.0 for v in values):
+    elif all(v == 666.0 for v in values):
         return "perfect_100"
     return None
 
@@ -1207,7 +1207,7 @@ def show_easter_egg(egg_type):
             "title": "🌌¡El cartón más grande del mundo! 🌌",
             "message": "La pregunta es, para que querrías una caja tan grande?",
             # ENLACE_EASTER_EGG #frambuesa - Lugar para cambiar enlace
-            "link": "https://es.wikipedia.org/wiki/42_(n%C3%BAmero)",
+            "link": "https://imgs.search.brave.com/rNgbNw-6jtyWtv71t_vMrNJSrEgnOv9GOc717wUDSPQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/bGF2ZGcuY29tL3Nj/L3h2eG55ZGtXemZ6/UHJWMDAtb0pNTHp5/UVZrVT0vNDgweC8y/MDE4LzA0LzExLzAw/MTIxNTIzNDQ4NzMz/NzU4NDE3MjA3L0Zv/dG8vTmVwdHVuby5q/cGc",
             "link_text": "¡Este es uno de muchos secretos de esta página!",
             "color": "linear-gradient(135deg, #4169E1, #1E90FF)"
         },
@@ -1215,7 +1215,7 @@ def show_easter_egg(egg_type):
             "title": "🔢 ¡Secuencia Perfecta! 🔢",
             "message": "1, 2, 3, 4... ¡El orden perfecto!",
             # ENLACE_EASTER_EGG #frambuesa - Lugar para cambiar enlace
-            "link": "https://oeis.org/A000027",
+            "link": "https://www.youtube.com/watch?v=OW_pFN8VXQ4&list=PLfTJOyNxiAgoUOQnLHZTPq2nEWiemBz6G&index=13",
             "link_text": "📊 Números Naturales",
             "color": "linear-gradient(135deg, #32CD32, #00FF00)"
         },
@@ -1223,7 +1223,7 @@ def show_easter_egg(egg_type):
             "title": "🍀 ¡La persona más afortunada del mundo! 🍀",
             "message": "¡La fortuna te sonríe!",
             # ENLACE_EASTER_EGG #frambuesa - Lugar para cambiar enlace
-            "link": "https://es.wikipedia.org/wiki/777_(n%C3%BAmero)",
+            "link": "https://www.youtube.com/watch?v=StZCCddgCqU",
             "link_text": "Eres alguien muy afortunado.",
             "color": "linear-gradient(135deg, #FFD700, #FF6347)"
         },
@@ -1231,7 +1231,7 @@ def show_easter_egg(egg_type):
             "title": "🌑 ¡El cartón más pequeño del mundo! 🌑",
             "message": "No, sabes que, no voy a preguntar.",
             # ENLACE_EASTER_EGG #frambuesa - Lugar para cambiar enlace
-            "link": "https://es.wikipedia.org/wiki/Cero",
+            "link": "https://www.youtube.com/watch?v=BPChmJu7wl4",
             "link_text": "...",
             "color": "linear-gradient(135deg, #2F4F4F, #000000)"
         },
@@ -1239,7 +1239,7 @@ def show_easter_egg(egg_type):
             "title": "Que numero tan, aterrador...",
             "message": "¡!",
             # ENLACE_EASTER_EGG #frambuesa - Lugar para cambiar enlace
-            "link": "https://es.wikipedia.org/wiki/100_(n%C3%BAmero)",
+            "link": "https://www.youtube.com/watch?v=QNYT9wVwQ8A&list=RDQNYT9wVwQ8A&start_radio=1",
             "link_text": "No... nada.",
             "color": "linear-gradient(135deg, #FF1493, #FF69B4)"
         }
