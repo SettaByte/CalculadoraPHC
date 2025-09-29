@@ -1180,15 +1180,15 @@ def check_easter_eggs(sheet_width, sheet_height, cut_width, cut_height):
     
     if all(v == 67.0 for v in values):
         return "magic_67"
-    elif all(v == 42.0 for v in values):
+    elif all(v > 9999.0 for v in values):
         return "answer_universe"
     elif values == [1.0, 2.0, 3.0, 4.0]:
         return "sequential"
     elif all(v == 777.0 for v in values):
         return "lucky_777"
-    elif all(v == 0.0 for v in values):
+    elif all(v < 0.1 for v in values):
         return "zero_void"
-    elif all(v == 100.0 for v in values):
+    elif all(v == 123456789.0 for v in values):
         return "perfect_100"
     return None
 
@@ -1196,19 +1196,19 @@ def show_easter_egg(egg_type):
     """Muestra diferentes easter eggs según el tipo"""
     easter_eggs = {
         "magic_67": {
-            "title": "🎉 ¡Easter Egg Desbloqueado! 🎉",
-            "message": "¡Has encontrado el número mágico 67!",
+            "title": "🥭¡MANGO MANGO MANGO!🥭",
+            "message": "This is 67.",
             # ENLACE_EASTER_EGG #frambuesa - Lugar para cambiar enlace
-            "link": "https://github.com/streamlit/streamlit",
+            "link": "https://www.youtube.com/watch?v=3tQHBUP1tcI",
             "link_text": "🔗 Enlace Secreto - Descubre Streamlit",
             "color": "linear-gradient(135deg, #FFD700, #FFA500)"
         },
         "answer_universe": {
-            "title": "🌌 ¡La Respuesta Universal! 🌌",
-            "message": "42 - La respuesta a la vida, el universo y todo",
+            "title": "🌌¡El cartón más grande del mundo! 🌌",
+            "message": "La pregunta es, para que querrías una caja tan grande?",
             # ENLACE_EASTER_EGG #frambuesa - Lugar para cambiar enlace
             "link": "https://es.wikipedia.org/wiki/42_(n%C3%BAmero)",
-            "link_text": "🌠 Descubre el Misterio del 42",
+            "link_text": "¡Este es uno de muchos secretos de esta página!",
             "color": "linear-gradient(135deg, #4169E1, #1E90FF)"
         },
         "sequential": {
@@ -1220,27 +1220,27 @@ def show_easter_egg(egg_type):
             "color": "linear-gradient(135deg, #32CD32, #00FF00)"
         },
         "lucky_777": {
-            "title": "🍀 ¡Súper Suerte! 🍀",
-            "message": "¡Triple 7! ¡La fortuna te sonríe!",
+            "title": "🍀 ¡La persona más afortunada del mundo! 🍀",
+            "message": "¡La fortuna te sonríe!",
             # ENLACE_EASTER_EGG #frambuesa - Lugar para cambiar enlace
             "link": "https://es.wikipedia.org/wiki/777_(n%C3%BAmero)",
-            "link_text": "🎰 Descubre la Suerte del 777",
+            "link_text": "Eres alguien muy afortunado.",
             "color": "linear-gradient(135deg, #FFD700, #FF6347)"
         },
         "zero_void": {
-            "title": "🌑 ¡El Vacío Absoluto! 🌑",
-            "message": "Cero... el principio y el fin de todo",
+            "title": "🌑 ¡El cartón más pequeño del mundo! 🌑",
+            "message": "No, sabes que, no voy a preguntar.",
             # ENLACE_EASTER_EGG #frambuesa - Lugar para cambiar enlace
             "link": "https://es.wikipedia.org/wiki/Cero",
-            "link_text": "🔮 El Misterio del Cero",
+            "link_text": "...",
             "color": "linear-gradient(135deg, #2F4F4F, #000000)"
         },
         "perfect_100": {
-            "title": "💯 ¡Perfección Total! 💯",
-            "message": "¡100% en todo! ¡Eres increíble!",
+            "title": "Que numero tan, aterrador...",
+            "message": "¡!",
             # ENLACE_EASTER_EGG #frambuesa - Lugar para cambiar enlace
             "link": "https://es.wikipedia.org/wiki/100_(n%C3%BAmero)",
-            "link_text": "⭐ La Perfección del 100",
+            "link_text": "No... nada.",
             "color": "linear-gradient(135deg, #FF1493, #FF69B4)"
         }
     }
