@@ -11,7 +11,51 @@ BASE_DIR = os.path.dirname(__file__)
 
 # -------------------- CARGA DE RECURSOS --------------------
 def load_image_base64(filename):
-    # IMAGEN_LOGO #frambuesa - Lugar para cambiar logo
+    """
+    Carga una imagen desde la carpeta assets y la convierte a base64
+    """
+    try:
+        # Rutas posibles para encontrar las imágenes
+        possible_paths = [
+            os.path.join("CortePerfecto", "assets", filename),  # Para GitHub
+            os.path.join("assets", filename),                   # Ruta directa
+            os.path.join(BASE_DIR, "assets", filename),         # Ruta absoluta
+            filename                                            # Ruta directa al archivo
+        ]
+        
+        image_path = None
+        for path in possible_paths:
+            if os.path.exists(path):
+                image_path = path
+                break
+        
+        if image_path:
+            with open(image_path, "rb") as image_file:
+                encoded_string = base64.b64encode(image_file.read()).decode()
+                
+                # Determinar el tipo MIME
+                if filename.lower().endswith('.png'):
+                    mime_type = "png"
+                elif filename.lower().endswith('.jpg') or filename.lower().endswith('.jpeg'):
+                    mime_type = "jpeg"
+                elif filename.lower().endswith('.gif'):
+                    mime_type = "gif"
+                elif filename.lower().endswith('.svg'):
+                    mime_type = "svg+xml"
+                else:
+                    mime_type = "jpeg"
+                
+                return f"data:image/{mime_type};base64,{encoded_string}"
+        else:
+            # Si no encuentra la imagen, usar placeholder
+            return get_placeholder_image()
+            
+    except Exception as e:
+        st.error(f"❌ Error cargando imagen {filename}: {str(e)}")
+        return get_placeholder_image()
+
+def get_placeholder_image():
+    """Retorna el SVG placeholder"""
     svg_placeholder = """
     <svg width="80" height="80" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -24,10 +68,11 @@ def load_image_base64(filename):
         <text x="40" y="45" text-anchor="middle" fill="white" font-size="12" font-weight="bold">LOGO</text>
     </svg>
     """
-    return base64.b64encode(svg_placeholder.encode()).decode()
+    return f"data:image/svg+xml;base64,{base64.b64encode(svg_placeholder.encode()).decode()}"
+    
 
 def show_floating_bar():
-    img_b64 = load_image_base64("Imagen1.jpeg")
+    img_b64 = load_image_base64("Imagen2.jpeg")
     st.markdown(f"""
     <div id="floatingBar" class="floating-bar" style="margin-bottom:10px;">
         <div class="floating-content">
@@ -228,7 +273,7 @@ def show_social_bar():
         <!-- PRIMERA BARRA -->
         <div class='social-bar-1'>
             <div class='logo-container'>
-                <img src="https://via.placeholder.com/45x45/FF69B4/FFFFFF?text=PH" 
+                <img src="{load_image_base64('Imagen1.jpeg')}" 
                      class='logo-image' 
                      alt="PH Cajas de Lujo">
             </div>
@@ -1473,7 +1518,7 @@ def main():
         st.markdown(f"""
         <div class="header-container" style="margin-bottom:30px;">
             <div class="logo-container">
-                <img src="data:image/svg+xml;base64,{logo_b64}" class="logo" style="border-radius: 50%; width: 80px; height: 80px;">
+                <img src="{load_image_base64('Imagen2.jpeg')}" class="logo" style="border-radius: 50%; width: 80px; height: 80px;">
             </div>
             <h1 class="main-title">✂️ Calculadora Profesional de Cortes y Cajas</h1>
         </div>
