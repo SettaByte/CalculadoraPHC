@@ -41,7 +41,7 @@ def show_floating_bar():
 # -------------------- BARRA SOCIAL MEJORADA --------------------
 
 def show_social_bar():
-    """Muestra la barra social usando components.html - Versión mini corregida"""
+    """Muestra la barra social usando components.html - Versión compacta con textos"""
     
     social_html = """
     <!DOCTYPE html>
@@ -52,79 +52,134 @@ def show_social_bar():
         <style>
             .social-bar {
                 background: linear-gradient(135deg, #ff69b4, #ff1493);
-                padding: 12px 20px;
-                border-radius: 15px;
-                margin: 15px 0 10px 0;
-                box-shadow: 0 4px 12px rgba(255, 105, 180, 0.3);
-                border: 1.5px solid rgba(255, 182, 193, 0.5);
-                backdrop-filter: blur(8px);
+                padding: 15px 20px;
+                border-radius: 18px;
+                margin: 20px 0 15px 0;
+                box-shadow: 0 6px 20px rgba(255, 105, 180, 0.35);
+                border: 2px solid rgba(255, 182, 193, 0.6);
+                backdrop-filter: blur(10px);
                 font-family: 'Poppins', sans-serif;
-                height: 60px; /* ALTURA FIJA */
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                min-height: 60px; /* ALTURA MÍNIMA FIJA */
             }
             
             .social-container {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                gap: 15px;
+                gap: 20px;
                 flex-wrap: wrap;
-                height: 100%;
+                margin-bottom: 8px;
             }
             
             .social-button {
-                background: rgba(255, 255, 255, 0.2);
-                padding: 8px;
+                background: rgba(255, 255, 255, 0.25);
+                padding: 10px;
                 border-radius: 50%;
-                width: 35px;
-                height: 35px;
+                width: 45px;
+                height: 45px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                transition: all 0.2s ease;
-                border: 1.5px solid rgba(255, 255, 255, 0.3);
+                transition: all 0.3s ease;
+                border: 2px solid rgba(255, 255, 255, 0.4);
                 text-decoration: none;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             }
             
             .social-button:hover {
-                transform: scale(1.1);
-                background: rgba(255, 255, 255, 0.25);
-                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+                transform: scale(1.1) rotate(5deg);
+                background: rgba(255, 255, 255, 0.35);
+                box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+                border-color: rgba(255, 255, 255, 0.7);
             }
             
             .social-button i {
-                font-size: 14px;
+                font-size: 18px;
                 color: white;
-                text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
             }
             
             .web-button {
-                background: rgba(255, 255, 255, 0.2);
-                padding: 6px 12px;
-                border-radius: 15px;
+                background: rgba(255, 255, 255, 0.25);
+                padding: 8px 16px;
+                border-radius: 20px;
                 text-decoration: none;
-                transition: all 0.2s ease;
-                border: 1.5px solid rgba(255, 255, 255, 0.3);
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+                border: 2px solid rgba(255, 255, 255, 0.4);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             }
             
             .web-button:hover {
                 transform: scale(1.05);
-                background: rgba(255, 255, 255, 0.25);
-                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+                background: rgba(255, 255, 255, 0.35);
+                box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+                border-color: rgba(255, 255, 255, 0.7);
             }
             
             .web-text {
                 color: white;
-                font-weight: 500;
-                font-size: 10px;
-                letter-spacing: 0.3px;
-                text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+                font-weight: 600;
+                font-size: 12px;
+                letter-spacing: 0.5px;
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
                 font-family: 'Poppins', sans-serif;
+            }
+            
+            .social-text {
+                text-align: center;
+                margin: 5px 0 3px 0;
+                color: white;
+                font-family: 'Poppins', sans-serif;
+                font-size: 13px;
+                font-weight: 500;
+                text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            }
+            
+            .social-subtext {
+                text-align: center;
+                margin: 0;
+                color: rgba(255, 255, 255, 0.9);
+                font-family: 'Poppins', sans-serif;
+                font-size: 11px;
+                font-weight: 400;
+                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            }
+            
+            @media (max-width: 768px) {
+                .social-bar {
+                    padding: 12px 16px;
+                    border-radius: 15px;
+                }
+                
+                .social-container {
+                    gap: 15px;
+                    margin-bottom: 6px;
+                }
+                
+                .social-button {
+                    width: 40px;
+                    height: 40px;
+                    padding: 8px;
+                }
+                
+                .social-button i {
+                    font-size: 16px;
+                }
+                
+                .web-button {
+                    padding: 6px 12px;
+                }
+                
+                .web-text {
+                    font-size: 11px;
+                }
+                
+                .social-text {
+                    font-size: 12px;
+                }
+                
+                .social-subtext {
+                    font-size: 10px;
+                }
             }
         </style>
     </head>
@@ -151,12 +206,20 @@ def show_social_bar():
                     <span class='web-text'>🌐 WEB</span>
                 </a>
             </div>
+            
+            <div class='social-text'>
+                📱 Síguenos en nuestras redes sociales
+            </div>
+            
+            <div class='social-subtext'>
+                ✨ PH Cajas de Lujo - Creando magia en cada detalle ✨
+            </div>
         </div>
     </body>
     </html>
     """
     
-    components.html(social_html, height=80)
+    components.html(social_html, height=140)
 
 def load_css():
     css_path = os.path.join(BASE_DIR, "static", "styles.css")
