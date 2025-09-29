@@ -131,7 +131,6 @@ def get_placeholder_image():
     </svg>
     """
     return f"data:image/svg+xml;base64,{base64.b64encode(svg_placeholder.encode()).decode()}"
-    
 
 def show_floating_bar():
     img_b64 = load_image_base64("Imagen2.jpeg")
@@ -723,51 +722,6 @@ def initialize_app():
 # -------------------- CALCULADORAS ESPECIALIZADAS --------------------
 class CalculadorasCajas:
     @staticmethod
-    def calcular_cesta(espesor, largo, ancho, alto, acabado_virada=1.0, acabado_altura=1.5):
-        """Calculadora Cesta - Basada en Excel 'Calculadora Cesta'"""
-        resultados = {}
-        
-        # MEDIDAS CARTÓN - MÉTODO CORTE SEPARADO
-        resultados['base'] = {
-            'medida': f"{largo} x {ancho}",
-            'descripcion': 'Base - 1 pieza'
-        }
-        
-        resultados['lateral_largo'] = {
-            'medida': f"{largo + ((espesor/10)*2):.1f} x {alto}",
-            'descripcion': 'Lateral (largo) - 2 piezas'
-        }
-        
-        resultados['lateral_ancho'] = {
-            'medida': f"{ancho} x {alto}",
-            'descripcion': 'Lateral (ancho) - 2 piezas'
-        }
-        
-        # MEDIDAS CARTÓN - MÉTODO CORTE Y VINCO
-        resultados['placa_vinco'] = {
-            'medida': f"{largo + alto + alto:.1f} x {ancho + alto + alto:.1f}",
-            'descripcion': 'Tamaño placa de cartón'
-        }
-        
-        # MEDIDAS REVESTIMIENTO PAPEL
-        resultados['parte_interna'] = {
-            'medida': f"{largo + alto + alto:.1f} x {ancho + alto + alto:.1f}",
-            'descripcion': 'Parte interna'
-        }
-        
-        resultados['parte_externa_banda'] = {
-            'medida': f"{largo + ancho + largo + ancho + acabado_virada + (espesor/10)*8:.1f} x {alto + acabado_altura + acabado_altura:.1f}",
-            'descripcion': 'Parte externa - banda'
-        }
-        
-        resultados['parte_externa_fondo'] = {
-            'medida': f"{largo} x {ancho}",
-            'descripcion': 'Parte externa - fondo'
-        }
-        
-        return resultados
-
-    @staticmethod
     def calcular_tapa_libro(espesor, largo, ancho, alto, acabado_virada=1.0, espacio_ranura=0.3):
         """Calculadora Tapa Libro - Basada en Excel 'Tampa Livro'"""
         resultados = {}
@@ -965,16 +919,7 @@ def calcular_caja_especializada():
         modo = st.session_state.calculator_mode
         calculadora = CalculadorasCajas()
         
-        if modo == 'cesta':
-            resultados = calculadora.calcular_cesta(
-                st.session_state.espesor_caja,
-                st.session_state.largo_caja,
-                st.session_state.ancho_caja, 
-                st.session_state.alto_caja,
-                st.session_state.acabado_virada,
-                st.session_state.acabado_altura
-            )
-        elif modo == 'tapa_libro':
+        if modo == 'tapa_libro':
             resultados = calculadora.calcular_tapa_libro(
                 st.session_state.espesor_caja,
                 st.session_state.largo_caja,
@@ -1409,43 +1354,6 @@ def render_normal_mode(shared_params):
     
     return sheet_width, sheet_height, cut_width, cut_height
 
-def render_cesta_mode():
-    """Renderiza la interfaz del modo Cesta"""
-    st.markdown('<div class="section-card">', unsafe_allow_html=True)
-    st.markdown("### 📦 Dimensiones de la Caja Cesta")
-    
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.session_state.espesor_caja = st.number_input("Espesor del cartón (mm)", min_value=0.1, value=2.0, step=0.1, key="espesor_cesta")
-    with col2:
-        st.session_state.largo_caja = st.number_input("Largo de la caja (cm)", min_value=0.1, value=15.0, step=0.1, key="largo_cesta")
-    with col3:
-        st.session_state.ancho_caja = st.number_input("Ancho de la caja (cm)", min_value=0.1, value=9.0, step=0.1, key="ancho_cesta")
-    
-    st.session_state.alto_caja = st.number_input("Alto de la caja (cm)", min_value=0.1, value=5.0, step=0.1, key="alto_cesta")
-    
-    st.markdown('</div>', unsafe_allow_html=True)
-
-    st.markdown('<div class="section-card">', unsafe_allow_html=True)
-    st.markdown("### 🎨 Acabados para Revestimiento")
-    
-    col1, col2 = st.columns(2)
-    with col1:
-        st.session_state.acabado_virada = st.number_input("Acabado virada lateral (cm)", min_value=0.0, value=1.0, step=0.1, key="virada_cesta")
-    with col2:
-        st.session_state.acabado_altura = st.number_input("Acabado virada altura (cm)", min_value=0.0, value=1.5, step=0.1, key="altura_cesta")
-    
-    st.markdown('</div>', unsafe_allow_html=True)
-
-    # Botones
-    col_calc, col_clear = st.columns([1, 1])
-    with col_calc:
-        if st.button("🎯 Calcular Medidas", use_container_width=True):
-            calcular_caja_especializada()
-    with col_clear:
-        if st.button("🗑️ Limpiar Todo", use_container_width=True):
-            clear_all_fields()
-
 def render_tapa_libro_mode():
     """Renderiza la interfaz del modo Tapa Libro"""
     st.markdown('<div class="section-card">', unsafe_allow_html=True)
@@ -1572,7 +1480,6 @@ def main():
         st.markdown("### 🧮 Modo Calculadora")
         modos_calculadora = {
             'normal': '✂️ Corte Normal',
-            'cesta': '🧺 Caja Cesta',
             'tapa_libro': '📚 Tapa Libro', 
             'tapa_suelta': '🧩 Tapa Suelta',
             'redonda': '🔵 Caja Redonda'
@@ -1637,8 +1544,6 @@ def main():
         # Renderizar interfaz según el modo seleccionado
         if st.session_state.calculator_mode == 'normal':
             render_normal_mode(shared_params)
-        elif st.session_state.calculator_mode == 'cesta':
-            render_cesta_mode()
         elif st.session_state.calculator_mode == 'tapa_libro':
             render_tapa_libro_mode()
         elif st.session_state.calculator_mode == 'tapa_suelta':
