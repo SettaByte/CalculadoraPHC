@@ -269,30 +269,7 @@ def show_social_bar():
                      alt="PH Cajas de Lujo">
             </div>
             
-            <div class='content-container'>
-                <div class='social-text'>
-                    📱 Síguenos en redes sociales
-                </div>
-                <div class='social-subtext'>
-                    ✨ PH Cajas de Lujo - Magia en cada detalle
-                </div>
-                
-                <div class='icons-container'>
-                    <a href="https://tiktok.com/@p.h.cajas" target="_blank" class='social-button' title="TikTok">
-                        <i class='fab fa-tiktok'></i>
-                    </a>
-                    
-                    <a href="https://www.facebook.com/profile.php?id=61576728375462" target="_blank" class='social-button' title="Facebook">
-                        <i class='fab fa-facebook-f'></i>
-                    </a>
-                    
-                    <a href="https://www.instagram.com/p.h.cajas/" target="_blank" class='social-button' title="Instagram">
-                        <i class='fab fa-instagram'></i>
-                    </a>
-                    
-                    <a href="https://phcajasdelujo.taplink.mx/" target="_blank" class='web-button' title="Nuestra web">
-                        <span class='web-text'>🌐 WEB</span>
-                    </a>
+           
                 </div>
             </div>
         </div>
