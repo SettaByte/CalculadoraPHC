@@ -1066,6 +1066,22 @@ def show_cutting_preview():
     
     st.plotly_chart(fig, use_container_width=True)
 
+def show_caja_report():
+    """Muestra el reporte de medidas de caja"""
+    if not st.session_state.calculation_result or st.session_state.calculator_mode == 'normal':
+        return
+        
+    resultados = st.session_state.calculation_result
+    
+    # Crear DataFrame con los resultados
+    data = {
+        "Pieza": [resultados[key]['descripcion'] for key in resultados],
+        "Medidas (cm)": [resultados[key]['medida'] for key in resultados]
+    }
+    
+    df = pd.DataFrame(data)
+    st.dataframe(df, hide_index=True, use_container_width=True)
+
 def show_cut_report():
     """Muestra el reporte de cortes (solo para modo normal)"""
     if not st.session_state.calculation_result or st.session_state.calculator_mode != 'normal':
