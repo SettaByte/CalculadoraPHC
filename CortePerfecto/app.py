@@ -41,208 +41,215 @@ def show_floating_bar():
 # -------------------- BARRA SOCIAL MEJORADA --------------------
 
 def show_social_bar():
-    """Muestra la barra social usando components.html - 100% funcional"""
+    """Muestra la barra social compacta con imagen redonda"""
     
     social_html = """
     <!DOCTYPE html>
     <html>
     <head>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
         <style>
             .social-bar {
                 background: linear-gradient(135deg, #ff69b4, #ff1493);
-                padding: 50px 35px;
-                border-radius: 30px;
-                margin: 40px 0 30px 0;
-                box-shadow: 0 20px 45px rgba(255, 105, 180, 0.5);
-                border: 4px solid rgba(255, 182, 193, 0.7);
-                backdrop-filter: blur(15px);
+                padding: 10px 15px;
+                border-radius: 12px;
+                margin: 15px 0 10px 0;
+                box-shadow: 0 3px 10px rgba(255, 105, 180, 0.3);
+                border: 1px solid rgba(255, 182, 193, 0.5);
                 font-family: 'Poppins', sans-serif;
-                min-height: 180px;
                 display: flex;
-                flex-direction: column;
-                justify-content: center;
+                align-items: center;
+                gap: 12px;
+                min-height: 60px;
             }
             
-            .social-container {
+            .logo-container {
+                flex-shrink: 0;
+            }
+            
+            .logo-image {
+                width: 45px;
+                height: 45px;
+                border-radius: 50%;
+                border: 2px solid rgba(255, 255, 255, 0.6);
+                object-fit: cover;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            }
+            
+            .content-container {
+                flex: 1;
                 display: flex;
-                justify-content: center;
+                flex-direction: column;
+                gap: 3px;
+            }
+            
+            .icons-container {
+                display: flex;
                 align-items: center;
-                gap: 35px;
+                gap: 10px;
                 flex-wrap: wrap;
             }
             
             .social-button {
-                background: rgba(255, 255, 255, 0.25);
-                padding: 22px;
+                background: rgba(255, 255, 255, 0.2);
+                padding: 6px;
                 border-radius: 50%;
-                width: 85px;
-                height: 85px;
+                width: 32px;
+                height: 32px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-                border: 4px solid rgba(255, 255, 255, 0.4);
+                transition: all 0.2s ease;
+                border: 1.5px solid rgba(255, 255, 255, 0.3);
                 text-decoration: none;
-                box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
-                position: relative;
-                overflow: hidden;
-            }
-            
-            .social-button::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: -100%;
-                width: 100%;
-                height: 100%;
-                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-                transition: left 0.6s ease;
-            }
-            
-            .social-button:hover::before {
-                left: 100%;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             }
             
             .social-button:hover {
-                transform: scale(1.2) rotate(8deg);
-                background: rgba(255, 255, 255, 0.35);
-                box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3), 0 0 25px rgba(255, 255, 255, 0.4);
-                border-color: rgba(255, 255, 255, 0.9);
+                transform: scale(1.1);
+                background: rgba(255, 255, 255, 0.3);
+                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
             }
             
             .social-button i {
-                font-size: 34px;
+                font-size: 14px;
                 color: white;
-                position: relative;
-                z-index: 2;
-                text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
             }
             
             .web-button {
-                background: rgba(255, 255, 255, 0.25);
-                padding: 22px 38px;
-                border-radius: 45px;
+                background: rgba(255, 255, 255, 0.2);
+                padding: 4px 10px;
+                border-radius: 12px;
                 text-decoration: none;
-                transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-                border: 4px solid rgba(255, 255, 255, 0.4);
-                box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
-                position: relative;
-                overflow: hidden;
-            }
-            
-            .web-button::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: -100%;
-                width: 100%;
-                height: 100%;
-                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-                transition: left 0.6s ease;
-            }
-            
-            .web-button:hover::before {
-                left: 100%;
+                transition: all 0.2s ease;
+                border: 1.5px solid rgba(255, 255, 255, 0.3);
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                margin-left: 5px;
             }
             
             .web-button:hover {
-                transform: scale(1.15) translateY(-3px);
-                background: rgba(255, 255, 255, 0.35);
-                box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3), 0 0 30px rgba(255, 255, 255, 0.5);
-                border-color: rgba(255, 255, 255, 0.9);
+                transform: scale(1.05);
+                background: rgba(255, 255, 255, 0.3);
+                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
             }
             
             .web-text {
                 color: white;
-                font-weight: 800;
-                font-size: 24px;
-                letter-spacing: 1.5px;
-                text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-                position: relative;
-                z-index: 2;
+                font-weight: 500;
+                font-size: 10px;
+                letter-spacing: 0.3px;
+                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
                 font-family: 'Poppins', sans-serif;
             }
             
-            /* TEXTO OCULTO - Comentado para que no se muestre */
             .social-text {
-                display: none; /* Oculta completamente el texto */
+                color: white;
+                font-family: 'Poppins', sans-serif;
+                font-size: 11px;
+                font-weight: 500;
+                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+                line-height: 1.2;
             }
             
             .social-subtext {
-                display: none; /* Oculta completamente el subtítulo */
+                color: rgba(255, 255, 255, 0.85);
+                font-family: 'Poppins', sans-serif;
+                font-size: 9px;
+                font-weight: 400;
+                text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+                line-height: 1.2;
             }
             
             @media (max-width: 768px) {
                 .social-bar {
-                    padding: 40px 25px;
-                    min-height: 160px;
+                    padding: 8px 12px;
+                    gap: 10px;
+                    min-height: 55px;
                 }
                 
-                .social-container {
-                    gap: 25px;
+                .logo-image {
+                    width: 40px;
+                    height: 40px;
                 }
                 
                 .social-button {
-                    width: 70px;
-                    height: 70px;
-                    padding: 20px;
+                    width: 28px;
+                    height: 28px;
+                    padding: 5px;
                 }
                 
                 .social-button i {
-                    font-size: 28px;
+                    font-size: 12px;
                 }
                 
                 .web-button {
-                    padding: 20px 32px;
+                    padding: 3px 8px;
                 }
                 
                 .web-text {
-                    font-size: 20px;
+                    font-size: 9px;
+                }
+                
+                .social-text {
+                    font-size: 10px;
+                }
+                
+                .social-subtext {
+                    font-size: 8px;
                 }
             }
         </style>
     </head>
     <body>
         <div class='social-bar'>
-            <div class='social-container'>
-                <!-- TikTok -->
-                <a href="https://tiktok.com/@p.h.cajas" target="_blank" class='social-button' title="Síguenos en TikTok">
-                    <i class='fab fa-tiktok'></i>
-                </a>
-                
-                <!-- Facebook -->
-                <a href="https://www.facebook.com/profile.php?id=61576728375462" target="_blank" class='social-button' title="Síguenos en Facebook">
-                    <i class='fab fa-facebook-f'></i>
-                </a>
-                
-                <!-- Instagram -->
-                <a href="https://www.instagram.com/p.h.cajas/" target="_blank" class='social-button' title="Síguenos en Instagram">
-                    <i class='fab fa-instagram'></i>
-                </a>
-                
-                <!-- Web -->
-                <a href="https://phcajasdelujo.taplink.mx/" target="_blank" class='web-button' title="Visita nuestra web">
-                    <span class='web-text'>🌐 NUESTRA WEB</span>
-                </a>
+            <!-- Imagen redonda a la izquierda -->
+            <div class='logo-container'>
+                <img src="https://via.placeholder.com/45x45/FF69B4/FFFFFF?text=PH" 
+                     class='logo-image' 
+                     alt="PH Cajas de Lujo">
             </div>
             
-            <!-- Texto oculto -->
-            <div class='social-text' style="display: none;">
-                📱 Síguenos en nuestras redes sociales
-            </div>
-            
-            <div class='social-subtext' style="display: none;">
-                ✨ PH Cajas de Lujo - Creando magia en cada detalle ✨
+            <!-- Contenido principal -->
+            <div class='content-container'>
+                <!-- Textos -->
+                <div class='social-text'>
+                    📱 Síguenos en redes sociales
+                </div>
+                <div class='social-subtext'>
+                    ✨ PH Cajas de Lujo - Magia en cada detalle
+                </div>
+                
+                <!-- Iconos y botón web -->
+                <div class='icons-container'>
+                    <!-- TikTok -->
+                    <a href="https://tiktok.com/@p.h.cajas" target="_blank" class='social-button' title="TikTok">
+                        <i class='fab fa-tiktok'></i>
+                    </a>
+                    
+                    <!-- Facebook -->
+                    <a href="https://www.facebook.com/profile.php?id=61576728375462" target="_blank" class='social-button' title="Facebook">
+                        <i class='fab fa-facebook-f'></i>
+                    </a>
+                    
+                    <!-- Instagram -->
+                    <a href="https://www.instagram.com/p.h.cajas/" target="_blank" class='social-button' title="Instagram">
+                        <i class='fab fa-instagram'></i>
+                    </a>
+                    
+                    <!-- Web -->
+                    <a href="https://phcajasdelujo.taplink.mx/" target="_blank" class='web-button' title="Nuestra web">
+                        <span class='web-text'>🌐 WEB</span>
+                    </a>
+                </div>
             </div>
         </div>
     </body>
     </html>
     """
     
-    components.html(social_html, height=200)
-
+    components.html(social_html, height=80)
 # -------------------- ELEMENTOS ESTÉTICOS ADICIONALES --------------------
 def show_decoration_elements():
     """Muestra elementos decorativos adicionales"""
