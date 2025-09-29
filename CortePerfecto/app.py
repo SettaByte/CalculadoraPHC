@@ -1046,9 +1046,9 @@ def show_cutting_preview():
                 fillcolor="rgba(255, 105, 180, 0.3)"
             )
     
-    # Configurar el layout - QUITAR SOLO EL BOTÓN DE ZOOM PRINCIPAL
+    # Configurar el layout - MODO PREDETERMINADO A PAN (MOVER)
     fig.update_layout(
-        title="    Vista Previa de Cortes",
+        title="Vista Previa de Cortes",
         xaxis_title="Ancho (cm)",
         yaxis_title="Alto (cm)",
         showlegend=False,
@@ -1056,6 +1056,8 @@ def show_cutting_preview():
         height=400,
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor="rgba(0,0,0,0)",
+        # Configuración del modo de arrastre predeterminado
+        dragmode="pan",  # Esto establece el modo pan como predeterminado
         # Configuración de la barra de herramientas - quitar solo el zoom principal
         modebar=dict(
             remove=["zoom"]  # Solo quita el botón de zoom principal
@@ -1063,21 +1065,6 @@ def show_cutting_preview():
     )
     
     st.plotly_chart(fig, use_container_width=True)
-def show_caja_report():
-    """Muestra el reporte de medidas de caja"""
-    if not st.session_state.calculation_result or st.session_state.calculator_mode == 'normal':
-        return
-        
-    resultados = st.session_state.calculation_result
-    
-    # Crear DataFrame con los resultados
-    data = {
-        "Pieza": [resultados[key]['descripcion'] for key in resultados],
-        "Medidas (cm)": [resultados[key]['medida'] for key in resultados]
-    }
-    
-    df = pd.DataFrame(data)
-    st.dataframe(df, hide_index=True, use_container_width=True)
 
 def show_cut_report():
     """Muestra el reporte de cortes (solo para modo normal)"""
