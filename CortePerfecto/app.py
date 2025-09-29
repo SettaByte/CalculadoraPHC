@@ -263,15 +263,12 @@ def show_social_bar():
         
         <!-- SEGUNDA BARRA (IDÉNTICA) -->
         <div class='social-bar-2'>
-            <div class='logo-container'>
-                <img src="https://via.placeholder.com/45x45/FF69B4/FFFFFF?text=PH" 
                      class='logo-image' 
                      alt="PH Cajas de Lujo">
             </div>
             
            
-                </div>
-            </div>
+            
         </div>
     </body>
     </html>
