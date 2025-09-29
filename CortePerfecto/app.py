@@ -86,7 +86,7 @@ def show_floating_bar():
 # -------------------- BARRA SOCIAL MEJORADA --------------------
 
 def show_social_bar():
-    """Muestra una barra social con imagen"""
+    """Muestra una barra social con imagen sin marco"""
     
     # Generar el base64 ANTES de crear el HTML
     img_b64_social = load_image_base64("Imagen1.jpeg")
@@ -122,9 +122,8 @@ def show_social_bar():
                 width: 45px;
                 height: 45px;
                 border-radius: 50%;
-                border: 2px solid rgba(255, 255, 255, 0.6);
                 object-fit: cover;
-                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+                /* ELIMINADO: border y box-shadow */
             }}
             
             .content-container {{
