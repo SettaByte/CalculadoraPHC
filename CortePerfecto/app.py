@@ -41,7 +41,7 @@ def show_floating_bar():
 # -------------------- BARRA SOCIAL MEJORADA --------------------
 
 def show_social_bar():
-    """Muestra la barra social usando components.html - Versión compacta con textos"""
+    """Muestra la barra social usando components.html - 100% funcional"""
     
     social_html = """
     <!DOCTYPE html>
@@ -52,12 +52,12 @@ def show_social_bar():
         <style>
             .social-bar {
                 background: linear-gradient(135deg, #ff69b4, #ff1493);
-                padding: 15px 20px;
-                border-radius: 18px;
-                margin: 20px 0 15px 0;
-                box-shadow: 0 6px 20px rgba(255, 105, 180, 0.35);
-                border: 2px solid rgba(255, 182, 193, 0.6);
-                backdrop-filter: blur(10px);
+                padding: 40px 35px;
+                border-radius: 30px;
+                margin: 40px 0 30px 0;
+                box-shadow: 0 20px 45px rgba(255, 105, 180, 0.5);
+                border: 4px solid rgba(255, 182, 193, 0.7);
+                backdrop-filter: blur(15px);
                 font-family: 'Poppins', sans-serif;
             }
             
@@ -65,120 +65,151 @@ def show_social_bar():
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                gap: 20px;
+                gap: 35px;
                 flex-wrap: wrap;
-                margin-bottom: 8px;
             }
             
             .social-button {
                 background: rgba(255, 255, 255, 0.25);
-                padding: 10px;
+                padding: 20px;
                 border-radius: 50%;
-                width: 45px;
-                height: 45px;
+                width: 80px;
+                height: 80px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                transition: all 0.3s ease;
-                border: 2px solid rgba(255, 255, 255, 0.4);
+                transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+                border: 4px solid rgba(255, 255, 255, 0.4);
                 text-decoration: none;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .social-button::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+                transition: left 0.6s ease;
+            }
+            
+            .social-button:hover::before {
+                left: 100%;
             }
             
             .social-button:hover {
-                transform: scale(1.1) rotate(5deg);
+                transform: scale(1.2) rotate(8deg);
                 background: rgba(255, 255, 255, 0.35);
-                box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-                border-color: rgba(255, 255, 255, 0.7);
+                box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3), 0 0 25px rgba(255, 255, 255, 0.4);
+                border-color: rgba(255, 255, 255, 0.9);
             }
             
             .social-button i {
-                font-size: 18px;
+                font-size: 32px;
                 color: white;
-                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+                position: relative;
+                z-index: 2;
+                text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
             }
             
             .web-button {
                 background: rgba(255, 255, 255, 0.25);
-                padding: 8px 16px;
-                border-radius: 20px;
+                padding: 20px 35px;
+                border-radius: 45px;
                 text-decoration: none;
-                transition: all 0.3s ease;
-                border: 2px solid rgba(255, 255, 255, 0.4);
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+                border: 4px solid rgba(255, 255, 255, 0.4);
+                box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .web-button::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+                transition: left 0.6s ease;
+            }
+            
+            .web-button:hover::before {
+                left: 100%;
             }
             
             .web-button:hover {
-                transform: scale(1.05);
+                transform: scale(1.15) translateY(-3px);
                 background: rgba(255, 255, 255, 0.35);
-                box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-                border-color: rgba(255, 255, 255, 0.7);
+                box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3), 0 0 30px rgba(255, 255, 255, 0.5);
+                border-color: rgba(255, 255, 255, 0.9);
             }
             
             .web-text {
                 color: white;
-                font-weight: 600;
-                font-size: 12px;
-                letter-spacing: 0.5px;
-                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+                font-weight: 800;
+                font-size: 22px;
+                letter-spacing: 1.5px;
+                text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+                position: relative;
+                z-index: 2;
                 font-family: 'Poppins', sans-serif;
             }
             
             .social-text {
                 text-align: center;
-                margin: 5px 0 3px 0;
+                margin-top: 25px;
                 color: white;
                 font-family: 'Poppins', sans-serif;
-                font-size: 13px;
-                font-weight: 500;
-                text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+                font-size: 22px;
+                font-weight: 600;
+                text-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
             }
             
             .social-subtext {
                 text-align: center;
-                margin: 0;
-                color: rgba(255, 255, 255, 0.9);
+                margin-top: 15px;
+                color: rgba(255, 255, 255, 0.95);
                 font-family: 'Poppins', sans-serif;
-                font-size: 11px;
-                font-weight: 400;
-                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+                font-size: 18px;
+                font-weight: 500;
+                text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
             }
             
             @media (max-width: 768px) {
-                .social-bar {
-                    padding: 12px 16px;
-                    border-radius: 15px;
-                }
-                
                 .social-container {
-                    gap: 15px;
-                    margin-bottom: 6px;
+                    gap: 25px;
                 }
                 
                 .social-button {
-                    width: 40px;
-                    height: 40px;
-                    padding: 8px;
+                    width: 65px;
+                    height: 65px;
+                    padding: 18px;
                 }
                 
                 .social-button i {
-                    font-size: 16px;
+                    font-size: 26px;
                 }
                 
                 .web-button {
-                    padding: 6px 12px;
+                    padding: 18px 30px;
                 }
                 
                 .web-text {
-                    font-size: 11px;
+                    font-size: 18px;
                 }
                 
                 .social-text {
-                    font-size: 12px;
+                    font-size: 18px;
                 }
                 
                 .social-subtext {
-                    font-size: 10px;
+                    font-size: 16px;
                 }
             }
         </style>
@@ -203,7 +234,7 @@ def show_social_bar():
                 
                 <!-- Web -->
                 <a href="https://phcajasdelujo.taplink.mx/" target="_blank" class='web-button' title="Visita nuestra web">
-                    <span class='web-text'>🌐 WEB</span>
+                    <span class='web-text'>🌐 NUESTRA WEB</span>
                 </a>
             </div>
             
@@ -219,7 +250,36 @@ def show_social_bar():
     </html>
     """
     
-    components.html(social_html, height=140)
+    components.html(social_html, height=250)
+
+# -------------------- ELEMENTOS ESTÉTICOS ADICIONALES --------------------
+def show_decoration_elements():
+    """Muestra elementos decorativos adicionales"""
+    
+    # Línea decorativa superior
+    st.markdown("""
+    <div style='
+        height: 4px;
+        background: linear-gradient(90deg, #FF69B4, #FF1493, #FF69B4);
+        border-radius: 10px;
+        margin: 10px 0 30px 0;
+        box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+    '></div>
+    """, unsafe_allow_html=True)
+    
+    # Separador decorativo entre secciones
+    st.markdown("""
+    <div style='
+        text-align: center;
+        margin: 25px 0;
+        color: #FF69B4;
+        font-family: "Poppins", sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+    '>
+        ✦ ✦ ✦
+    </div>
+    """, unsafe_allow_html=True)
 
 def load_css():
     css_path = os.path.join(BASE_DIR, "static", "styles.css")
