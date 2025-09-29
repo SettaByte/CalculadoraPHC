@@ -41,7 +41,7 @@ def show_floating_bar():
 # -------------------- BARRA SOCIAL MEJORADA --------------------
 
 def show_social_bar():
-    """Muestra la barra social compacta con imagen redonda"""
+    """Muestra dos barras sociales idénticas, una debajo de la otra"""
     
     social_html = """
     <!DOCTYPE html>
@@ -50,18 +50,38 @@ def show_social_bar():
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
         <style>
-            .social-bar {
+            /* PRIMERA BARRA */
+            .social-bar-1 {
                 background: linear-gradient(135deg, #ff69b4, #ff1493);
                 padding: 10px 15px;
                 border-radius: 12px;
-                margin: 15px 0 10px 0;
+                margin: 10px 0 5px 0;
                 box-shadow: 0 3px 10px rgba(255, 105, 180, 0.3);
                 border: 1px solid rgba(255, 182, 193, 0.5);
                 font-family: 'Poppins', sans-serif;
                 display: flex;
                 align-items: center;
                 gap: 12px;
-                min-height: 60px;
+                height: 65px;
+                min-height: 65px;
+                max-height: 65px;
+            }
+            
+            /* SEGUNDA BARRA */
+            .social-bar-2 {
+                background: linear-gradient(135deg, #ff69b4, #ff1493);
+                padding: 10px 15px;
+                border-radius: 12px;
+                margin: 5px 0 10px 0;
+                box-shadow: 0 3px 10px rgba(255, 105, 180, 0.3);
+                border: 1px solid rgba(255, 182, 193, 0.5);
+                font-family: 'Poppins', sans-serif;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                height: 65px;
+                min-height: 65px;
+                max-height: 65px;
             }
             
             .logo-container {
@@ -163,10 +183,12 @@ def show_social_bar():
             }
             
             @media (max-width: 768px) {
-                .social-bar {
+                .social-bar-1, .social-bar-2 {
                     padding: 8px 12px;
                     gap: 10px;
-                    min-height: 55px;
+                    height: 60px;
+                    min-height: 60px;
+                    max-height: 60px;
                 }
                 
                 .logo-image {
@@ -203,17 +225,15 @@ def show_social_bar():
         </style>
     </head>
     <body>
-        <div class='social-bar'>
-            <!-- Imagen redonda a la izquierda -->
+        <!-- PRIMERA BARRA -->
+        <div class='social-bar-1'>
             <div class='logo-container'>
                 <img src="https://via.placeholder.com/45x45/FF69B4/FFFFFF?text=PH" 
                      class='logo-image' 
                      alt="PH Cajas de Lujo">
             </div>
             
-            <!-- Contenido principal -->
             <div class='content-container'>
-                <!-- Textos -->
                 <div class='social-text'>
                     📱 Síguenos en redes sociales
                 </div>
@@ -221,24 +241,55 @@ def show_social_bar():
                     ✨ PH Cajas de Lujo - Magia en cada detalle
                 </div>
                 
-                <!-- Iconos y botón web -->
                 <div class='icons-container'>
-                    <!-- TikTok -->
                     <a href="https://tiktok.com/@p.h.cajas" target="_blank" class='social-button' title="TikTok">
                         <i class='fab fa-tiktok'></i>
                     </a>
                     
-                    <!-- Facebook -->
                     <a href="https://www.facebook.com/profile.php?id=61576728375462" target="_blank" class='social-button' title="Facebook">
                         <i class='fab fa-facebook-f'></i>
                     </a>
                     
-                    <!-- Instagram -->
                     <a href="https://www.instagram.com/p.h.cajas/" target="_blank" class='social-button' title="Instagram">
                         <i class='fab fa-instagram'></i>
                     </a>
                     
-                    <!-- Web -->
+                    <a href="https://phcajasdelujo.taplink.mx/" target="_blank" class='web-button' title="Nuestra web">
+                        <span class='web-text'>🌐 WEB</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SEGUNDA BARRA (IDÉNTICA) -->
+        <div class='social-bar-2'>
+            <div class='logo-container'>
+                <img src="https://via.placeholder.com/45x45/FF69B4/FFFFFF?text=PH" 
+                     class='logo-image' 
+                     alt="PH Cajas de Lujo">
+            </div>
+            
+            <div class='content-container'>
+                <div class='social-text'>
+                    📱 Síguenos en redes sociales
+                </div>
+                <div class='social-subtext'>
+                    ✨ PH Cajas de Lujo - Magia en cada detalle
+                </div>
+                
+                <div class='icons-container'>
+                    <a href="https://tiktok.com/@p.h.cajas" target="_blank" class='social-button' title="TikTok">
+                        <i class='fab fa-tiktok'></i>
+                    </a>
+                    
+                    <a href="https://www.facebook.com/profile.php?id=61576728375462" target="_blank" class='social-button' title="Facebook">
+                        <i class='fab fa-facebook-f'></i>
+                    </a>
+                    
+                    <a href="https://www.instagram.com/p.h.cajas/" target="_blank" class='social-button' title="Instagram">
+                        <i class='fab fa-instagram'></i>
+                    </a>
+                    
                     <a href="https://phcajasdelujo.taplink.mx/" target="_blank" class='web-button' title="Nuestra web">
                         <span class='web-text'>🌐 WEB</span>
                     </a>
@@ -249,7 +300,7 @@ def show_social_bar():
     </html>
     """
     
-    components.html(social_html, height=80)
+    components.html(social_html, height=150)
 # -------------------- ELEMENTOS ESTÉTICOS ADICIONALES --------------------
 def show_decoration_elements():
     """Muestra elementos decorativos adicionales"""
