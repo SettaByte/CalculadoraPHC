@@ -9,6 +9,68 @@ import streamlit.components.v1 as components
 
 BASE_DIR = os.path.dirname(__file__)
 
+# -------------------- CLASE CALCULADORA CORREGIDA --------------------
+class CuttingCalculator:
+    def calculate_optimal_cutting(self, sheet_width, sheet_height, cut_width, cut_height):
+        """Calcula el corte óptimo para una hoja dada"""
+        try:
+            # Calcular número máximo de cortes en cada dirección
+            cuts_horizontal = math.floor(sheet_width / cut_width)
+            cuts_vertical = math.floor(sheet_height / cut_height)
+            
+            # Calcular cortes totales por hoja
+            cuts_per_sheet = cuts_horizontal * cuts_vertical
+            
+            # Calcular porcentaje de utilización
+            total_sheet_area = sheet_width * sheet_height
+            used_area = cuts_per_sheet * cut_width * cut_height
+            utilization_percentage = (used_area / total_sheet_area) * 100
+            
+            return {
+                'sheet_width': sheet_width,
+                'sheet_height': sheet_height,
+                'cut_width': cut_width,
+                'cut_height': cut_height,
+                'cuts_horizontal': cuts_horizontal,
+                'cuts_vertical': cuts_vertical,
+                'cuts_per_sheet': cuts_per_sheet,
+                'sheets_required': 1,  # Para una hoja
+                'usable_cuts': cuts_per_sheet,
+                'utilization_percentage': utilization_percentage,
+                'wasted_area': total_sheet_area - used_area
+            }
+        except Exception as e:
+            raise Exception(f"Error en cálculo óptimo: {str(e)}")
+
+# -------------------- CLASE EXPORT UTILS CORREGIDA --------------------
+class ExportUtils:
+    def export_to_excel(self, data):
+        """Exporta datos a Excel"""
+        try:
+            output = io.BytesIO()
+            with pd.ExcelWriter(output, engine='openpyxl') as writer:
+                df = pd.DataFrame(data)
+                df.to_excel(writer, index=False, sheet_name='Resultados')
+            return output.getvalue()
+        except Exception as e:
+            raise Exception(f"Error exportando a Excel: {str(e)}")
+
+    def export_to_pdf(self, data):
+        """Exporta datos a PDF (simplificado)"""
+        try:
+            # Para una implementación real necesitarías reportlab o similar
+            # Por ahora devolvemos un PDF simple como placeholder
+            pdf_content = f"Reporte de Resultados\n\n"
+            for key in data:
+                pdf_content += f"{key}:\n"
+                for i, item in enumerate(data[key]):
+                    pdf_content += f"  {item}\n"
+                pdf_content += "\n"
+            
+            return pdf_content.encode()
+        except Exception as e:
+            raise Exception(f"Error exportando a PDF: {str(e)}")
+
 # -------------------- CARGA DE RECURSOS --------------------
 def load_image_base64(filename):
     """
