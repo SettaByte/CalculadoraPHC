@@ -1046,7 +1046,7 @@ def show_cutting_preview():
                 fillcolor="rgba(255, 105, 180, 0.3)"
             )
     
-    # Configurar el layout - QUITAR SOLO EL BOTÓN DE ZOOM
+    # Configurar el layout - QUITAR SOLO EL BOTÓN DE ZOOM PRINCIPAL
     fig.update_layout(
         title="Vista Previa de Cortes",
         xaxis_title="Ancho (cm)",
@@ -1056,18 +1056,13 @@ def show_cutting_preview():
         height=400,
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor="rgba(0,0,0,0)",
-        # Configuración de la barra de herramientas - quitar solo zoom
+        # Configuración de la barra de herramientas - quitar solo el zoom principal
         modebar=dict(
-            remove=["zoom", "zoomIn", "zoomOut"]  # Quita los botones de zoom
+            remove=["zoom"]  # Solo quita el botón de zoom principal
         )
     )
     
-    # Configuración adicional para deshabilitar el zoom en los ejes
-    fig.update_xaxes(fixedrange=True)  # Evita zoom en eje X
-    fig.update_yaxes(fixedrange=True)  # Evita zoom en eje Y
-    
     st.plotly_chart(fig, use_container_width=True)
-
 def show_caja_report():
     """Muestra el reporte de medidas de caja"""
     if not st.session_state.calculation_result or st.session_state.calculator_mode == 'normal':
