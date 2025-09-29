@@ -78,7 +78,7 @@ def show_floating_bar():
         <div class="floating-content">
             <img src="{img_b64}" 
                  style="height:60px; border-radius: 50%; margin-right: 15px;"/>
-            <span class="floating-text" style="white-space: normal; font-size: 18px; font-weight: bold;">¡Paulina Hernández: Cajas de Lujo - Calculadora de Corte Profesional! </span>
+            <span class="floating-text" style="white-space: normal; font-size: 26px; font-weight: bold;">¡Paulina Hernández: Cajas de Lujo - Calculadora de Corte Profesional! </span>
         </div>
     </div>
     """, unsafe_allow_html=True)
