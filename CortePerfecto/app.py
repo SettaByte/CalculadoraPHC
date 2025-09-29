@@ -89,7 +89,7 @@ def show_social_bar():
     """Muestra una barra social con imagen sin marco"""
     
     # Generar el base64 ANTES de crear el HTML
-    img_b64_social = load_image_base64("Imagen1.jpeg")
+    img_b64_social = load_image_base64("Imagen2.jpeg")
     
     social_html = f"""
     <!DOCTYPE html>
