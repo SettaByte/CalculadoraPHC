@@ -723,51 +723,6 @@ def initialize_app():
 # -------------------- CALCULADORAS ESPECIALIZADAS --------------------
 class CalculadorasCajas:
     @staticmethod
-    def calcular_cesta(espesor, largo, ancho, alto, acabado_virada=1.0, acabado_altura=1.5):
-        """Calculadora Cesta - Basada en Excel 'Calculadora Cesta'"""
-        resultados = {}
-        
-        # MEDIDAS CARTÓN - MÉTODO CORTE SEPARADO
-        resultados['base'] = {
-            'medida': f"{largo} x {ancho}",
-            'descripcion': 'Base - 1 pieza'
-        }
-        
-        resultados['lateral_largo'] = {
-            'medida': f"{largo + ((espesor/10)*2):.1f} x {alto}",
-            'descripcion': 'Lateral (largo) - 2 piezas'
-        }
-        
-        resultados['lateral_ancho'] = {
-            'medida': f"{ancho} x {alto}",
-            'descripcion': 'Lateral (ancho) - 2 piezas'
-        }
-        
-        # MEDIDAS CARTÓN - MÉTODO CORTE Y VINCO
-        resultados['placa_vinco'] = {
-            'medida': f"{largo + alto + alto:.1f} x {ancho + alto + alto:.1f}",
-            'descripcion': 'Tamaño placa de cartón'
-        }
-        
-        # MEDIDAS REVESTIMIENTO PAPEL
-        resultados['parte_interna'] = {
-            'medida': f"{largo + alto + alto:.1f} x {ancho + alto + alto:.1f}",
-            'descripcion': 'Parte interna'
-        }
-        
-        resultados['parte_externa_banda'] = {
-            'medida': f"{largo + ancho + largo + ancho + acabado_virada + (espesor/10)*8:.1f} x {alto + acabado_altura + acabado_altura:.1f}",
-            'descripcion': 'Parte externa - banda'
-        }
-        
-        resultados['parte_externa_fondo'] = {
-            'medida': f"{largo} x {ancho}",
-            'descripcion': 'Parte externa - fondo'
-        }
-        
-        return resultados
-
-    @staticmethod
     def calcular_tapa_libro(espesor, largo, ancho, alto, acabado_virada=1.0, espacio_ranura=0.3):
         """Calculadora Tapa Libro - Basada en Excel 'Tampa Livro'"""
         resultados = {}
@@ -965,16 +920,7 @@ def calcular_caja_especializada():
         modo = st.session_state.calculator_mode
         calculadora = CalculadorasCajas()
         
-        if modo == 'cesta':
-            resultados = calculadora.calcular_cesta(
-                st.session_state.espesor_caja,
-                st.session_state.largo_caja,
-                st.session_state.ancho_caja, 
-                st.session_state.alto_caja,
-                st.session_state.acabado_virada,
-                st.session_state.acabado_altura
-            )
-        elif modo == 'tapa_libro':
+        if modo == 'tapa_libro':
             resultados = calculadora.calcular_tapa_libro(
                 st.session_state.espesor_caja,
                 st.session_state.largo_caja,
@@ -1409,43 +1355,6 @@ def render_normal_mode(shared_params):
     
     return sheet_width, sheet_height, cut_width, cut_height
 
-def render_cesta_mode():
-    """Renderiza la interfaz del modo Cesta"""
-    st.markdown('<div class="section-card">', unsafe_allow_html=True)
-    st.markdown("### 📦 Dimensiones de la Caja Cesta")
-    
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.session_state.espesor_caja = st.number_input("Espesor del cartón (mm)", min_value=0.1, value=2.0, step=0.1, key="espesor_cesta")
-    with col2:
-        st.session_state.largo_caja = st.number_input("Largo de la caja (cm)", min_value=0.1, value=15.0, step=0.1, key="largo_cesta")
-    with col3:
-        st.session_state.ancho_caja = st.number_input("Ancho de la caja (cm)", min_value=0.1, value=9.0, step=0.1, key="ancho_cesta")
-    
-    st.session_state.alto_caja = st.number_input("Alto de la caja (cm)", min_value=0.1, value=5.0, step=0.1, key="alto_cesta")
-    
-    st.markdown('</div>', unsafe_allow_html=True)
-
-    st.markdown('<div class="section-card">', unsafe_allow_html=True)
-    st.markdown("### 🎨 Acabados para Revestimiento")
-    
-    col1, col2 = st.columns(2)
-    with col1:
-        st.session_state.acabado_virada = st.number_input("Acabado virada lateral (cm)", min_value=0.0, value=1.0, step=0.1, key="virada_cesta")
-    with col2:
-        st.session_state.acabado_altura = st.number_input("Acabado virada altura (cm)", min_value=0.0, value=1.5, step=0.1, key="altura_cesta")
-    
-    st.markdown('</div>', unsafe_allow_html=True)
-
-    # Botones
-    col_calc, col_clear = st.columns([1, 1])
-    with col_calc:
-        if st.button("🎯 Calcular Medidas", use_container_width=True):
-            calcular_caja_especializada()
-    with col_clear:
-        if st.button("🗑️ Limpiar Todo", use_container_width=True):
-            clear_all_fields()
-
 def render_tapa_libro_mode():
     """Renderiza la interfaz del modo Tapa Libro"""
     st.markdown('<div class="section-card">', unsafe_allow_html=True)
@@ -1572,7 +1481,6 @@ def main():
         st.markdown("### 🧮 Modo Calculadora")
         modos_calculadora = {
             'normal': '✂️ Corte Normal',
-            'cesta': '🧺 Caja Cesta',
             'tapa_libro': '📚 Tapa Libro', 
             'tapa_suelta': '🧩 Tapa Suelta',
             'redonda': '🔵 Caja Redonda'
@@ -1624,140 +1532,4 @@ def main():
     show_decoration_elements()
 
     # Floating bar
-    show_floating_bar()
-
-    # Cargar parámetros compartidos si existen
-    shared_params = load_shared_params()
-    
-    # PRIMER NIVEL: Dos columnas principales
-    col1, col2 = st.columns([1, 1])
-
-    # -------------------- COLUMNA 1: INPUTS --------------------
-    with col1:
-        # Renderizar interfaz según el modo seleccionado
-        if st.session_state.calculator_mode == 'normal':
-            render_normal_mode(shared_params)
-        elif st.session_state.calculator_mode == 'cesta':
-            render_cesta_mode()
-        elif st.session_state.calculator_mode == 'tapa_libro':
-            render_tapa_libro_mode()
-        elif st.session_state.calculator_mode == 'tapa_suelta':
-            render_tapa_suelta_mode()
-        elif st.session_state.calculator_mode == 'redonda':
-            render_redonda_mode()
-
-    # -------------------- COLUMNA 2: RESULTADOS --------------------
-    with col2:
-        if st.session_state.calculator_mode == 'normal':
-            st.markdown('<div class="section-card">', unsafe_allow_html=True)
-            st.markdown("### 📊 Vista Previa de Cortes")
-            st.markdown("<p style='font-size: 14px; opacity: 0.8;'>La gráfica es interactiva - puedes hacer zoom y arrastrar</p>", unsafe_allow_html=True)
-            if st.session_state.calculation_result:
-                show_cutting_preview()
-            else:
-                st.info("Haz clic en 'Calcular Óptimo' para ver la vista previa")
-            st.markdown('</div>', unsafe_allow_html=True)
-
-            st.markdown('<div class="section-card">', unsafe_allow_html=True)
-            st.markdown("### 📈 Reporte de Cortes")
-            if st.session_state.calculation_result:
-                show_cut_report()
-            else:
-                st.info("Los resultados aparecerán aquí después del cálculo")
-            st.markdown('</div>', unsafe_allow_html=True)
-        else:
-            st.markdown('<div class="section-card">', unsafe_allow_html=True)
-            st.markdown("### 📋 Medidas de la Caja")
-            st.markdown("<p style='font-size: 14px; opacity: 0.8;'>Todas las medidas necesarias para construir la caja</p>", unsafe_allow_html=True)
-            if st.session_state.calculation_result:
-                show_caja_report()
-            else:
-                st.info("Haz clic en 'Calcular Medidas' para ver los resultados")
-            st.markdown('</div>', unsafe_allow_html=True)
-
-        # Botones de descarga y compartir (siempre visibles)
-        if st.session_state.calculation_result:
-            st.markdown('<div class="section-card">', unsafe_allow_html=True)
-            st.markdown("### 💾 Exportar Resultados")
-            
-            col_excel, col_pdf, col_share = st.columns([1, 1, 1])
-            with col_excel:
-                if st.button("📊 Excel", key="excel_btn", help="Descargar resultados como Excel", use_container_width=True):
-                    export_excel()
-            with col_pdf:
-                if st.button("📄 PDF", key="pdf_btn", help="Descargar resultados como PDF", use_container_width=True):
-                    export_pdf()
-            with col_share:
-                if st.button("🔗 Compartir", key="share_btn", help="Generar enlace para compartir", use_container_width=True):
-                    generate_share_link()
-            st.markdown('</div>', unsafe_allow_html=True)
-
-        # Controles de personalización de colores (siempre visibles)
-        st.markdown('<div class="section-card">', unsafe_allow_html=True)
-        with st.expander("🎨 Personalizar Colores", expanded=False):
-            col_primary, col_secondary = st.columns(2)
-            
-            with col_primary:
-                new_primary = st.color_picker(
-                    "Color Primario",
-                    value=st.session_state.custom_colors['primary'],
-                    key="primary_color"
-                )
-            
-            with col_secondary:
-                new_secondary = st.color_picker(
-                    "Color Secundario", 
-                    value=st.session_state.custom_colors['secondary'],
-                    key="secondary_color"
-                )
-            
-            if (new_primary != st.session_state.custom_colors['primary'] or 
-                new_secondary != st.session_state.custom_colors['secondary']):
-                st.session_state.custom_colors = {
-                    'primary': new_primary,
-                    'secondary': new_secondary
-                }
-                st.rerun()
-            
-            if st.button("🔄 Restablecer Colores", key="reset_colors"):
-                st.session_state.custom_colors = {
-                    'primary': '#FF69B4',
-                    'secondary': '#FFB6C1'
-                }
-                st.rerun()
-        st.markdown('</div>', unsafe_allow_html=True)
-
-    # SEGUNDO NIVEL: Dos columnas inferiores para mejor distribución
-    st.markdown("---")
-    col3, col4 = st.columns([1, 1])
-    
-    with col3:
-        st.markdown('<div class="section-card">', unsafe_allow_html=True)
-        st.markdown("### ℹ️ Información Adicional")
-        st.info("""
-        **Características de la calculadora:**
-        - ✂️ Cálculo de cortes óptimos
-        - 📦 Múltiples tipos de cajas
-        - 🎨 Personalización de temas
-        - 💾 Exportación a Excel/PDF
-        - 📱 Diseño responsive
-        """)
-        st.markdown('</div>', unsafe_allow_html=True)
-
-    with col4:
-        st.markdown('<div class="section-card">', unsafe_allow_html=True)
-        st.markdown("### 🆘 Ayuda Rápida")
-        st.warning("""
-        **Consejos de uso:**
-        - Usa medidas en centímetros
-        - El espesor del cartón en milímetros
-        - Los acabados son adicionales
-        - Exporta tus resultados
-        """)
-        st.markdown('</div>', unsafe_allow_html=True)
-
-    # Barra social al final
-    show_social_bar()
-
-if __name__ == "__main__":
-    main()
+    show
