@@ -1186,7 +1186,7 @@ def check_easter_eggs(sheet_width, sheet_height, cut_width, cut_height):
         return "sequential"
     elif all(v == 777.0 for v in values):
         return "lucky_777"
-    elif all(v < 0.1 for v in values):
+    elif all(v == 0.1 for v in values):
         return "zero_void"
     elif all(v == 666.0 for v in values):
         return "perfect_100"
