@@ -1304,9 +1304,9 @@ def render_normal_mode(shared_params):
     """Renderiza la interfaz del modo normal"""
     st.markdown('<div class="section-card">', unsafe_allow_html=True)
     st.markdown("### 📐 Tamaño del Pliego de Cartón")
-    sheet_width = st.number_input("Ancho de la hoja (cm)", min_value=0.1, 
+    sheet_width = st.number_input("Largo de la hoja (cm)", min_value=0.1, 
                                  value=shared_params.get('sheet_width', 100.0), step=0.1)
-    sheet_height = st.number_input("Alto de la hoja (cm)", min_value=0.1, 
+    sheet_height = st.number_input("Ancho de la hoja (cm)", min_value=0.1, 
                                   value=shared_params.get('sheet_height', 70.0), step=0.1)
     st.markdown('</div>', unsafe_allow_html=True)
 
