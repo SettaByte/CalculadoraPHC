@@ -798,6 +798,9 @@ class CalculadorasCajas:
         """Calculadora Tapa Suelta - Basada en Excel 'Tampa de solta'"""
         resultados = {}
         
+        # CONSTANTE: 1 mm extra para todas las medidas de tapa (0.1 cm)
+        EXTRA_TAPA = 0.1
+        
         # MEDIDAS CARTÓN - MÉTODO CORTE SEPARADO
         resultados['base'] = {
             'medida': f"{largo} x {ancho}",
@@ -814,9 +817,9 @@ class CalculadorasCajas:
             'descripcion': 'Lateral (ancho) - 2 piezas'
         }
         
-        # Tampa
-        tapa_largo = largo + ((espesor * 3) / 10)
-        tapa_ancho = ancho + ((espesor * 3) / 10)
+        # Tampa - CON 1mm EXTRA
+        tapa_largo = largo + ((espesor * 3) / 10) + EXTRA_TAPA
+        tapa_ancho = ancho + ((espesor * 3) / 10) + EXTRA_TAPA
         
         resultados['tapa'] = {
             'medida': f"{tapa_largo:.1f} x {tapa_ancho:.1f}",
@@ -824,27 +827,27 @@ class CalculadorasCajas:
         }
         
         resultados['tapa_lateral_largo'] = {
-            'medida': f"{tapa_largo + ((espesor/10)*2):.1f} x {altura_tapa}",
+            'medida': f"{tapa_largo + ((espesor/10)*2) + EXTRA_TAPA:.1f} x {altura_tapa + EXTRA_TAPA:.1f}",
             'descripcion': 'Tapa lateral (largo) - 2 piezas'
         }
         
         resultados['tapa_lateral_ancho'] = {
-            'medida': f"{tapa_ancho} x {altura_tapa}",
+            'medida': f"{tapa_ancho + EXTRA_TAPA:.1f} x {altura_tapa + EXTRA_TAPA:.1f}",
             'descripcion': 'Tapa lateral (ancho) - 2 piezas'
         }
         
-        # MEDIDAS CARTÓN - MÉTODO CORTE Y VINCO
+        # MEDIDAS CARTÓN - MÉTODO CORTE Y VINCO - CON 1mm EXTRA
         resultados['placa_base'] = {
             'medida': f"{largo + alto + alto:.1f} x {ancho + alto + alto:.1f}",
             'descripcion': 'Tamaño placa de cartón - BASE'
         }
         
         resultados['placa_tapa'] = {
-            'medida': f"{tapa_largo + altura_tapa + altura_tapa:.1f} x {tapa_ancho + altura_tapa + altura_tapa:.1f}",
+            'medida': f"{tapa_largo + altura_tapa + altura_tapa + EXTRA_TAPA:.1f} x {tapa_ancho + altura_tapa + altura_tapa + EXTRA_TAPA:.1f}",
             'descripcion': 'Tamaño placa de cartón - TAPA'
         }
         
-        # MEDIDAS REVESTIMIENTO PAPEL
+        # MEDIDAS REVESTIMIENTO PAPEL - CON 1mm EXTRA
         resultados['parte_interna_base'] = {
             'medida': f"{largo + alto + alto:.1f} x {ancho + alto + alto:.1f}",
             'descripcion': 'Parte interna base'
@@ -861,12 +864,12 @@ class CalculadorasCajas:
         }
         
         resultados['parte_interna_tapa'] = {
-            'medida': f"{tapa_largo + altura_tapa + altura_tapa:.1f} x {tapa_ancho + altura_tapa + altura_tapa:.1f}",
+            'medida': f"{tapa_largo + altura_tapa + altura_tapa + EXTRA_TAPA:.1f} x {tapa_ancho + altura_tapa + altura_tapa + EXTRA_TAPA:.1f}",
             'descripcion': 'Parte interna tapa'
         }
         
         resultados['parte_externa_tapa'] = {
-            'medida': f"{tapa_largo + acabado_virada + acabado_virada:.1f} x {tapa_ancho + acabado_virada + acabado_virada:.1f}",
+            'medida': f"{tapa_largo + acabado_virada + acabado_virada + EXTRA_TAPA:.1f} x {tapa_ancho + acabado_virada + acabado_virada + EXTRA_TAPA:.1f}",
             'descripcion': 'Parte externa tapa'
         }
         
